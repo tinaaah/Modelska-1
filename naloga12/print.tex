@@ -1,0 +1,102 @@
+\documentclass[a4paper,pdftex,10pt]{article}
+\usepackage[margin=2.5cm,nohead]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc} 
+\usepackage[english,slovene]{babel} 
+\usepackage{amsmath,amsfonts,amsthm,amssymb,mathrsfs,empheq} % Math packages
+\usepackage{mathtools}
+\usepackage{dsfont}
+\usepackage{wrapfig}
+\usepackage[pdftex]{graphicx}
+%\usepackage{makeidx}
+\usepackage{url}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tabularx}
+\usepackage{float}
+
+\usepackage[version=3]{mhchem} %kemija
+
+\DeclarePairedDelimiter{\evdel}{\langle}{\rangle}   %pricakovana vrednost
+
+
+\renewcommand{\vec}[1]{\boldsymbol{\mathbf{#1}}}                                        
+\newcommand{\ihat}[0]{\boldsymbol{\mathbf{\oldhat{\textbf{\i}}}}} % pokončna j in i (j i n i
+\newcommand{\iu}{{i\mkern1mu}}	    %imaginarno število
+\DeclarePairedDelimiterX{\norm}[1]{\lVert}{\rVert}{#1} %norma
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+%\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+%\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{Modelska analiza 1} \\ [25pt] % Your university, school and/or department name(s)
+%\horrule{0.2pt} \\[0.4cm] % Thin top horizontal rule
+\huge 12. naloga - Metoda maksimalne entropije in linearna napoved\\ % The assignment title
+%\horrule{0.2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Tina Klobas} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+\section{Opis problema}
+Pri tej nalogi si bomo pogledali metodo maksimalne entropije za določanje frekvenčnih 
+spektrov signalov.
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+\section{Določanje frekvenčnega spektra}
+Določi frekvenčni spekter signalov iz datotek \path{val2.dat}, \path{val3.dat} in 
+\path{co2.dat} z~metodo maksimalne entropije. V~slednji datoteki s~koncentracijo CO2 
+v~zraku upoštevaj splošen (linearen) letni trend. Preizkusi delovanje metode v~odvisnosti 
+od števila polov in od gostote prikaza. Pri CO2 si oglej še njihovo lego. Primerjaj 
+natančnost metode z rezultati, ki jih da FFT ob uporabi filtrov. Sestavi tudi testni 
+signal iz vsote sinusnih členov z bližnjimi frekvencami ter razišči ločljivost metode.
+
+\subsection{Reševanje in rezultati}
+Za metodo maksimalne entropije bomo potrebovali avtokorelacijsko funkcijo signala:
+\begin{equation}
+    R(i) = \frac{1}{N-i} \sum_{n=0}^{N-1-i} s_n s_{n+i},
+\end{equation}
+kjer so $s_n$ izhodni podatki iz sistema. Pri tem problemu želimo minimizirati kvadrat
+napake napovedi:
+\begin{equation}
+    \text{min} = E[s_n^2] + \sum_{k=1}^p a_k E[s_n s_{n-k} ].
+\end{equation}
+Koeficiente $a_k$ dobimo z reševanje Toeplitzovega sistema, ki jih nato uporabimo za izračun
+gostote spektra:
+\begin{equation}
+    P(\omega) = \frac{1}{| 1+ \sum_{k=1}^p a_k \mathrm{e}^{-i\omega k}|^2}.
+\end{equation}
+\pagebreak
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 2
+%----------------------------------------------------------------------------------------
+\section{Wienerjev filter}
+\end{document}
