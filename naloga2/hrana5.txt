@@ -1,0 +1,13 @@
+Bel kruh,200.000
+Polnozrnat kruh,82.576
+Fižol,59.605
+Solata,200.000
+Zelje,200.000
+Brokoli,200.000
+Korenje,200.000
+Stročji fižol,200.000
+Pomaranča,200.000
+Marmelada,200.000
+Med,100.447
+Sol,1.225
+Radenska,156.147

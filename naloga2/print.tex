@@ -1,0 +1,189 @@
+\documentclass[a4paper,pdftex,12pt]{article} % A4 paper and 11pt font size
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage[english,slovene]{babel} % English language/hyphenation
+
+\usepackage{amsmath,amsfonts,amsthm,amssymb,mathrsfs} % Math packages
+\usepackage{mathtools}
+\usepackage{dsfont}
+
+\usepackage[gen]{eurosym} %Euro
+
+
+\usepackage[pdftex]{graphicx}
+
+\usepackage{sectsty} % Allows customizing section commands
+%\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+\renewcommand{\vec}[1]{\boldsymbol{\mathbf{#1}}}                                        
+\newcommand{\ihat}[0]{\boldsymbol{\mathbf{\oldhat{\textbf{\i}}}}} % pokončna j in i (j i n i
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{Modelska analiza 1} \\ [25pt] % Your university, school and/or department name(s)
+%\horrule{0.2pt} \\[0.4cm] % Thin top horizontal rule
+\huge 2. naloga\\ % The assignment title
+%\horrule{0.2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Tina Klobas} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+\section{Opis problema}
+Želimo sestaviti tak jedilnik iz nabora danih živil, da bomo dnevno zaužili minimalno 
+kalorij, hkrati pa zadostili priporočilom za dnevne vnose različnih hranilnih snovi. 
+Te naloge se lotimo kot vsakega linearnega programiranja, kjer iščemo optimum linearne 
+funkcije (kriterijska funkcija), v~našem primeru kalorije, pri danih omejitvah. Zapišimo
+to s~sistemom linearnih enačb:
+\begin{eqnarray*} 
+    \mathrm{kalorije} &=& x_1 c_1 + x_2 c_1 + \cdots + x_n c_n = \mathrm{min} \\
+	b_1 &=& x_1 a_{11} + x_2 a_{12} + \cdots + x_n a_{1n} \\
+	b_2 &=& x_1 a_{21} + x_2 a_{22} + \cdots + x_n a_{2n} \\
+	b_3 &=& x_1 a_{31} + x_2 a_{32} + \cdots + x_n a_{3n} \\
+	    &\vdots& \\ 
+	b_n &=& x_1 a_{n1} + x_2 a_{n2} + \cdots + x_n a_{nn}.
+\end{eqnarray*}
+Iščemo torej:
+\begin{align}\label{matrika}
+    \text{min } &\vec{c}^T \vec{x}  \\
+    \text{pri omejitvah } &A \vec{x} \geq \vec{b}, 
+\end{align}
+kjer je $A$ matrika koeficientov $a_{ij}$, $\vec{b}$ vektor prostih členov, $\vec{c}$ vektor
+koeficientov kriterijske funkcije, $\vec{x}$ pa vektor spremenljivk. Za grafični prikaz
+problema vsako količino, ki jo zapišemo v~stolpce matrike $A$ prikažemo na svoji osi
+in potem z~linearnimi enačbami omejujemo naš prostor rešitve. Minimum tako nastopa v~enem
+od oglišč večkotnika v~n-dimenzijah.
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+\section{Minimizacija kalorij}
+Za začetek si poglejmo primer, ko minimiziramo količino kalorij pri priporočenih dnevnih
+vnosih:
+\begin{itemize}\label{tabela1}
+    \item[--]$70$g maščob,
+    \item[--]$310$g ogljikovih hidratov,
+    \item[--]$50$g proteinov,
+    \item[--]$1000$mg kalcija in
+    \item[--]$18$mg železa.
+\end{itemize}
+\begin{figure}    
+    \input{graf1.tex}
+    \caption{Prikaz dnevne prehrane, ko upoštevamo le del priporočenih dnevnih vnosov 
+    snovi.}
+    \label{graf1}
+\end{figure}
+
+Problem preoblikujemo v~matrični sistem~\ref{matrika}, kjer v~matriko $A$ ustavimo količine 
+iz tabele podatkov za hranilne vrednosti živil, v~vektor $\vec{b}$ priporočene dnevne 
+količine hranilnih snovi v~$\vec{c}$ pa vstavimo kalorije vseh živil. Da upoštevamo še
+dodaten pogoj, da na dan ne pojemo več kot dva kilograma hrane, v~matriko $A$ vstavimo
+vrstico minus enk, v~$\vec{b}$ pa $2kg$. Vse skupaj še normiramo na $100$g hrane, kar
+saj so vse količine v~tabeli podane za $100$g hrane. Tako dobimo priporočen dnevni jedilnik
+prikazan na diagramu~\ref{graf1}. Seveda tega v~praksi noben dietetik ne bi predpisal take 
+prehrane, in tudi z~dodatnimi pogoji
+\begin{itemize}
+    \item[--]$60$mg vitamina C,
+    \item[--]$3500$mg kalija ter
+    \item[--]$500$mg -- $2400$mg natrija.
+\end{itemize}
+raznovrstnosti jedilnika ne izboljšamo, kar je vidno tudi na sliki~\ref{graf2}.
+\begin{figure}    
+    \input{graf2.tex}
+    \caption{Prikaz dnevne prehrane, ko upoštevamo še drugi del priporočenih dnevnih vnosov 
+    snovi.}
+    \label{graf2}
+\end{figure}
+Povečanje raznolikosti jedilnika poskusimo doseči z~omejitvijo količine 
+posameznega živila, kar upoštevamo pri oblikovanju jedilnika, ki je zaradi lažje predstave
+prikazan na tortnem diagramu~\ref{graf3}.
+\begin{figure}    
+    \input{graf3.tex}
+    \caption{Poskus povečanja raznolikosti hrane z~omejitvijo količino posameznega živila
+    na $200$g.}
+    \label{graf3}
+\end{figure}
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 2
+%----------------------------------------------------------------------------------------
+
+\section{Športna prehrana}
+Namesto kalorij minimiziramo vnos maščob in omejimo količino kalorij na $2000$kcal.
+Jedilnik tudi na tak način ni zelo raznolik in je s~tega vidika precej podoben tistemu iz 
+prejšnjega razdelka~\ref{graf4}.
+\begin{figure}    
+    \input{graf4.tex}
+    \caption{Minimiziranje maščob, pri dnevnem vnosu $2000$ kcal.}
+    \label{graf4}
+\end{figure}
+Tudi tokrat poskusimo omejiti posamezne količine in z~diagrama~\ref{graf5} vidimo, da
+je sedaj jedilnik že precej bolj raznolik, saj smo tako veliko bolj omejili naš 
+n-dimenzionalen večkotnik. Pri prikazu je zmanjkalo barv
+in se zato ponovijo (v~nasprotni smeri urinega kazalca).
+\begin{figure}    
+    \input{graf5.tex}
+    \caption{Minimiziranje maščob, pri dnevnem vnosu $2000$ kcal in omejitvijo posameznih
+    živil na $200$g.}
+    \label{graf5}
+\end{figure}
+%----------------------------------------------------------------------------------------
+%	PROBLEM 3
+%----------------------------------------------------------------------------------------
+\section{Varčevanje denarja}
+Na~spletni strani priljubljenega trgovskega podjetja lahko poiščemo cene živil in jih
+dodamo v~tabelo podatkov. Na podoben način kot pri prejšnjih problemih minimiziramo
+ceno dnevnega obroka in dobimo jedilnik na sliki~\ref{graf6} ter spet s~poskusom povečanja
+raznolikosti še omejene količine hrane na sliki~\ref{graf7}. Za prvi jedilnik tako
+dnevno porabimo $1,61$\euro{} za drugega pa $2,16$\euro{}. Enako sledi še za športni
+jedilnik kjer porabi za jedilnik~\ref{graf8} $1,49$\euro{} in za~\ref{gra9} $2,08$\euro{}.
+\begin{figure}    
+    \input{graf6.tex}
+    \caption{Minimiziranje cen dnevnih obrokov.}
+    \label{graf6}
+\end{figure}
+\begin{figure}    
+    \input{graf7.tex}
+    \caption{Minimiziranje cen dnevnih obrokov z~omejitvijo posameznih živil na $200$g.}
+    \label{graf7}
+\end{figure}
+\begin{figure}    
+    \input{graf8.tex}
+    \caption{Minimiziranje cen dnevnih obrokov z~minimalnim vnosom $2000$kcal.}
+    \label{graf8}
+\end{figure}
+\begin{figure}    
+    \input{graf9.tex}
+    \caption{Minimiziranje cen dnevnih obrokov z~minimalnim vnosom $2000$kcal in 
+    z~omejitvijo posameznih živil na $200$g.}
+    \label{graf9}
+\end{figure}
+
+\end{document}

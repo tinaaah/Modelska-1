@@ -1,0 +1,4 @@
+Pomfri	17.492
+Marmelada	56.219
+Kakav	495.628
+Sol	1430.661

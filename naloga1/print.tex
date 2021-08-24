@@ -1,0 +1,247 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[a4paper,pdftex,12pt]{article} % A4 paper and 11pt font size
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage[english,slovene]{babel} % English language/hyphenation
+
+\usepackage{amsmath,amsfonts,amsthm,amssymb,mathrsfs} % Math packages
+\usepackage{dsfont}
+
+\usepackage[pdftex]{graphicx}
+
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{sectsty} % Allows customizing section commands
+%\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{Modelska analiza 1} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.2pt} \\[0.4cm] % Thin top horizontal rule
+\huge 1. naloga\\ % The assignment title
+\horrule{0.2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Tina Klobas} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+\section{Opis problema}
+Pri tej nalogi nas zanima kakšne oblika mora biti funkcija hitrosti vožnje, da je vožnja
+čimbolj udobna hkrati pa želimo prevoziti razdaljo do semaforja ravno v trenutku, ko se
+prižge zelena luč. Za pogoj udobne vožnje minimiziramo integral kvadrata pospeška:
+\begin{equation} \label{eq1}
+    \int_0^{t_0} \! \dot v^2 \, \mathrm{d}t,
+\end{equation}
+ob pogoju, da prevozimo razdaljo v~določenem časovnem intervalu:
+\begin{equation} \label{eq2}
+    \int_0^{t_0} \! v \,  \mathrm{d}t \leq l.
+\end{equation}
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+\section{Brezdimenzijska oblika problema}
+Da problem spravimo v~brezdimenzijsko obliko, zapišemo novi količini:
+\begin{equation*}
+    \tau = \frac{t}{t_0} \quad \mathrm{in} \quad u=v\frac{t_0}{l}.
+\end{equation*}
+Tako iz enačb~\ref{eq1} ter~\ref{eq2} dobimo:
+\begin{equation} \label{eq3}
+    \int_0^1 \! \dot u^2 \, \mathrm{d}\tau = \mathrm{min}
+\end{equation}
+in
+\begin{equation}\label{vez}
+    \int_0^1 \! u \, \mathrm{d}\tau \leq 1.
+\end{equation}
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 2
+%----------------------------------------------------------------------------------------
+
+\section{Optimalna vožnja}
+
+Da minimiziramo funkcijo, ki nastopa v~enačbi~\ref{eq3} sestavimo Lagrangejevo funkcijo: 
+$\mathcal{L} = \dot u^2 - \lambda u$ iz česar po uporabi Euler-Lagrangejevih enačb
+\begin{equation}\label{EL}
+    \frac{\mathrm{d}}{\mathrm{d}t} \left( \frac{\partial \mathcal{L} }{\partial \dot q} 
+    \right) - \frac{\partial \mathcal{L}}{\partial q} = 0
+\end{equation}
+dobimo diferencialno enačbo
+\begin{equation}
+    2 \ddot u + \lambda = 0.
+\end{equation}
+Ob upoštevanju robnih pogojev
+\begin{equation}
+    1. \; u(0) = u_0 \qquad 2. \; \dot u(1) = 0,
+\end{equation}
+kjer je $u_0$ neka poljubna začetna hitrost, in vezi~\ref{vez} dobimo rešitev za 
+brezdimenzijsko hitrost:
+\begin{equation}\label{osnovna}
+    u(\tau) = - \frac{3}{2} \left( 1- u_0 \right) \tau^2 + 3 (1-u_0) \tau + u_0.
+\end{equation}
+Rešitve se razlikujejo zaradi prostega parametra začetne hitrosti $u_0$, vendar jim je 
+vsem skupno to, da je njihov integral enak ena kar je na grafu~\ref{slika1} razvidno v~tem
+da imajo vsi enako ploščino pod grafom.
+\begin{figure}    
+    \input{temp.tex}
+    \caption{Hitrost $u$ ob različnih začetnih hitrostih $u_0$}
+    \label{slika1}
+\end{figure}
+\subsection{Radar tik za semaforjem}
+Če omejimo še končno hitrost dobimo $2.$ robni pogoj:
+\begin{equation}
+    u(1)= u_1
+\end{equation}
+s čimer dobimo dodaten prosti parameter katerega lahko spreminjamo. Na sliki~\ref{slika2}
+smo si izbrali različne končne hitrosti pri enakih začetnih, funkcija $u$ pa je oblike:
+\begin{equation}\label{robni}
+    u = -6 \left(1- \frac{u1+u0}{2} \right) \tau^2 + 2 (3-u_1-2u_0) \tau + u_0.
+\end{equation}
+
+\begin{figure}    
+    \input{graf3.tex}
+    \caption{Hitrost $u$ ob različnih končnih hitrostih $u_1$ in pri začetni $u_0=0,5$.}
+    \label{slika2}
+\end{figure}
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 3
+%----------------------------------------------------------------------------------------
+
+\section{Višje potence pospeška}
+Posplošimo problem udobne vožnje na sode potence pospeška;
+\begin{equation} 
+    \int_0^1 \! \dot u^{2p} \, \mathrm{d}\tau = \mathrm{min},
+\end{equation}
+kjer naj bo $p \in \mathds{Z} $.
+Na enak način kot prej z~uporabo~\ref{EL} dobimo enačbo za hitrost:
+\begin{equation}
+    u = \frac{4p-1}{2p} \left( 1-u_0 \right) \left[ 1 - \left( 1- \tau 
+    \right)^{\frac{2p}{2p-1}} \right] + u_0.
+\end{equation}
+Z~grafa~\ref{slika2}, kjer so prikazane funkcije hitrosti pri štirih različnih izbirah $p$,
+vidimo, da sta limiti, ko gre $p$ proti zelo velikim vrednostim ter proti zelo majhnim,
+isti. To tudi računsko potrdimo, saj je: $$ \lim_{p \to \pm \infty}\! u = 2 \tau + u_0.$$
+\begin{figure}    
+    \input{graf2.tex}
+    \caption{Hitrost $u$ ob začetnem pogoju $u_0 = 0,5$ in pri različnih izbirah p.}
+    \label{slika3}
+\end{figure}
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 3
+%----------------------------------------------------------------------------------------
+
+\section{Višje potence hitrosti}
+Zanimiv problem je razširitev problema, kjer omejimo tudi kvadrat hitrosti v~funkcionalu:
+$\mathcal{L} = \dot u^2 + c u^2 - \lambda u$. Spet delamo na podoben način kot prej in
+pridelamo enačbo:
+\begin{equation}
+    u = (u_0-u_c) \left[ \operatorname{cosh}(\sqrt{c}t) -\operatorname{tanh} (\sqrt{c})
+    \operatorname{sinh}(\sqrt{c}t) \right] + u_c ,
+\end{equation}
+kjer je $u_c = (1-u_0) / (1 - \operatorname{tanh}(\sqrt{c})/\sqrt{c})$. Z~grafa~\ref{slika4}
+vidimo, da funkcija s~padanjem $c$ proti $0$ pričakovano limitira k~rešitvi začetnega
+problema~\ref{osnovna}.
+\begin{figure}    
+    \input{graf4.tex}
+    \caption{Hitrost $u$ ob različnih vrednostih konstante $c$ in pri začetni hitrosti
+    $u_0=0,5$.}
+    \label{slika4}
+\end{figure}
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 3
+%----------------------------------------------------------------------------------------
+
+\section{Zaporedni semaforji}
+Dodatna razširitev osnovnega problema je primer zaporednih semaforjev. V splošnem imamo
+na vsakem intervalu med zaporednima semaforjema funkcijo hitrosti oblike:
+\begin{equation}
+    u^{(i)} = - \frac{\lambda_i}{4} \tau^2 + A_i \tau + B_i.
+\end{equation}
+Koeficiente $A_i$ in $B_i$ določimo iz robnega pogoja za prvi semafor $u^{(0)}(0)=u_0$ ter
+za zadnjega $\dot u^{(n)}(t_0^{(i)}/t_0^{(0)}) = 0$, kjer smo na podoben način kot na 
+začetku vse normirali na konstante iz začetnega problema $t_0^{(0)}$ in $l_0^{(0)}$. Na 
+mejah med zaporednimi semaforji morata veljati še pogoja:
+\begin{equation}
+    1. \, u^{(i)}(\mathrm{zg.})=u^{(i+1)}(\mathrm{sp.}) \quad \mathrm{in} \quad
+    2. \, \dot u^{(i)}(\mathrm{zg.})=\dot u^{(i+1)}(\mathrm{sp.})
+\end{equation}
+kjer smo z~\emph{zg.} označili zgornji rob s~\emph{sp.} pa spodnjega. 
+\subsection{Primer za 2 semaforja}
+Imamo dveh sistem enačb
+\begin{align}
+    u_1 = \frac{\lambda_1}{4}\tau^2 + A_1\tau + B_1  \\
+    u_2 = \frac{\lambda_2}{4}\tau^2 + A_2\tau + B_2
+\end{align}
+s štirimi robnimi pogoji:
+\begin{align}
+    u_1 (0)  &= u_0, \\
+    u_2 \left( \frac{t_1}{t_1} \right) &= 0, \\
+    u_1 (1) &= u_2 (1) \, \mathrm{in}\\
+    \dot u_1 (1) &= \dot u_2 (1) 
+\end{align}
+(velja $t_1=t_0$ in $l_1=l$ iz začetnega problema). Vpeljemo še nove oznake 
+$T= (t_2)/(t_1)$ in $L=(l_2)/l_1$. Vključno z~obemi vezmi (oblike~\ref{vez}) imamo
+tako $6$ enačb za $6$ neznank in (s~pomočjo priljubljenega računala) pridemo do rešitve,
+prikazane na sliki~\ref{slika5}. Vidimo, da se z~izbrano Lagrangejevo funkcijo ne izognemo
+negativnim hitrostim in bi jo morali prilagoditi. 
+\begin{figure}    
+    \input{graf6.tex}
+    \caption{Na grafu so z modrim prikazane rešitve za $u_1$ ter z~oranžnim za $u_2$ 
+    ob začetnem pogoju $u_0=0,5$ za različne parametre $T$ ter $L$. V zgornji vrsti je 
+    $L=1$, $T$ pa $2$ in $4$, v spodnji pa $L=4$ ter isto kot zgoraj zaporedoma $T=2$ in 
+    $T=4$.}
+    \label{slika5}
+\end{figure}
+
+
+\end{document}

@@ -1,0 +1,14 @@
+Pomfri	200.000
+Mleko	200.000
+Edamec	4.011
+Maslo	11.254
+Solata	200.000
+Zelje	200.000
+Jagode	200.000
+Korenje	73.872
+Stročji fižol	200.000
+Pomaranča	200.000
+Marmelada	107.120
+Kakav	200.000
+Sol	3.744
+Radenska	200.000
