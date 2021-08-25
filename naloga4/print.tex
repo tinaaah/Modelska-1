@@ -1,0 +1,501 @@
+\documentclass[a4paper,pdftex,10pt]{article}
+\usepackage[a4paper]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc} 
+\usepackage[english,slovene]{babel} 
+\usepackage{amsmath,amsfonts,amsthm,amssymb,mathrsfs,empheq} % Math packages
+\usepackage{wasysym} %not je procent in promil
+\usepackage{mathtools}
+\usepackage{dsfont}
+\usepackage[pdftex]{graphicx}
+%\usepackage{makeidx}
+
+
+\renewcommand{\vec}[1]{\boldsymbol{\mathbf{#1}}}                                        
+\newcommand{\ihat}[0]{\boldsymbol{\mathbf{\oldhat{\textbf{\i}}}}} % pokončna j in i (j i n i
+\newcommand{\iu}{{i\mkern1mu}}	    %imaginarno število
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{Modelska analiza 1} \\ [25pt] % Your university, school and/or department name(s)
+%\horrule{0.2pt} \\[0.4cm] % Thin top horizontal rule
+\huge 4. naloga\\ % The assignment title
+%\horrule{0.2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Tina Klobas} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+\section{Model Lotka-Volterra}
+Opazujemo življenje lisic ter zajcev na določenem ozemlju. Privzamemo, da je za lisico 
+zajec edini vir hrane, za zajca pa je lisica edini naravni plenilec. Ob izolaciji vrst 
+število lisic \emph{L}, zaradi pomanjkanja hrane, eksponentno pada z~naravno 
+konstanto umrljivosti $\gamma$, število zajcev \emph{Z}, zaradi proste rasti brez 
+naravnega plenilca, pa eksponentno narašča z~naravno konstanto rodnosti $\alpha$. Ob 
+sobivanju vrst na istem področju tako dobimo sklopljen sistem enačb, ki opisuje ta pojav:
+\begin{align}\label{lotka-volterra}
+    \frac{\mathrm{d}Z}{\mathrm{d}t} &= \alpha L - \beta Z L \\
+    \frac{\mathrm{d}L}{\mathrm{d}t} &= -\gamma L + \delta Z L,
+\end{align}
+kjer sta $\beta$ umrljivost plena in $\delta$ rodnost plenilcev. Sistem enačb lahko spravimo
+v~brezdimenzijsko obliko, da si zmanjšamo število parametrov s~katerimi se moramo ukvarjati.
+Tako z~definiranima količinama $l=\beta/\alpha L$ in $z=\delta/\gamma Z$ ter 
+brezdimenzijskim časom $\tau = t\sqrt{\alpha \gamma}$ prepišemo sistem~\ref{lotka-volterra}
+\begin{align}\label{LV}
+    \frac{\mathrm{d}z}{\mathrm{d}\tau} &= p z (1-l) \\
+    \frac{\mathrm{d}l}{\mathrm{d}\tau} &= \frac{l}{p} (z-1).
+\end{align}
+$p = \sqrt{\alpha/\gamma}$ je tako edini preostali prosti parameter. 
+
+\begin{figure}    
+    \centering
+    \resizebox{0.8\linewidth}{!}{\input{graf1.tex}}
+    \caption{Potek spreminjanja populacij (z~modro zajci in z~oranžno lisice) pri začetnih 
+    vrednostih $z_0=1$ in $l_0=0,25$.}
+    \label{slika1}
+\end{figure}
+\begin{figure}    
+    \centering
+    \resizebox{0.8\linewidth}{!}{\input{graf2.tex}}
+    \caption{Potek spreminjanja populacij (z~modro zajci in z~oranžno lisice) pri začetnih
+    vrednostih $z_0=2$ in $l_0=1$.}
+    \label{slika2}
+\end{figure}
+\begin{figure}    
+    \centering
+    \resizebox{0.8\linewidth}{!}{\input{graf3.tex}}
+    \caption{Fazni potek populacij kjer spreminjamo $p$ in imamo konstantne začetne 
+    vrednosti.}
+    \label{slika3}
+\end{figure}
+
+Pri obeh grafih~\ref{slika1},~\ref{slika2} vidimo podobno obnašanje s~spreminjanjem 
+parametra $p$;
+pri visokih $p$ je amplituda nihanja lisic večja pri, majhnih $p$ pa amplituda zajcev.
+Tako obnašanje je vidno tudi na faznem diagramu~\ref{slika3} kjer so temnejši elipsoidi 
+daljši v~smeri lisic, svetlejši pa v~smeri zajcev.\\
+Na grafu~\ref{slika5} je narisano spreminjanje populacij plena in lovca pri paroma enakih
+začetnih vrednostih $z_0=l_0$. Vidimo, da z~nižanjem le-teh premikamo prvi maksimum proti
+kasnejšim časom, hkrati pa se viša tudi njegova vrednost. Slednje je posledica tega, da~ko
+smo spravili sistem v~brezdimenzijsko obliko, smo vzeli $l = L \frac{\beta}{\alpha}$,
+se pravi smo število lisic pomnožili z~razmerjem med njeno smrtnostjo in rodnostjo ; nižja
+kot bo začetna vrednost $l_0$ večjo rodnost bodo imele lisice. (Enako velja tudi za 
+$z_0$.)
+
+\begin{figure}    
+    \centering
+    \resizebox{0.8\linewidth}{!}{\input{graf5.tex}}
+    \caption{Na levem grafu je prikazano obnašanje populacije zajcev, na desni pa lisic
+    pri različnih začetnih vrednostih ($l_0=z_0$) in enaki vrednosti $p=1$.}
+    \label{slika5}
+\end{figure}
+
+\subsection{Nepremični točki}
+Pogledamo kje ima sistem enačb~\ref{LV} ničelna odvoda:
+\begin{align*}
+    0 &= p z (1-l) \\
+    0 &= \frac{l}{p} (z-1).
+\end{align*}
+Rešitvi sta točki $T_1=(0,0)$ in $T_2=(1,1)$. 
+
+\subsubsection*{Okolica točke $l=0, z=0$:}
+Za majhne odmike od točke $T_1$ lahko zanemarimo člena produktni člen $zl$ 
+v~enačbah~\ref{LV} in dobimo diferencialni enačbi in rešitvi
+\begin{align*}
+    \frac{\mathrm{d}z}{\mathrm{d}\tau} = p z &\Rightarrow z = z_0 \mathrm{e}^{p\tau} \\
+    \frac{\mathrm{d}l}{\mathrm{d}\tau} = -\frac{l}{p} &\Rightarrow l = l_0 
+    \mathrm{e}^{-\tau/p},
+\end{align*}
+kar opisuje izumiranje populacije lisic in eksponentno rast populacije zajcev v~začetnem
+opisu izoliranih vrst. To območje je prikazano na grafih~\ref{slika6}, kjer se tudi vidi
+eksponentno padanje/naraščanje populacij.
+Točka $T_1$ je sedlo; funkcija v~eni smeri narašča. v~drugi pa pada. To lahko preverimo
+tudi z~Jakobijevo matriko odvodov sistema~\ref{LV}:
+\begin{equation}\label{Jacobi}
+    J = \begin{bmatrix}
+	\frac{\partial \dot{z}}{\partial z} 
+	& \frac{\partial \dot{z}}{\partial l} \\
+	\frac{\partial \dot{l}}{\partial z} 
+	& \frac{\partial \dot{l}}{\partial l} 
+    \end{bmatrix} = 
+    \begin{bmatrix}
+	p(1-l) & -pz \\
+	\frac{l}{p} & \frac{z-1}{p}
+    \end{bmatrix},
+\end{equation}
+saj, ko vstavimo točko $(0,0)$ dobimo matriko
+\begin{equation}
+    \begin{bmatrix}
+	p & 0 \\
+	0 & -\frac{1}{p}
+    \end{bmatrix},
+\end{equation}
+ki bo imela vedno nasprotno predznačeni lastni vrednosti, se pravi bo zmeraj nedefinitna
+(kar je lastnost sedla).
+
+\begin{figure}    
+    \centering
+    \resizebox{0.8\textwidth}{!}{\input{graf6.tex}}
+    \caption{Na levem grafu je prikazano obnašanje populacije zajcev, na desni pa lisic
+    pri začetnih pogojih $l_0=0,099, \, z_0=0,001$ in različnih vrednostih $p$.}
+    \label{slika6}
+\end{figure}
+
+
+\subsubsection*{Okolica točke $l=1, \; z=1$:}
+Podobno naredimo okoli druge točke: $l=1+\lambda$ in $z=1+\zeta$ in preoblikujemo sistem:
+\begin{align}
+    \frac{\mathrm{d}z}{\mathrm{d}\tau} = \frac{\mathrm{d}\zeta}{\mathrm{d}\tau} &= - p 
+    (1+\zeta)\lambda \approx -p\lambda \\
+    \frac{\mathrm{d}l}{\mathrm{d}\tau} = \frac{\mathrm{d}\lambda}{\mathrm{d}\tau}&= 
+    \frac{\zeta}{p} (1 + \lambda) \approx \frac{\zeta}{p} 
+\end{align}
+in če naredimo še en odvod po času dobimo rešitev: 
+\begin{align}
+    \ddot{\zeta} = -\zeta \; \; &\Rightarrow \; \; \zeta=A\sin{\tau} + B\cos{\tau}\\
+    \ddot{\lambda} = -\lambda \; \; &\Rightarrow \; \; \lambda=C\sin{\tau} + d\cos{\tau}.
+\end{align}
+Preverimo kakšna stacionarna točka je $T_2$ in s~pomočjo odvodov~\ref{Jacobi} dobimo
+matriko
+\begin{equation}
+    \begin{bmatrix}
+	0 & -p \\
+	\frac{1}{p} & 0
+    \end{bmatrix},
+\end{equation}
+z~lastnima vrednostma $\eta_1=-\iu$ in $\eta_2 =\iu$. Ker sta lastni vrednosti imaginarni
+in nasprotno predznačeni s~tem potrdimo, že prej dobljeno periodično obnašanje populacije
+lisic in zajcev v~okolici točke $(1,1)$. Perioda takega nihanja je ravno $\omega = 
+2\pi/\sqrt{\eta_1\eta_2}=2\pi$. \\
+
+\begin{figure}    
+    \centering
+    \resizebox{0.8\linewidth}{!}{\input{graf4.tex}}
+    \caption{Na levem grafu je prikazano obnašanje populacij pri $p=1$ za začetni vrednosti
+    $z_0=1,\; l_0=1.5$ (z~modro barvo) ter $z_0=1,\; l_0=0.95$ (z~oranžno). 
+    Na desnem grafu je prikazan fazni diagram
+    za $p=1$ in spreminjanje začetnih vrednosti $l_0$ od $1,05$ (najtemnejše barve) do 
+    $0,95$ (najsvetlejše barve). }
+    \label{slika4}
+\end{figure}
+Tako obnašanje je razvidno tudi z grafa~\ref{slika4}, kjer se vidi, da je 
+zakasnitev med nihanjema ravno pol periode. Z~grafom~\ref{slika7} potrdimo, da se 
+z~bližanjem točki $T_2$ vrednost periode približuje $\omega=2\pi$. 
+
+\begin{figure}    
+    \centering
+    \resizebox{0.8\textwidth}{!}{\input{graf7.tex}}
+    \caption{Na grafu je prikazano spreminjanje frekvence od začetne vrednosti $z_0$.}
+    \label{slika7}
+\end{figure}
+
+\newpage
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 2
+%----------------------------------------------------------------------------------------
+
+\section{Model laserja}
+Prejšnjemu problemu je podoben model delovanja laserja, ki ima dodaten člen $R$ zaradi 
+konstantnega dovajanja novih atomov v~sistem:
+\begin{align}\label{af}
+    \dot{f} &= -\alpha f + Baf \\
+    \dot{a} &= -\beta a - Baf + R.
+\end{align}
+Z~uvedbo novih količin 
+\begin{align*}
+    A &= \frac{B}{\alpha} a \\
+    F &= \frac{B}{\beta} f \\
+    \tau  &= t\sqrt{\alpha\beta}
+\end{align*}
+ter parametra izgub $p$ in črpanja $r$
+\begin{align*}
+    p &= \sqrt{\frac{\beta}{\alpha}} \\
+    r &= \frac{BR}{\sqrt{\alpha^3\beta}}
+\end{align*}
+dobimo brezdimenzijski sistem spreminjanja količin atomov $A$ in fotonov $F$:
+\begin{align}\label{laser}
+    \dot{F} &= \frac{F}{p} \left(A - 1\right) \\
+    \dot{A} &= r - pA\left(F + 1\right).
+\end{align}
+Zapišimo še Jakobijevo matriko sistema enačb, ki jo bomo kasneje uporabili:
+\begin{equation}\label{Jacobi}
+    J = \begin{bmatrix}
+	\frac{\partial \dot{A}}{\partial A} 
+	& \frac{\partial \dot{A}}{\partial F} \\
+	\frac{\partial \dot{F}}{\partial A} 
+	& \frac{\partial \dot{F}}{\partial F} 
+    \end{bmatrix} = 
+    \begin{bmatrix}
+	-p(F+1) & -pA \\
+	\frac{F}{p} & \frac{A-1}{p}
+    \end{bmatrix}.
+\end{equation}
+Na grafu~\ref{slika8} vidimo kaj se dogaja v~primerih, ko nimamo črpanja ($r=0$), imamo pa 
+izgube, torej $p>r$. Sistem zmeraj zamre, kako hitro, pa je odvisno od velikosti izgub
+$p$, in sicer večje kot so, krajši je relaksacijski čas atomov, ter daljši fotonov; in 
+obratno pri manjših izgubah. To je vidno tudi iz konveksnosti/konkavnosti desnega grafa.\\
+
+Naslednji graf~\ref{slika9} prikazuje tri različne primere; ko je črpanje manjše, enako
+in večje kot izgube. Edino pri primeru, ko je $r>p$ vidimo, da se je število fotonov 
+povečalo, in preden se je ustalilo, je nekaj časa osciliralo. Slednje se je zgodilo tudi
+pri atomih, kar je na desnem grafu vidno kot spirala. S~tema grafoma potrdimo, da morajo 
+biti, za delovanje laserja, izgube manjše od črpanja.
+\begin{figure}    
+    \centering
+    \resizebox{.48\linewidth}{!}{\input{graf8.tex}}
+    \resizebox{0.48\linewidth}{!}{\input{graf8b.tex}}
+    \caption{Na levem grafu narisano spreminjanje količine fotonov in atomov za $r<p$ in 
+    $r=0$. Na desnem grafu je narisan isti časovni potek v~odvisnosti ene količine od druge}
+    \label{slika8}
+\end{figure}
+
+\begin{figure}    
+    \centering
+    \resizebox{.49\linewidth}{!}{\input{graf9a.tex}}
+    \resizebox{.49\linewidth}{!}{\input{graf9b.tex}}
+    \caption{Na levem grafu narisano spreminjanje količine fotonov in atomov za različne
+    $r$ in $p$. Na desnem grafu je narisan isti časovni potek v~odvisnosti ene količine od 
+    druge.}
+    \label{slika9}
+\end{figure}
+
+\subsection{Zastojni točki}
+Poglejmo kje ima sistem~\ref{laser} ničelna odvoda:
+\begin{align*}
+    0 &= \frac{F}{p} \left(A - 1\right) \\
+    0 &= r - pA\left(F + 1\right)
+\end{align*}
+in dobimo dve točki $T_1 = (r / p, 0) $ ter $T_2 = (1, r/p - 1)$, obe odvisni od razmerja
+med črpanjem in izgubami.
+\subsubsection*{Točka $A=\frac{r}{p},\; F=0$:}
+Zapišemo Jakobijevo matriko sistema v tej točki: 
+\begin{equation}
+    \begin{bmatrix}
+	-p & -r \\
+	0 & \frac{r-p}{p^2}
+    \end{bmatrix}.
+\end{equation}
+Ena lastna vrednost matrike je $\lambda_1=-p$ in je zmeraj negativna, zato je vse odvisno
+od druge lastne vrednosti $\lambda_2= (r-p)/p^2$:
+\begin{enumerate}
+    \item $r>p \Rightarrow \operatorname{Re}(\lambda_2)>0$: sistem ima v~taki točko 
+	nasprotno predznačeni lastni vrednosti, zato je ta ekstrem sedlo, 
+    \item $r=p \Rightarrow \operatorname{Re}(\lambda_2)=0$ taka točka je stabilna,
+    \item $r<p \Rightarrow \operatorname{Re}(\lambda_2)<0$: obe lastni vrednosti sta 
+	negativni, zato je taka točka asimptotsko stabilna.
+\end{enumerate}
+Za različne primere obnašanja lahko vidimo na grafih~\ref{slika8},~\ref{slika9}, ko se 
+količine sesedejo v~točko $(r/p,0)$, primera, ko sta lastni vrednosti nasprotno 
+predznačeni niti ne opazimo in se sistem sprosti v~drugo točko (ki si jo bomo ogledali 
+v~naslednjem razdelku). To tudi pričakujemo, saj se bo za primere, ko so izgube večje (ali)
+enake črpanju, sistem ugasne. 
+
+\subsubsection{Točka $A = 1, \; F=\frac{r}{p} - 1$:}
+Jakobijeva matrika sistema v~tej točki:
+\begin{equation}
+    \begin{bmatrix}
+	-r & -p \\
+	\frac{r-p}{p^2} & 0
+    \end{bmatrix},
+\end{equation}
+ima dve lastni vrednosti:
+\begin{equation}
+    \lambda_{1,2} = -\frac{r}{2} \pm \frac{1}{2} \sqrt{r^2 - 4\frac{r-p}{p^2}}. 
+\end{equation}
+Obnašanje je tukaj odvisno od vrednosti, ki stoji pod korenom $D=r^2 - 4\frac{r-p}{p^2}$:
+\begin{equation}
+    D=0 \quad \Rightarrow \quad r_{1,2} = \frac{2}{p} (1 \pm \sqrt{1-p^2}),
+\end{equation}
+seveda hočemo, da je koeficient črpanja realen in tako imamo zahtevo $p^2<1$. Poglejmo
+si kako se obnaša sistem za različne vrednosti $D$:
+\begin{enumerate}
+    \item $D>0 \Rightarrow r>r_1 \, \vee \, 0<r<r_2$: 
+	\begin{enumerate}
+	    \item za $r > \sqrt{D}$ bosta obe lastni vrednosti negativni in točka bo 
+		asimptotsko stabilna,
+	    \item za $r < \sqrt{D}$ bosta lastni vrednosti nasprotno predznačeni
+		in v~taki točki bo sedlo.
+	\end{enumerate}
+    \item $D=0 \Rightarrow p=1 \text{ in } r=2$: lastni vrednosti $\lambda_{1,2} = -1$
+	sta negativni in je tako tudi ta točka asimptotsko stabilna.
+    \item $D<0 \Rightarrow r \in (\frac{2}{p} (1-\sqrt{1-p^2}), \frac{2}{p} 
+	(1-\sqrt{1+p^2}))$: lastni vrednosti sta kompleksno konjugirani zato je ta točka
+	center spiralnih orbit (v~prvem razdelku smo imeli koncentrične, ker ni bilo 
+	realnega dela). 
+	Ta fokus bo stabilen, saj je vrednost $\operatorname{Re}(\lambda)=-2r$ negativna.
+\end{enumerate}
+Omenjeno lahko opazimo na grafu~\ref{slika11}. Graf je bil narisan za $p=0,5$ in take
+vrednosti $r$, da smo zavzeli vse tri prej omenjene primere. Vidimo, da sistem za 
+$r=0.5<\sqrt{D}$ nismo prešli v~točko $T_2$, saj je ta nestabilna za te parametre, in se je
+raje sesedel v~točko $T_1$. Za vrednost $r=16>2/p (1+\sqrt{1-p^2})$ je diskriminanta $D$
+pozitivna in sistem ne oscilira, ampak se eksponentno približa limitni vrednosti $T_2$.\\
+Na grafu~\ref{slika12} so prikazane oscilacije pri $r=1$ in $p=0.5$ za različne začetne
+vrednosti $A_0$. Z~večanjem slednjih, višamo maksimum vrednosti fotonov, kar ni 
+presenetljivo; več atomov kot imamo na voljo, več fotonov bo nastalo.
+
+\begin{figure}    
+    \resizebox{0.48\linewidth}{!}{\input{graf11a.tex}}
+    \resizebox{0.48\linewidth}{!}{\input{graf11b.tex}}
+    \caption{Na levem grafu je narisan potek populacije fotonov in atomov za $p=0.5$ in 
+    za različne $r$, iz začetne vrednosti $A_0=0,5$, $F_0=2$. Na desnem je ustrezen fazni 
+    diagram.}
+    \label{slika11}
+\end{figure}
+\begin{figure}    
+    \resizebox{0.48\linewidth}{!}{\input{graf12a.tex}}
+    \resizebox{0.48\linewidth}{!}{\input{graf12b.tex}}
+    \caption{Na levem grafu je narisan potek populacije fotonov in atomov za $F_0=2$ in 
+    za različne $A_0$, pri čemer je $r=1$ in $p=0.5$. Na desnem je ustrezen fazni diagram.}
+    \label{slika12}
+\end{figure}
+
+\subsection{Dušeno nihanje}
+\begin{figure}    
+    \resizebox{0.48\linewidth}{!}{\input{graf13a.tex}}
+    \resizebox{0.48\linewidth}{!}{\input{graf13b.tex}}
+    \caption{Na grafih je narisan potek populacije fotonov in atomov za $F_0=1.5$ in 
+    za $A_0=2$ za različne $r,p$, pri čemer je razmerje $r/p=2$. Na desnem je ustrezen 
+    fazni diagram.}
+    \label{slika13}
+\end{figure}
+
+Na grafu~\ref{slika13} so primeri za konstantno razmerje $r/p$, le spreminjamo njihove 
+vrednosti. Vidimo, da z~manjšanjem obeh parametrov, postajajo spirale vedno večje -- sistem
+potrebuje več časa da se sesede v~ravnovesje. To je posledica tega, da je realni del
+lastnih vrednosti čedalje manjši; manjšamo dušenje sistema. Hkrati se manjša tudi imaginarni
+del in zgleda, da se s~tem krajšajo periode oscilacij. \\ %Preverimo to še računsko: 
+Da dobimo relaksacijski čas $\tau$ lahko maksimume nihajev interpoliramo z~eksponentno
+funkcijo -- prikazano na levem grafu~\ref{slika10}. To ponovimo za več različnih 
+koeficientov črpanja in dobimo eksponentno odvisnost, na desnem grafu ~\ref{slika10}.
+To odvisnost lahko tudi opišemo z~eksponentno funkcijo, za katero dobimo rešitev 
+$$\tau(r) = 9,3 \mathrm{e}^{-3 r} + 0,9.$$
+
+\begin{figure}    
+    \centering
+    \resizebox{0.48\linewidth}{!}{\input{graf10a.tex}}
+    \resizebox{0.48\linewidth}{!}{\input{graf10b.tex}}
+    \caption{Za primer $p=0.125$ in $r=0.25$ je narisan $F(t)$, s~\emph{fittom} maksimumov.}
+    \label{slika10}
+\end{figure}
+
+
+%\begin{equation}
+%    \omega = \frac{2\pi}{\sqrt{\lambda_1 \lambda_2}} = 2\pi (\frac{r-p}{p^2})^{-1}
+%\end{equation}
+
+\pagebreak
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 3
+%----------------------------------------------------------------------------------------
+\section{Model epidemije}
+Model širjenja bolezni opišemo s~sistemom
+\begin{align}\label{epidemija}
+    \frac{\mathrm{d}D}{\mathrm{d}t} &= -\alpha D B, \\
+    \frac{\mathrm{d}B}{\mathrm{d}t} &= \alpha D B - \beta B. \\
+    \frac{\mathrm{d}I}{\mathrm{d}t} &= \beta B,
+\end{align}
+pri čemer gledamo neko konstantno populacijo $D$ predstavlja delež zdravih in dovzetnih na
+okužbo, $B$ delež obolelih, $I$ pa delež imunih v~populaciji, torej tistih ki se ne morejo
+(več) okužiti. Parameter $\alpha$ opisuje hitrost širjenja bolezni, $\beta$ pa zdravljenje
+obolelih. Omejimo se še na konstantno populacijo: $D + B + I = N$.\\
+Na zgornjih grafih~\ref{slika14} je prikazano obnašanje, ko nimamo zdravljenja za dve 
+različni hitrosti obolevanja. Na spodnjih imamo še nek delež populacije, imune na bolezen
+in vidimo, da to ne vpliva na hitrost okužbe.\\
+\begin{figure}    
+    \resizebox{0.48\linewidth}{!}{\input{graf14a.tex}}
+    \resizebox{0.48\linewidth}{!}{\input{graf14b.tex}}\\
+    \resizebox{0.48\linewidth}{!}{\input{graf14c.tex}}
+    \resizebox{0.48\linewidth}{!}{\input{graf14d.tex}}
+    \caption{Grafa sta narisana za primera, ko nimamo zdravljenja $\beta=0$ in za dve 
+    različni hitrosti zbolevanja $\alpha$. Začetna vrednost je bila za zgornja primera
+    $B=1\permil, \, I=0$ in $D=N-B$, ter $B=1\permil, \, I=1\%$ in $D=N-B-I$ za spodnja.}
+    \label{slika14}
+\end{figure}
+Na grafih~\ref{slika5} vidimo kakšna je razlika, če na začetku že cepimo delež populacije.
+Če delež cepljenja dovolj povečamo, lahko dosežemo da bolezen izumre, brez, da bi vsi 
+dovzetni bolezen preživeli, kar vidimo na grafu~\ref{slika16}. \\
+\begin{figure}    
+    \resizebox{0.48\linewidth}{!}{\input{graf15a.tex}}
+    \resizebox{0.48\linewidth}{!}{\input{graf15b.tex}}\\
+    \caption{Grafa sta narisana za primera z~različnima začetnima vrednostma imunih na 
+    okužbo; na levi je $I_0=0$ na desni pa $I_0=1\%$.}
+    \label{slika15}
+\end{figure}
+\begin{figure}    
+    \resizebox{0.48\linewidth}{!}{\input{graf16b.tex}}
+    \resizebox{0.48\linewidth}{!}{\input{graf16a.tex}}\\
+    \caption{Grafa sta narisana za primera z~$I_0=1\%$ in za dva različna $\beta$.}
+    \label{slika16}
+\end{figure}
+
+Poglejmo si še kakšen vpliv ima hitrost zdravljenja $\beta$ na število 
+obolelih~\ref{slika17}.  Vidimo, da se z~večanjem parametra $\beta$ (pri enakih zaletnih 
+pogojih in $\alpha=0.5$) maksimalno število obolelih zmanjšuje in se premika proti daljšim
+časom. 
+Ko spreminjamo začetno število imunih, vidimo enak trend; z~večanjem $I_0$ se 
+maksimumi nižajo in premikajo h~kasnejšim časom.
+\begin{figure}    
+    \resizebox{0.48\linewidth}{!}{\input{graf17a.tex}}
+    \resizebox{0.48\linewidth}{!}{\input{graf17b.tex}}\\
+    \caption{Na levi je prikazano spreminjanje $D$ za različne vrednosti parametra $\beta$, 
+    ko je $\alpha=0.5$ in začetne vrednosti $I_0=1\%$ in $D_0=1\permil$. Na desni je 
+    graf $D(I_0)$, kjer sta parametra $\alpha=0.5, \,\beta=0.05$, spreminjamo pa
+    začetno vrednost $I_0$.}
+    \label{slika17}
+\end{figure}
+
+\subsection{Stopnje bolezni}
+Bolezen lahko razdelimo v~več stadijev, tako povečamo sistem diferencialnih enačb:
+\begin{align}\label{epidemija}
+    \dot{D} &= -\alpha D B, \\
+    \dot{B_1} &= \alpha D B - \beta_1 B_1. \\
+    \dot{B_2} &= \beta_1 B_1 - \beta_2 B_2. \\
+    &\vdots \\
+    \dot{I} &= \beta_n B_n,
+\end{align}
+kjer so $B=\sum_i B_i$ vsota vseh obolelih, $\beta_i$ pa hitrosti zdravljenja v~posameznem 
+stadiju. Z~grafov~\ref{slika18} lahko vidimo, da se vrh epidemije pomika h~krajšim časom,
+oblika funkcije pa postaja vedno bolj simetrična (vedno bolj Gaussova).
+\begin{figure}    
+    \centering
+    \resizebox{0.48\linewidth}{!}{\input{graf18a.tex}}
+    \resizebox{0.48\linewidth}{!}{\input{graf18b.tex}}
+    \resizebox{0.48\linewidth}{!}{\input{graf18c.tex}}
+    \caption{Na grafih je prikazano spreminjanje števila obolelih, če jih razdelimo v~več
+    razredov.}
+    \label{slika18}
+\end{figure}
+\end{document}
