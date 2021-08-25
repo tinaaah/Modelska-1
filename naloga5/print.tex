@@ -1,0 +1,310 @@
+\documentclass[a4paper,pdftex,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc} 
+\usepackage[english,slovene]{babel} 
+\usepackage{amsmath,amsfonts,amsthm,amssymb,mathrsfs,empheq} % Math packages
+\usepackage{mathtools}
+\usepackage{dsfont}
+\usepackage[pdftex]{graphicx}
+%\usepackage{makeidx}
+
+\usepackage[version=3]{mhchem} %kemija
+
+
+\renewcommand{\vec}[1]{\boldsymbol{\mathbf{#1}}}                                        
+\newcommand{\ihat}[0]{\boldsymbol{\mathbf{\oldhat{\textbf{\i}}}}} % pokončna j in i (j i n i
+\newcommand{\iu}{{i\mkern1mu}}	    %imaginarno število
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+%\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+%\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{Modelska analiza 1} \\ [25pt] % Your university, school and/or department name(s)
+%\horrule{0.2pt} \\[0.4cm] % Thin top horizontal rule
+\huge 5. naloga\\ % The assignment title
+%\horrule{0.2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Tina Klobas} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+\section{Binarna reakcija}
+Opazujemo reakcijo elementa \ce{A}, pri čemer nastane radikal v~vzbujenem stanju, ki potem
+razpade na dva druga elementa. To poteka preko para binarnih enačb:
+\begin{align}\label{reakcija1}
+    \ce{A + A &<=>[\ce{$p$}][\ce{$q$}] A + A^*}, \\
+    \ce{A^* &->[\ce{$r$}] B + C},
+\end{align}
+\subsection{Eksaktna rešitev}
+Za enačbo~\ref{reakcija1} lahko za koncentracijo prisotnih snovi zapišemo gibalne enačbe:
+\begin{align}\label{binarna1}
+    \dot{\ce{[A]}} &= -p \ce{[A]}^2 + q \ce{[A]} \ce{[A^*]}, \\
+    \ce{[\dot{\mathrm{A}}^*]} &= p \ce{[A]}^2 - q \ce{[A]} \ce{[A^*]} -r \ce{[A^*]}, \\
+    \dot{\ce{[B]}} &= r \ce{[A^*]}, \\
+    \dot{\ce{[C]}} &= r \ce{[A^*]}.
+\end{align}
+S~parametri $p,q$ in $r$ označimo verjetnosti za prehode. Sistem lahko spravimo 
+v~brezdimenzijsko obliko tako, da uvedemo konstanto $A_0 = A(0)+A^*(0)+B(0)+C(0)$ s~katero 
+delimo cel sistem~\ref{binarna1}. Z~$\lambda=\frac{r}{qA_0}$, $\mu = \frac{q}{p}$ in
+brezdimenzijskim časom $\tau = \frac{t}{A_0 p}$ dobimo sistem:
+\begin{align}\label{binarna2}
+    \dot{a} &= -a^2 + \mu a a^*, \\
+    \dot{a} &= a^2 - \mu a a^* - \lambda \mu a^*, \\
+    \dot{b} = \dot{c} &= \lambda \mu a^*,
+\end{align}
+kjer so konstante $a, a^*, c, d$ oznake za koncentracije snovi deljene s~konstanto $A_0$.
+Na grafu~\ref{slika1} smo za primer vzeli začetne vrednosti $a_0=1, a^*=b=c=0$ in konstanti
+$\lambda = 1, \mu =1000$. Vidimo, da pri tako velikem razmerju $\mu$ vmesnega stanja
+z~vzbujenim elementom A sploh ni in se tako praktično vsa začetna koncentracija \ce{[A]} 
+pretvori v~\ce{[B]} in~\ce{[C]}. Na grafu~\ref{slika7} je prikazano obnašanje koncentracij
+snovi za različne konstante $\mu$ pri enaki $\lambda=1$. Konstanti $\mu$ ter $\lambda$ tako
+predstavljata hitrosti reakcij~\ref{binarna1} in pri njunih velikih vrednostih 
+omejimo življenjski čas in vrh koncentracije reaktanta \ce{A^*} ter pospešimo izginjanje 
+(nastajanje) \ce{A} (\ce{B} oz. \ce{C}).\\
+Na slikah~\ref{slika2} in~\ref{slika3} smo za začetne vrednosti količin vzeli $a_0=1$ in
+$a^*=b=c=0$ in pogledali rešitve za različne vrednosti $\lambda=\{0.1, 1, 10\}$ pri
+vrednosti $\mu = 1000$. Na desnem grafu~\ref{slika3} je bližje prikazan začetni skok,
+ki je pri izbrani konstanti $\mu=1000$ zelo hiter in nizek (pri manjših vrednostih
+pa počasnejši in nižji~\ref{slika7}).
+
+\begin{figure}    
+    \resizebox{0.98\linewidth}{!}{\input{graf1.tex}}
+    \caption{Spreminjanje koncentracij vseh reaktantov in produktov za $\lambda=1$ in $\mu =
+    1000$.}
+    \label{slika1}
+\end{figure}
+\begin{figure}    
+    \resizebox{0.98\linewidth}{!}{\input{graf7.tex}}
+    \caption{Na grafih je prikazano spreminjanje koncentracije (z~leve proti desni) $a$, 
+    $a^*$ ter $b$, za različne hitrosti $\mu$.}
+    \label{slika7}
+\end{figure}
+
+\begin{figure}    
+    \resizebox{0.98\linewidth}{!}{\input{graf2.tex}}
+    \caption{Na levi je graf spreminjanja količine $a$, na desni pa $b$ oz. $c$ pri 
+    različnih vrednostih konstante $\lambda$.}
+    \label{slika2}
+\end{figure}
+\begin{figure}    
+    \resizebox{0.98\linewidth}{!}{\input{graf3.tex}}
+    \caption{Na grafih je prikazano spreminjanje $a^*$ v~dveh različnih časovnih skalah.}
+    \label{slika3}
+\end{figure}
+\subsection{Stacionarno stanje}
+Ker je vrh koncentracije \ce{A^*} pri $\mu=1000$ zelo majhen, njegov življenjski čas pa zelo
+kratek, lahko naredimo približek, da je koncentracija $a^*$ ves čas v~stacionarnem stanju;
+$\dot{a}^* = 0$,
+\begin{align}\label{binarna3}
+    a^* &= \frac{a^2}{\mu \left( a + \lambda \right) }, \\
+    \dot{a} &= - \frac{\lambda a^2}{\mu \left( a + \lambda \right)}, \\
+    \dot{b} = \dot{c} &= \frac{\lambda a^2}{\left( a + \lambda \right) }.
+\end{align}
+Graf~\ref{slika4} zgleda zelo podoben grafu eksaktne rešitve in graf~\ref{slika5} prikaže,
+da je razlika med vrednostmi šele na 4. decimalki. Z~grafa~\ref{slika6} vidimo, da pri
+obeh koncentracijah neka točka najmanjše razlike. Na grafu razlik vzbujenega stanja
+vidimo, da s~približkom izgubimo začetni skok koncentracije.
+neka točka 
+\begin{figure}    
+    \resizebox{0.9\linewidth}{!}{\input{graf4.tex}}
+    \caption{Prikazano je spreminjanje koncentracij snovi s~časom pri približku 
+    stacinoarnega stanja \ce{A^*}, za konstanti $\lambda = 1$ in $\mu = 1000$.}
+    \label{slika4}
+\end{figure}
+\begin{figure}    
+    \hspace{1cm}\resizebox{0.9\linewidth}{!}{\input{graf5.tex}}
+    \caption{Logaritem razlike med eksaktno rešitvijo in približkom stacionarnega stanja,
+    v~različnih časovnih skalah.}
+    \label{slika5}
+\end{figure}
+\begin{figure}    
+    \hspace{1cm}\resizebox{0.9\linewidth}{!}{\input{graf6.tex}}
+    \caption{Logaritem razlike med eksaktno rešitvijo in približkom stacionarnega stanja,
+    v~različnih odvisnosti od logaritma časa. Na levi je graf $a$, na desni pa $a^*$.}
+    \label{slika6}
+\end{figure}
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 2
+%----------------------------------------------------------------------------------------
+\section{Sinteza bromovodikove kisline}
+Opazujemo reakcijo
+$$ \ce{H2 + Br2 <=> 2HBr},$$
+ki jo lahko zapišemo kot sistem binarnih reakcij:
+\begin{align}\label{sinteza}
+    \ce{Br2 &<=>[\ce{$p_1$}][\ce{$q_1$}] 2Br}, \\
+    \ce{Br + H2 &<=>[\ce{$p_2$}][\ce{$q_2$}] HBr + H}, \\
+    \ce{H + Br2 &->[\ce{$p_3$}] HBr + Br}.
+\end{align}
+Zopet lahko zapišemo enačbe za kinematiko sistema, kjer zapišemo koncentracije \ce{H}, 
+\ce{H2}, \ce{Br}, \ce{Br2} in \ce{HBr} z~oznakami $H, h, B, b$ in $\chi$. Že zdaj
+upoštevamo, da so vmesne reakcije v~stacionarnem stanju  tako da dobimo 
+sistem enačb:
+\begin{align*}
+    \dot{B} = \dot{H} &= 0, \\
+    \dot{b} &= -p_1 b + q_1 B^2 - p_3 H b, \\
+    \dot{h} &= -p_2 B h + q_2 \chi H, \\
+    \dot{\chi} &= p_2 B h -q_2 \chi H + p_3 H b.
+\end{align*}
+Iz sistema sledi
+\begin{align*}
+    B &= \sqrt{\frac{p_1}{q_1}b}, \\
+    H &= p_2 h \frac{\sqrt{\frac{p_1}{q_1}b}}{p_3b + q_2\chi}, \\
+    \dot{\chi} &= \frac{k h \sqrt{b}}{m + \frac{\chi}{b}}, \\
+    \dot{b} = \dot{h} &= - \frac{1}{2}\frac{k h \sqrt{b}}{m + \frac{\chi}{b}},
+\end{align*}
+kjer vpeljemo konstanti $m=\frac{p_3}{q_2}$ ter $k=\frac{1p_2p_3}{q_2}\sqrt{\frac{p_1}{q_1}}
+$. Obe konstanti bi v~praksi lahko izmerili tako, da bi merili koncentracijo \ce{[Hbr]} in
+tako dobljen potek \emph{fittali} na empirično enačbo.
+Vse enačbe koncentracije normiramo na začetno vrednost $A_0 = h(0) + b(0) + \chi (0)$
+tako da je $\chi/A_0 = x$, $h/A_0 = y$ in $b/A_0 = z$. Vpeljemo še brezdimenzijski čas 
+$\tau = k \sqrt{A_0}$ in tako dobimo brezdimenzijski sistem
+\begin{align}\label{brezdimHBr}
+    \dot{x} &= \frac{y \sqrt{z}}{m + \frac{x}{z}}, \\
+    \dot{y} = \dot{z} &= - \frac{1}{2} \frac{y \sqrt{z}}{m + \frac{x}{z}}.
+\end{align}
+Iz enačbe~\ref{brezdimHBr} vidimo, da je vsota $\dot{x} + \dot{y} + \dot{z} =1$ in je potem
+celotna koncentracija $A(t)$ ves čas konstantna $A=A_0$.\\
+Na grafu~\ref{slika8} je prikazan primer poteka reakcije. Vidimo, da koncentracija $x$ raste
+dvakrat hitreje kot drugi dve padata, kar očitno tudi iz enačb~\ref{brezdimHBr}. Vidimo
+tudi, da je celotna koncentracija $A$, res konstantna. Na sliki~\ref{slika9} je prikazana
+odvisnost poteka reakcije glede na začetno razmerje $\ce{H}/\ce{Br}$. Vidimo, da razmerje
+ne vpliva na hitrost reakcije (kar je vidno tudi po enačbah). Opazimo lahko tudi, da ko je
+razmerje manjše od ena (oziroma $y$ večja od $z$), končna koncentracija $x$ ne doseže
+začetne vrednosti $y$, saj prehitro zmanjka reaktanta $z$.\\
+Če v~začetno stanje primešamo veliko koncentracije produkta $x$, se njegov časovni potek 
+začne počasi gladiti in izgubljati zadnji zavoj, namreč ves čas mora veljati, da je
+vsota vseh treh koncentracij konstantna. Hkrati začne koncentracija reaktantov vedno
+manj \emph{zaobljeno} padati in postaja hitrost spremembe vedno večja in postaja prehod
+vedno ožji, kar je tudi prikazano na slikah~\ref{slika10}.
+\begin{figure}    
+    \hspace{1cm}\resizebox{0.9\linewidth}{!}{\input{graf8.tex}}
+    \caption{Primer poteka koncetracij \ce{H2}, \ce{Br2} in \ce{HBr} za $m=2,5$ in začetno 
+    razmerje koncentracij $\ce{H}/\ce{Br}=0,5$.}
+    \label{slika8}
+\end{figure}
+\begin{figure}    
+    \hspace{1cm}\resizebox{0.9\linewidth}{!}{\input{graf9.tex}}
+    \caption{Primer poteka koncetracij \ce{H2}, \ce{Br2} in \ce{HBr} za $m=2,5$ in začetno 
+    razmerje koncentracij $\ce{H}/\ce{Br}=0,5$.}
+    \label{slika9}
+\end{figure}
+\begin{figure}    
+    \hspace{1cm}\resizebox{0.9\linewidth}{!}{\input{graf10.tex}}
+    \caption{Primer, če primešamo v~začetno stanje tudi nekaj produkta.}
+    \label{slika10}
+\end{figure}
+
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 3
+%----------------------------------------------------------------------------------------
+\section{Kemijske ure}
+Opazujemo ravnovesje para reakcij
+\begin{align*}
+    \ce{S2O8^2- + 2I- &-> I2 + 2SO4^2-}, \\
+    \ce{2S2O3^2- + I2 &-> 2I^- + S4O6^2-}.
+\end{align*}
+Poenostavimo obe reakciji na dve stopnji od katerih je ena hitra ($q$) druga pa počasna 
+($s$)
+\begin{align*}
+    \ce{S2O8^2- + I^- &->[\ce{$q_1$}] IS2O3- + I^-}, \\
+    \ce{IS2O8^3- + I^- &->[\ce{$s_1$}] I2 + 2SO4^2-} \mathrm{in} \\
+    \ce{S2O3^2- + I2 &->[\ce{$q_2$}] IS2O3- + I^-}, \\
+    \ce{IS2O3^3- + S2O3^2- &->[\ce{$s_2$}] I^- + S4O6^2-}.
+\end{align*}
+Opazujemo koncentracije \ce{[I^-]}, \ce{[I2]}, \ce{[S2O3^2-]} in \ce{[S2O8^2-]} in zapišemo
+enačbe dinamike zanje. Sistema ne bomo pisali, vendar če privzamemo še, da so koncentracije
+vmesnih reaktantov \ce{[IS2O8^3-]} in \ce{[SO4^2-]} v~stacionarnem stanju, če vse
+konstante delimo z~vsoto začetnih koncentracij $A$ in vpeljemo brezdimenzijski čas $\tau =
+s_1 t$ dobimo končni sistem
+\begin{align}\label{ura}
+    \dot{x} = -2 x w + \lambda2 y z, \\
+    \dot{y} = x w - \lambda y z, \\
+    \dot{z} = - 2 \lambda y z, \\
+    \dot{w} = - x w, 
+\end{align}
+kjer so brezdimenzijske koncentracije $x,w,y,z$ po vrsti normirane \ce{[I^-]}, \ce{[I2]}, 
+\ce{[S2O3^2-]} in \ce{[S2O8^2-]}, $\lambda$ pa razmerje $q_2/q_1$. Na grafu~\ref{slika10}
+pri zelo veliki $\lambda=5000$ opazujemo spreminjanje koncentracij. Če imamo na začetku
+enaki koncentraciji joda \ce{I-} in tiosulfata, bo prvi konstanten drugi pa se bo porabljal
+in spreminjal v~produkte, če pa zmanjšamo koncentracijo začetnega \ce{S2O8^{2-}} bo
+koncentracija \ce{I-} konstantna dokler se tiosulfat ne bo porabil in takrat se bo začela
+spreminjat še koncentracija \ce{I}. V~tem trenutku ko se tioslfat porabi se porabljanje
+joda pozna v~obarvanju zmesi. Na grafu~\ref{slika11} vidimo, da manjšanje konstante 
+$\lambda$ povzroči to, da vse koncentracije prej preidejo iz ravnovesja in se začnejo
+porabljati ali pa nastajati. To tudi vidimo po enačbah~\ref{ura} saj pri velikih
+$\lambda$ prevladajo le eni členi ($\lambda z y$) medtem ko nižamo to razmerje pridemo
+v~območje kjer obe komponenti enako doprineseta, če bi pa razmerje še manjšali
+bi člen $xw$ prevladal nad drugim. Z~večanjem $\lambda$ postaja prehod tudi veliko hitrejši
+in ostrejši.
+\begin{figure}    
+    \hspace{1cm}\resizebox{0.9\linewidth}{!}{\input{graf10.tex}}
+    \caption{Primer poteka za začetne vrednosti $w=0.5, y=0, x=1$ in na levi $y=x$
+    na desni pa $a=0.8$. $\lambda=5000$.}
+    \label{slika10}
+\end{figure}
+\begin{figure}    
+    \hspace{1cm}\resizebox{0.9\linewidth}{!}{\input{graf11.tex}}
+    \caption{Potek koncentracije z~leve proti desni $x,z$ in $y$. Za začetne vrednosti smo
+    vzeli $w=0.5, y=0, x=1, y=0.8$.}
+    \label{slika11}
+\end{figure}
+Pri presežku začetne koncentracije $w$ (persulfata) vidimo da reakcija še veliko hitreje
+poteče~\ref{slika12} (verjetno še hitreje kar vidimo s~tega da je funkcija odsekoma zvezna
+zaradi premalo gostega računanja). Graf~\ref{slika13} prikazuje spreminjanje te hitrosti
+od začetne koncentracije $w$. Na grafu~\ref{slika14} je prikazan potek koncentracij $x$ in
+$y$ za različne vrednosti začetnega tiosulfata. Na desnem grafu vidimo, da z~zmanjšanjem 
+koncentracije $z_0$ zmanjšamo tudi čas, ko se začne $y$ porabljati, kar je tudi smiselno
+saj smo že na grafu~\ref{slika11} videli, da ko se porabi ves $w$ se začne porabljati
+še jod.
+\begin{figure}    
+    \hspace{1cm}\resizebox{0.9\linewidth}{!}{\input{graf12.tex}}
+    \caption{V~logaritemski časovni skali je prikazano spreminjanje koncentracij $x,z,y$
+    z~velikim prebitkom koncentracije persulfata. Razmerje med $w$ in $x$ je bilo $w/x=20$.}
+    \label{slika12}
+\end{figure}
+\begin{figure}    
+    \hspace{1cm}\resizebox{0.9\linewidth}{!}{\input{graf13.tex}}
+    \caption{V~logaritemski časovni skali je prikazano spreminjanje koncentracij $x,z,y$
+    z~razmerjem $\lambda=10$ za različne začetne koncentracije $w$.}
+    \label{slika13}
+\end{figure}
+\begin{figure}    
+    \hspace{1cm}\resizebox{0.9\linewidth}{!}{\input{graf14.tex}}
+    \caption{Spreminjanje koncentracij $x,y$ z~razmerjem $\lambda=10$ za različne začetne 
+    vrednosti $z$.}
+    \label{slika14}
+\end{figure}
+
+
+\end{document}
