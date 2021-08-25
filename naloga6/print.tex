@@ -1,0 +1,300 @@
+\documentclass[a4paper,pdftex,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc} 
+\usepackage[english,slovene]{babel} 
+\usepackage{amsmath,amsfonts,amsthm,amssymb,mathrsfs,empheq} % Math packages
+\usepackage{mathtools}
+\usepackage{dsfont}
+\usepackage[pdftex]{graphicx}
+%\usepackage{makeidx}
+
+\usepackage[version=3]{mhchem} %kemija
+
+
+\renewcommand{\vec}[1]{\boldsymbol{\mathbf{#1}}}                                        
+\newcommand{\ihat}[0]{\boldsymbol{\mathbf{\oldhat{\textbf{\i}}}}} % pokončna j in i (j i n i
+\newcommand{\iu}{{i\mkern1mu}}	    %imaginarno število
+\DeclarePairedDelimiterX{\norm}[1]{\lVert}{\rVert}{#1} %norma
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+%\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+%\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{Modelska analiza 1} \\ [25pt] % Your university, school and/or department name(s)
+%\horrule{0.2pt} \\[0.4cm] % Thin top horizontal rule
+\huge 6. naloga\\ % The assignment title
+%\horrule{0.2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Tina Klobas} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+\section{Opis problema}
+Pri tej nalogi želimo danim nizom podatkov prilagoditi linearno funkcijo (\emph{fit}).
+Imamo začeten linearni sistem
+\begin{equation}
+    A \vec{x} = \vec{b}
+\end{equation}
+kjer je $A$ podana matrika parametrov (funkcij) sistema, $\vec{b}$ vektor rešitev,
+vektor $\vec{x}$ pa želimo poiskati tako, da bo napaka
+\begin{equation}\label{minimum}
+    \norm{A\vec{x}-\vec{b}}=\mathrm{min}.
+\end{equation}
+
+\subsubsection*{Singularni razcep}
+Za vsako matriko $A \in \mathbb{R}^{m \times n}$ obstaja singularni razcep:
+\begin{equation}
+    A = U \Sigma V^{T},
+\end{equation}
+kjer sta $U \in \mathbb{R}^{m\times m}$ in $V \in \mathbb{R}^{n\times n}$ ortogonalni
+matriki in $\Sigma \in \mathbb{R}^{m \times n}$ diagonalna z~elementi $\alpha_1 \geq 
+\alpha_2 \geq \dots \geq \alpha_n$ (singularne vrednosti). Velja tudi, da je minimum
+(enačba~\ref{minimum}) dosežen pri vektorju:
+\begin{equation}\label{singular}
+    \vec{x} = \sum_{i=1}^n \frac{\vec{u}_i^T \vec{b}}{\alpha_i}\vec{v}_i,
+\end{equation}
+
+kjer sta vektorja $\vec{u}_i$ in $\vec{v}_i$ stolpca matrik $U$ in $V$.
+Napake elementov tega vektorja pa so:
+
+\begin{equation}\label{singularsigma}
+    \sigma_i = \sum_{j=1}^n \left( \frac{V_{ij}}{\alpha_j} \right)^2
+\end{equation}
+
+
+\subsubsection*{Test $\chi^2$}
+Delamo minimizacijo kumulativne $\chi^2$ funkcije:
+\begin{equation}\label{hi2}
+    \chi^2 = \sum_{i=1}^{N} \left( \frac{b_i - \vec{a}_i x_i}{\sigma_i} \right)^2,
+\end{equation}
+kjer je $\vec{a}_i$ vrstica v~matriki $A$.
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+\section{Odziv tkiva}
+Opazujemo odziv tkiva na različne reagente;
+\begin{equation}
+    \ce{Y} + \ce{X} \ce{<=>} \ce{Y}^*
+\end{equation}
+Če povišamo koncentracijo reagenta nad neko vrednost nasičenja, ga tkivo ne bo več
+sprejelo. V~stacionarnem stanju lahko to zapišemo z~enačbo:
+\begin{equation}\label{y}
+    y  = \frac{y_0 x}{x+a},
+\end{equation}
+kjer je $y_0$ nasičeni odziv tkiva in $a$ koncentracija, potrebna za odziv, ki je enak
+polovici nasičenega. V splošnem je ta zveza nelinearna, lahko pa jo preuredimo v~obliko:
+\begin{equation}\label{liny}
+    \frac{1}{y} = \frac{1}{y_0} + \frac{a}{y_0} \frac{1}{x}.
+\end{equation}
+Z~uvedbo $z = 1/y$, $z_0 = 1/y_0$, $t = 1/x$ ter $k = a/y_0$ pridemo do linearne 
+enačbe oblike:
+\begin{equation}\label{linz}
+    z = kt + z_0
+\end{equation}
+Napake začetnega problema~\ref{y} so $\sigma_i$, ki se z~lineariziranjem enačbe tudi 
+prepišejo:
+\begin{equation}
+    \Delta z = \left|{\frac{\mathrm{d}z}{\mathrm{d} y}} \right| \Delta y = \frac{1}{y^2} 
+    \sigma.
+\end{equation}
+
+Napake linearizirane enačbe~\ref{liny} so: 
+\begin{equation}\label{napaka}
+    \widetilde{\sigma}_i = \sigma_i /y_i^2 = \sigma_i z_i^2. 
+\end{equation}
+
+ \begin{figure}    
+    \resizebox{0.98\linewidth}{!}{\input{graf1.tex}}
+    \caption{Na grafu je prikazana linearna regresija brez upoštevanja uteži napak na
+     podatki $y$ in obratni vrednosti $z$.}
+    \label{slika1}
+\end{figure}
+Na grafu~\ref{slika1} je prikazana linearna regresija v~primeru, ko ne upoštevamo napak
+posameznih točk. Na levem grafu smo podatkom prilagajali enačbo~\ref{linz} in vidimo,
+da precej odstopata zadnji dve točki (na desnem grafu prvi dve), ki imata v~skladu 
+z~enačbo~\ref{napaka} tudi zelo veliko napako. Ker imajo vsi podatki enako utež, oddaljene
+točke močno razpotegnejo premico in take oblike rešitev nima nobenega smisla.\\
+Reševanja se lotimo tako, da minimiziramo $\chi^2$ -- poiščemo minimum enačbe~\ref{hi2} 
+in pridemo do sistema enačb oblike $A\vec{a}=\vec{b}$, kjer definiramo elemente matrike $A$:
+\begin{equation}
+    A_{ij} = \sum_{k_1}^N \frac{\phi_i(x_k) \phi_j(x_k)}{\widetilde{\sigma_k}}.
+\end{equation}
+$\phi_i$ so testne funkcije. V~našem primeru imamo samo dve funkciji; $\phi_1=1$ in
+$\phi_2 = t = 1/x$ in matrika $A$ ima tako obliko:
+\begin{equation}
+    A =  \sum_{k=1}^N \frac{1}{\widetilde{\sigma}^2_k}
+    \begin{bmatrix}
+	1 & \frac{1}{x_k} \\
+	\frac{1}{x_k} & \frac{1}{x_k^2} \\
+    \end{bmatrix}.
+\end{equation}
+Imamo še vektor $\vec{b}$ z~elementi
+\begin{equation}
+    b_i =  \sum_{k=1}^N \frac{z_k \phi_k(x_k)}{\widetilde{\sigma}^2_k},
+\end{equation}
+ki ima v~tem primeru samo dva člena
+\begin{equation}
+    \vec{b} = \sum_{k=1}^N \frac{z_k}{\widetilde{\sigma}^2_k}
+    \begin{bmatrix}
+	1 \\ \frac{1}{x_k}.
+    \end{bmatrix}
+\end{equation}
+Matriki $A$ naredimo inverz, da dobimo vektor
+\begin{equation}
+    \vec{a} = A^{-1}\vec{b}
+\end{equation}
+in rešitev narišemo na graf~\ref{slika2}. Vidimo, da smo sedaj veliko bolj upoštevali 
+prvih nekaj točk, ki imajo manjšo napako in tako je tudi krivulja na desnem grafu
+veliko bolj pravilne oblike kot na prejšnji sliki. 
+\begin{figure}    
+    \resizebox{0.98\linewidth}{!}{\input{graf2.tex}}
+    \caption{Na grafu je prikazana linearna regresija z~minimizacijo $\chi^2$ 
+    porazdelitve.}
+    \label{slika2}
+\end{figure}
+Obe rešitvi lahko tudi primerjamo s~pomočjo testa $\chi^2$ kjer za prvi primer, prikazan
+na sliki~\ref{slika1} dobimo $\chi^2=3322,38$ za drugega, kjer smo upoštevali še napake,
+pa $\chi^2=26.08$. Sicer niti druga vrednost ni še enaka idealni $\chi^2 = N-M=6$ (kjer
+je $N$ število izmerkov, $M$ pa število parametrov), vendar je veliko bolje kot v~prvem
+primeru.
+\begin{figure}    
+    \resizebox{0.98\linewidth}{!}{\input{graf3.tex}}
+    \caption{Primerjava napak obeh metod.}
+    \label{slika3}
+\end{figure}
+Na grafu~\ref{slika3} tudi vidimo primerjavo napak obeh metod. Sicer je na začetku 
+drugi rezultat, ko smo gledali regresijo z~upoštevanjem uteži napak odstopanje od pravilne
+vrednosti veliko večje, vendar že po drugem izmerku pade pod drugo funkcijo in dosežemo
+natančnost na dve decimalni mesti.
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 2
+%----------------------------------------------------------------------------------------
+\section{Spekter na vzorcih lista}
+Imamo zbrane štiri absorpcijske spektre kadmija na robu $L_3$ iz študije, kako
+ta kovina vpliva na rastline. V~prvih dveh vzorcih so izolirane celične stene iz krovne 
+plasti in iz sredice listov rastline C. \emph{Thlaspi}, ki je znan hiperakumulator težkih 
+kovin.  Zadnja dva spektra sta dobljena na standardih, kompleksih \ce{Cd} sulfata 
+z~glutationom (\ce{GSH}) in pektinom: v~prvem je \ce{Cd} vezan izključno na žveplo, 
+v~drugem na kisik.  V listnih vzorcih dopuščamo obe vrsti vezave, vemo pa, da sta 
+prispevka obeh v~spektru linearno sestavljena. Želimo dobiti odstotno razmerje vezi 
+\ce{Cd-O} in \ce{Cd-S} v~obeh listnih vzorcih. Vsi štirje spektri so prikazani na 
+grafu~\ref{slika4}.
+\begin{figure}    
+    \resizebox{0.98\linewidth}{!}{\input{graf4.tex}}
+    \caption{Vsi štirje podani sprektri.}
+    \label{slika4}
+\end{figure}
+Linearno sestavljenost vzorcev lahko zapišemo z~enačbama:
+\begin{align}
+    \mathrm{vzorec}_1(E) = a \cdot \mathrm{standard}_1 (E) 
+    + b \cdot \mathrm{standard}_2 (E), \\
+    \mathrm{vzorec}_2(E) = c \cdot \mathrm{standard}_1 (E) 
+    + d \cdot \mathrm{standard}_2 (E).
+\end{align}
+Problem se lahko lotimo na enak način kot prejšnjega ali pa z~metodo singularnega razcepa
+kjer za optimalni vektor uporabimo enačbo~\ref{singular} za njegovo napako 
+pa~\ref{singularsigma}.
+Z~grafa~\ref{slika5} vidimo, da je naše prilagajanje kar uspešno. Pri drugem vzorcu vidimo,
+da je na nekaterih območjih precej bolj razgibana, kar tudi povzroči odstopanje od prave
+vrednosti. To se vidi tudi z~grafa~\ref{slika6} kjer je napaka pri drugem spektru ponekod 
+za tudi do več velikostnih redov večja, vendar sta obe še zmeraj zelo majhni, kar potrdi,
+da smo našli optimalno oceno.\\
+Dobili smo parametre $a,b,c,d$, ki predstavljajo razmerja vezi \ce{Cd-O} in \ce{Cd-S} 
+v~obeh spektrih. Za prvi spekter je
+\begin{enumerate}
+    \item spekter: razmerje vezi \ce{Cd-O}/\ce{Cd-S} je $$\frac{a}{b} = \frac{0.27}{0.73}$$,
+    \item spekter: razmerje vezi \ce{Cd-O}/\ce{Cd-S} je $$\frac{c}{d} = \frac{0.55}{0.45}.$$
+\end{enumerate}
+
+\begin{figure}    
+    \resizebox{0.98\linewidth}{!}{\input{graf5.tex}}
+    \caption{Narisana sta oba vzorca in dobljena kombinacija standardov.}
+    \label{slika5}
+\end{figure}
+\begin{figure}    
+    \resizebox{0.98\linewidth}{!}{\input{graf6.tex}}
+    \caption{Prikazan je logaritem odmikov dobljenih vrednosti od izmerjenih.}
+    \label{slika6}
+\end{figure}
+
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 3
+%----------------------------------------------------------------------------------------
+\section{Magnetni spektrometer}
+Z~dobro rekonstrukcijo poti delcev v~spektrometrih lahko potem izračunamo poljubne 
+kinematične količine. Naša naloga bo tako poiskati to rekonstrukcijo. Podane imamo podatke 
+o~začetnih položajih $x_{\mathrm{fp}}$ v~goriščni ravnini, odmik $\vartheta_{\mathrm{fp}}$
+od goriščne ravnine in disperzijski kot $\vartheta_{\mathrm{t}}$ na tarči. Želimo
+poiskati preslikavo 
+\begin{equation}
+    (x_{\mathrm{fp}}, \vartheta_{\mathrm{fp}} ) \rightarrow \vartheta_{\mathrm{t}}.
+\end{equation}
+Za testni model vzamemo obliko:
+\begin{equation}\label{polinom}
+    f(\vartheta, x) = \left( \sum_{p=0}^N b_p \vartheta^p \right)\left(
+    \sum_{q=0}^Mc_q x^q \right).
+\end{equation}
+Spet lahko rešujemo preko metode singularnega razcepa in po $\chi^2$ testu preverimo
+kako dobro se prilagajajo podatkom. Grafi podatkov in \emph{fita} niso najbolje pregledni,
+je pa toliko bolj zanimivo kako se $\chi^2$ spreminja s~spreminjanjem 
+polinoma~\ref{polinom}. S~slike~\ref{slika7} vidimo, da smo najbolj ugoden moden preslikave
+dobili, ko smo vzeli polinom s~dvajsetimi členi, kar bo takrat, ko bomo vzeli stopnjo
+$N=4$ in $M=5$ in upoštevali le produkte skupne stopnje $p+q>5$. Točko tik nad tem 
+minimumom dobimo na enak način, le da je tam stopnja $N=5$ in $N=4$. Pri vsakem številu
+členov bi dobili več točk, če bi upoštevali tudi višje potence pri vsakem računanju, 
+vendar pri večji razliki med maksimalnima stopnjama polinomov $M$ in $N$
+dobivamo večja odstopanja kot tukaj kjer smo gledali le $|N-M|=1$. \\
+
+\begin{figure}    
+    \resizebox{0.98\linewidth}{!}{\input{graf7.tex}}
+    \caption{Primerjava odstopanja od prave vrednosti za različno število členov 
+    v~polinomu.}
+    \label{slika7}
+\end{figure}
+\subsubsection*{Negativne potence polinoma}
+Podobno lahko naredimo tudi, če vzamemo, da lahko $p$ in $q$ zavzameta tudi negativna 
+števila in zopet narišemo graf~\ref{slika8} $\chi^2$ v~odvisnosti od števila členov 
+polinoma. Tokratni minimum imamo pri $35$ členih -- narisan z~oranžno, z~modro (pri
+$36$ členih) pa je narisan optimalni polinom s~prejšnjega grafa, le da mu tokrat
+dovolimo da zavzame še člene na stopnjo $p=q=-1$. Vrednost minimuma je primerljiva 
+s~prejšnjim ($\chi^2_1 = 44.98$, $\chi^2_2 = 49.33$) vendar smo morali porabiti
+veliko več računanja, da smo dobili (nekoliko) slabše prilagajanje.
+\begin{figure}    
+    \resizebox{0.98\linewidth}{!}{\input{graf8.tex}}
+    \caption{Primerjava odstopanja od prave vrednosti za različno število členov 
+    v~polinomu, ki vsebuje tudi negativne potence.}
+    \label{slika8}
+\end{figure}
+
+
+
+\end{document}
