@@ -1,6 +1,6 @@
 # Modelska-1
 
-12 assigments + end thesis (last two not complete)
+13 assigments + end thesis (last two not complete)
 1. Variational method: modelling of traffic lights
 2. Linear programming
 3. Nonlinear minimisation (Amoeba, Nelder-Mead, Powell)
