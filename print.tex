@@ -1,0 +1,294 @@
+\documentclass[a4paper,pdftex,10pt]{article}
+\usepackage[margin=2.5cm,nohead]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc} 
+\usepackage[english,slovene]{babel} 
+\usepackage{amsmath,amsfonts,amsthm,amssymb,mathrsfs,empheq} % Math packages
+\usepackage{mathtools}
+\usepackage{dsfont}
+\usepackage{wrapfig}
+\usepackage[pdftex]{graphicx}
+%\usepackage{makeidx}
+\usepackage{url}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tabularx}
+\usepackage{float}
+
+\usepackage[version=3]{mhchem} %kemija
+
+\DeclarePairedDelimiter{\evdel}{\langle}{\rangle}   %pricakovana vrednost
+
+
+\renewcommand{\vec}[1]{\boldsymbol{\mathbf{#1}}}                                        
+\newcommand{\ihat}[0]{\boldsymbol{\mathbf{\oldhat{\textbf{\i}}}}} % pokončna j in i (j i n i
+\newcommand{\iu}{{i\mkern1mu}}	    %imaginarno število
+\DeclarePairedDelimiterX{\norm}[1]{\lVert}{\rVert}{#1} %norma
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+%\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+%\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{Modelska analiza 1} \\ [25pt] % Your university, school and/or department name(s)
+%\horrule{0.2pt} \\[0.4cm] % Thin top horizontal rule
+\huge 8. naloga - Metropolisov algoritem\\ % The assignment title
+%\horrule{0.2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Tina Klobas} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+\section{Opis problema}
+Pri Metropolis-Hastingovem algoritmu uporabljamo metodo Monte Carlo, da zaporedoma žrebamo 
+vzorce s~poljubno verjetnostno porazdelitvijo. Tako lahko dobimo približke porazdelitvenih
+funkcij (oziroma histograme s~tako porazdelitvijo) ali izračunamo integrale (pričakovane
+vrednosti po izbrani porazdelitvi). Metropolisov algoritem je poseben primer omenjenega
+algoritma v~katerem imamo simetrično porazdelitveno funkcijo. Splošen potek takega
+algoritma:
+\begin{enumerate}
+    \item izberemo začetek spehoda $x_0$ in verjetnostno gostoto $\rho (x|y)$, po
+	kateri hočemo vzorčiti, in ki izbere kandidata za naslednjo vrednost $x$ pri 
+	trenutni vrednosti $y$ (za Metropolisov algoritem je ta funkcija simetrična - 
+	$\rho (x|y) = \rho (y|x)$).
+    \item Na koraku $t+1$:
+	\begin{enumerate}
+	    \item po gostoti $\rho (x'|x_t)$ generiramo naključnega kandidata $x'$ in 
+		izračunamo verjetnost \emph{sprejema}:
+		\begin{equation}
+		    \alpha = \mathrm{min} \, \left\{
+			1, \, \frac{P(x')}{P(x_t)} \, \frac{R(x_t|x')}{R(x'|x_t)} \right\},
+		\end{equation}
+		kjer je $R(z)$ \emph{predlagana} verjetnost (po gostoti $\rho (z)$),
+		$P(z)$ pa verjetnost za izbrano stanje Markove verige.
+	    \item Izberemo naključno število $\gamma$ z~intervala $[0,1]$ in če je $\alpha 
+		> \gamma $ zavrnemo kandidata $x'$ in obdržimo prejšnje stanje $x_{t+1} = 
+		x_t$, če pa velja $\alpha \leq \gamma$ obdržimo kandidata in novo stanje je
+		$x_{t+1} = x'$.
+	\end{enumerate}
+\end{enumerate}
+Poseben primer je tudi neodvisen Metropolisov algoritem, kjer trenutno stanje modela ni 
+odvisno od predhodnega stanja. Tako na vsakem koraku žrebamo kandidata po porazdelitvi 
+$x' \sim \, \rho(x)$, verjetnost sprejema pa je v~tem primeru
+\begin{equation} 
+    \alpha = \mathrm{min} \, \left\{ 1, \, \frac{P(x')}{P(x_t)} \, \frac{R(x_t)}{R(x')} 
+    \right\}.
+\end{equation}
+
+\pagebreak
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+\section{Molekularna verižnica}
+Nitkasta molekula sestavljena iz 17 členkov je obešena na obeh koncih. Vsak členek se lahko
+povesi od začetnega ničelnega nivoja na poljubnega od 19 nivojev in si s~zmanjša potencialno
+energijo. Po drugi strani s~premikom spremenimo tudi prožnostno energijo med sosedi. 
+Določiti želimo ravnovesno energijo v~odvisnosti od temperature. Na vsakem koraku $t$ 
+spremenimo položaj naključnega členka v~verigi. \\
+Z~vektorjem $\vec{h}$ si beležimo višine členkov, za katere velja $h_0 = h_{17} = 0$.
+Celotna energija $E$ je tako sestavljena iz potencialnega
+\begin{equation}
+    E_{\text{pot}} = \sum_{i=1}^{17} \alpha h_i 
+\end{equation}
+in prožnostnega prispevka
+\begin{equation}
+    E_{\text{pr}} = \sum_{i=1}^{16} \frac{1}{2} (h_{i+1} -h_i)^2.
+\end{equation}
+Na vsakem koraku $t$ spremenimo položaj naključnega členka $h_i$ In imamo tako kandidata
+$h'_i = h_i + \Delta$, kjer je naključen premik izbran tako, da je členek po premiku še 
+zmeraj znotraj nivojskega sistema. Sprememba energije je potem:
+\begin{equation}
+    \Delta E = E' - E = \Delta \left[ \, \alpha + 2 h_i + \Delta - h_{i+1} - h_{i-1} 
+    \, \right]
+\end{equation}
+Predlagana verjetnost $R$ je v~tem primeru $R(h_i) = 1/N$ in je enaka za vsak člen verige.
+Verjetnost, da je model v~stanju z~energijo $E$ pa je odvisen on temperature in je enak 
+$P(E) = \mathrm{e}^{- \beta E}$ kjer je $\beta = 1/k_{\mathrm{B}} T $. Verjetnost sprejetja
+je tako
+\begin{equation}
+    \alpha = \text{min} \left\{ 1, \mathrm{e}^{- \beta \Delta E}  \right\}.
+\end{equation}
+Izžrebamo naljučno število $\zeta \sim U[0,1]$ in če velja $\zeta \leq \mathrm{e}^{- \beta 
+\Delta E}$ sprejmemo novo stanje in naredimo premik $h_{i+1} = h'_i$, sicer pa premik
+zavrnemo in $h_{i+1} = h_i$. Vidimo, da bo za vsak $\Delta E < 0$ eksponentna funkcija
+vedno večja od $1$, torej bo $\alpha=1$ in so vsi premiki, ki sistemu zmanjšajo energijo,
+ugodni. V~limiti, ko gre $T \rightarrow \infty$ gre eksponentna funkcija proti $1$ in 
+sprejmemo vse premike, v drugem primeru ko gre $T \rightarrow 0$ pa sprejmemo le tiste
+premike, ki znižajo energijo.
+
+\subsection{Rezultati}
+Nivoje lahko poljubno naredimo \emph{diskretne} (samo celoštevilska stanja) ali 
+\emph{zvezne} (dodamo tudi racionalna števila), prav tako lahko omejimo premik na vsakem 
+koraku. Oglejmo si tri različne primere in kako se razlikujejo končna stanja takih 
+algoritmov:
+\begin{enumerate}
+    \item diskretni nivoji z~dovoljenim preskomom le na sosednji ravni: sprememba 
+	višine je $\Delta h =  (-1)^{2 \delta + 1}$, kjer je $\delta \in \mathds{Z}^+ \! 
+	\cup \!  \{0\}$ in jo naključno žrebamo na vsakem koraku. Sprememba energije je 
+	potem: 
+	\begin{equation} 
+	    \Delta E = E' - E = 1 + (-1)^{2 \delta_i + 1} \left[ \, \xi + k \left(2 h_i - 
+	    h_{i+1} - h_{i-1} \right) \, \right].
+	\end{equation}
+    \item diskretni nivoji s~poljubnim premikom in 
+    \item zvezni nivoji s~poljubnim premikom.
+\end{enumerate}
+
+\begin{figure}    
+    \centering
+    \resizebox{0.75\linewidth}{!}{\input{graf1.tex}}
+    \caption{Primerjava različnih tipov nivojev pri temperaturi $T=0K$.}
+    \label{slika1}
+\end{figure}
+
+Na grafu~\ref{slika1} je prikazano končno stanje za vse tri primere nivojev. Za vsak nivo
+je narisanih $7$ različnih poskusov optimizacije energije, kjer smo za vsak poskus naredili 
+$10^5$ korakov. Rezultati so precej konsistentni in razlike med metodo z~diskretnimi nivoji,
+kjer dovolimo preskoke le na sosednji ravni, in med tisto, kjer omogočimo kakršnekoli 
+preskoke, skorajda ni. Za primer z~zveznimi nivoji vidimo, da je v~vseh $7$ poskusih model
+končal v~enakem končnem stanju. V~priloženi animaciji (\path{veriznica.gif}) je prikazan 
+potek vseh treh različnih primerov. Z~animacije je razvidno, da model z~zveznimi nivoji
+veliko hitreje pride v~stacionarno stanje in potem okoli njega tudi ne opleta.
+
+\begin{figure}    
+    \centering 
+    \resizebox{0.49\linewidth}{!}{\input{graf5.tex}} 
+    \resizebox{0.49\linewidth}{!}{\input{graf4.tex}} 
+    \resizebox{0.49\linewidth}{!}{\input{graf3.tex}} 
+    \caption{Primerjava spreminjanja končnega stanja z~večanjem temperature.}
+    \label{slika2}
+\end{figure}
+
+Z~večanjem temperature sistemu damo možnost, da sprejme novo stanje, tudi če energijsko ni
+bolj ugodno. Na grafih~\ref{slika2} so prikazana končna stanja pri različnih 
+temperaturah $T$ (razmerje $k_{\text{B}} T/\Delta E$). Kot lahko predvidimo, se pri višanju 
+temperature oblika sistema odmika od pričakovane za prosto visečo verižnico ($y = a \cosh 
+(x/a)$). 
+Obnašanje si lahko razložimo tudi s~spreminjanjem energije. Z~grafa~\ref{slika4} vidimo,
+da energija že pri nekje $200$ korakih pride do končne vrednosti in potem le še niha
+okoli te vrednosti. To je opazno tudi v~animaciji, ko je model že v končni vrednosti,
+pa vseeno še naprej skače okoli nje, saj smo v~veliko manj korakih dosegli željeno končno
+vrednost modela, kot smo imeli korakov v~algoritmu.
+\begin{figure}    
+    \centering 
+    \resizebox{0.93\linewidth}{!}{\input{graf6.tex}} 
+    %\resizebox{0.49\linewidth}{!}{\input{graf7.tex}} 
+    \caption{Spreminjanje energije pri temperaturi $T=0$} 
+    \label{slika4}
+\end{figure}
+
+
+\pagebreak
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 2
+%----------------------------------------------------------------------------------------
+\section{Isingov model}
+S~Hamiltonijanom
+\begin{equation}
+    \mathcal{H} = -J \sum_{\evdel{i,j}}s_i s_j - H \sum_i s_i, \quad J=\pm 1
+\end{equation}
+opišemo feromagnetne ($J=1$) in antiferomagnetne ($J=-1$) snovi. Približek velja za dve 
+stanji $s_i = \pm 1$, vsota $\sum_{\evdel{ij}}$ pa teče po vezeh med najbližjimi sosedi. 
+Če ni zunanjega polja $H=0$, temperatura $T_{\text{c}}$ faznega prehoda pri feromagnetu 
+zadošča enačbi 
+\begin{equation}
+    \sinh \frac{2J}{k_{\text{B}} T_{\text{c}}} = 1 \quad \Longrightarrow \quad
+    T_c \approx 2.269185 \frac{J}{k_{\text{B}}}.
+\end{equation}
+Zanima nas povprečna energija $\evdel{E}$ in lastna magnetizacija $\evdel{S}$ v~odvisnosti
+od temperature. $S = \sum_i^N s_i$ je celotna magnetizacija sistema. Zanima nas tudi 
+spinska susceptibilnost in specifična toplota pri različnih jakostih magnetnega polja
+\begin{equation}
+    \chi = \frac{ \evdel{S^2} - \evdel{S}^2}{N k_{\text{B}} T} \qquad
+    c = \frac{ \evdel{E^2} - \evdel{E}^2}{N k_{\text{B}} T}.
+\end{equation}
+Rešujemo podobno kot pri prejšnji nalogi; mrežo razdelimo na $N_x$ elementov v~eni smeri
+in $N_y$ v~drugi, kjer vsakemu spinu pripada točka $(i,j)$. Na vsakem koraku naključno
+izberemo par $i,j$, spremenimo vrednost in pogledamo kako ta sprememba vpliva na energijo 
+sistema:
+\begin{equation}
+    \Delta E = 2 s_i \left( J \sum_{\evdel{i,j}} s_j + H \right).
+\end{equation}
+
+\subsection{Rezultati}
+Poglejmo si kako se obnaša sistem brez zunanjega polja pri različnih temperaturah. Končna
+stanja feromagneta so prikazana na grafih~\ref{slika3}. Vidimo, da se pri nizki 
+temperaturi ustvarijo domene in imamo spontano magnetizacijo. Z~naraščanjem temperature 
+se domene začnejo manjšati in premikati, spini znotraj nje pa obračati. Pri temperaturi 
+$T = T_c$ (med tretjo in četrto sliko) se zgodi fazni prehod in po tem so spinska stanja 
+naključna in magnetizacija pade na $0$. \\
+Podobno lahko tudi pri antiferomagnetu na grafu~\ref{slika5} opazimo domene, ki so sicer 
+slabše vidne, vendar se obnašajo enako kot pri feromagnetu in tudi na enak način izginejo.
+Hlajenje antiferomagneta je prikazano v~animaciji \path{antiferomagnet.gif}, feromagneta pa
+\path{feromagnet.gif}.\\
+\begin{figure}[H]
+    \centering 
+    \resizebox{0.32\textwidth}{!}{\input{graf9.tex}} 
+    \resizebox{0.32\textwidth}{!}{\input{graf12.tex}} 
+    \resizebox{0.32\textwidth}{!}{\input{graf13.tex}} 
+    
+    \resizebox{0.32\textwidth}{!}{\input{graf14.tex}} 
+    \resizebox{0.32\textwidth}{!}{\input{graf15.tex}} 
+    \resizebox{0.32\textwidth}{!}{\input{graf16.tex}} 
+    \caption{Končna stanja feromagneta pri različnih temperaturah.}
+    \label{slika3}
+\end{figure}
+\begin{figure}[H] 
+    \centering 
+    \resizebox{0.32\textwidth}{!}{\input{graf17.tex}} 
+    \resizebox{0.32\textwidth}{!}{\input{graf18.tex}} 
+    \resizebox{0.32\textwidth}{!}{\input{graf19.tex}} 
+
+    \resizebox{0.32\textwidth}{!}{\input{graf20.tex}} 
+    \resizebox{0.32\textwidth}{!}{\input{graf21.tex}} 
+    \resizebox{0.32\textwidth}{!}{\input{graf22.tex}} 
+    \caption{Končna stanja antiferomagneta pri različnih temperaturah.}
+    \label{slika5}
+\end{figure}
+Za izračun povprečne energije in magnetizacije, vzamemo $10 \times 10$ spinski sistem
+in pri vsaki temperaturi $100--$krat izračunamo energijo in magnetizacijo sistema. To
+naredimo pri treh različnih vrednostih polja $H=\{ 0, 0.25, 0.5 \}$. Pričakovano 
+graf~\ref{slika6} energije raste z~naraščanjem temperature. Magnetizacija sistema je 
+najvišja pri temperaturi $T=0$, pri temperaturi prehoda pa pade na nič -- spini niso več 
+vsi obrnjeni v~isto smer. Ob prisotnosti zunanjega polja je ta preskok širši. Pri 
+specifični toploti imamo pri ob odsotnosti zunanjega polja $H=0$ vrh ravno pri označeni 
+kritični temperaturi $T_c \approx 2.27$, ko pa vključimo magnetno polje se ta prehod 
+premakne proti višjim temperaturam. To potrdimo tudi z~grafom magnetne susceptibilnosti.
+Obe količini po prehodu padeta nazaj na ničlo.
+\begin{figure}[H] 
+    \centering 
+    \resizebox{0.49\textwidth}{!}{\input{graf23.tex}} 
+    \resizebox{0.49\textwidth}{!}{\input{graf24.tex}} 
+
+    \resizebox{0.49\textwidth}{!}{\input{graf25.tex}} 
+    \resizebox{0.49\textwidth}{!}{\input{graf26.tex}} 
+    \caption{Energija, specifična toplota, magnetizacija in spinska susceptibilnost 
+    feromagnetnega sistema pri različnih parametrih $H$.}
+    \label{slika6}
+\end{figure}
+\end{document}
