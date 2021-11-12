@@ -1,88 +1,61 @@
 import numpy as np
+from numpy.fft import fft, ifft
+import scipy as sp
 import math
 import random
-from decimal import Decimal, getcontext
-getcontext().prec = 300
 
+data0 = np.loadtxt('signal0.dat')
+data1 = np.loadtxt('signal1.dat')
+data2 = np.loadtxt('signal2.dat')
+data3 = np.loadtxt('signal3.dat')
 
-random.seed()
+pi = math.pi
 
-def print_stanja(tabela):
-    Nx = len(tabela)
-    Ny = len(tabela[0])
-    for i in range(Nx):
-        for j in range(Ny):
-            print(tabela[i][j],end='\t')
-        print('')
+def r(x):
+    if x<=n/2:
+        y = np.exp(-np.abs(x)/16)/32
+    else:
+        y = np.exp(-np.abs(x-n)/16)/32
+    return y
 
-def pos_or_neg():
-    return 1 if random.random() < 0.5 else -1
+def wiener(x,N):
+    rez = aux = [1 for i in range(N)] + [0 for i in range(512-2*N)] + [1 for i in range(N)]
+    rez = np.asarray(rez)
 
-def energija(tab, J, H):
-    Nx = len(tab)
-    Ny = len(tab[0])
-    enH = -H*np.sum(tab)
-    enJ = 0
-    for i in range(Nx):
-        for j in range(Ny):
-            sum_Sj = tab[i,(j+1)%Ny] + tab[(i+1)%Nx,j] + tab[i,(j-1)%Ny] + tab[(i-1)%Nx,j]
-            enJ += - sum_Sj * J * tab[i,j]
-    return enJ+enH
-        
-def spremeni(mreza, T, nx, ny, N): 
-    count = 0 
-    konec = [] 
-    E = energija(mreza, J=1, H=0)
-    for t in range(int(N)):
-        izberem = random.choice
-        i = random.choice(range(nx))
-        j = random.choice(range(ny))
-        Si = mreza[i,j]
-        sum_Sj = mreza[i,(j+1)%ny] + mreza[(i+1)%nx,j] + mreza[i,(j-1)%ny] + mreza[(i-1)%nx,j]
-        deltaE = 2 * Si * (J * sum_Sj + H)
+    x /= np.sum(x)
+    jedro = fft(x)
+    noise = np.ones(x.size)*np.sum(x[100:412])/312
+    signal = np.abs(jedro)**2 - noise
+    fi = np.abs(jedro)**2 / ( np.abs(jedro)**2 + noise**2 )
+    R = fft(prenosna(os))
+    return np.real(ifft( jedro / R * rez )) #* fi))
+def wiener2(x,N):
+    rez = [1 for i in range(N)] + [0 for i in range(512-2*N)] + [1 for i in range(N)]
+    rez = np.asarray(rez)
 
-        u = np.random.random()
-        if deltaE <= -T* math.log(u):
-            mreza[i,j] *= -1
-            count += 1
-            E += deltaE
-    return mreza,E
+    x /= np.sum(x)
+    jedro = fft(x)
+    noise = np.ones(x.size)*np.sum(x[100:412])/312
+    signal = np.abs(jedro)**2 - noise
+    fi = np.abs(jedro)**2 / ( np.abs(jedro)**2 + noise**2 )
+    R = fft(prenosna(os))
+    return np.real(ifft( jedro / R * fi*rez))
 
-dimenzija = [10,10]
-nx = dimenzija[0]
-ny = dimenzija[1]
-vozli = nx*ny
-spin = [-1,1]
-J = 1
-H = 0
+n = 512
+os = np.arange(n)
+prenosna = np.vectorize(r)
 
-n=10e4
-T = 0
+#c0 = MOC(data0)
+#c1 = MOC(data1)
+#c2 = MOC(data2)
+#c3 = MOC(data3)
 
-mreza = mreza_zacetek = np.random.choice( spin, size=(nx,ny))
-#print( energija(mreza, J=1, H=0))
+m = 25
+u0 = wiener(data0,m)
+u1 = wiener2(data1,m)
+u2 = wiener2(data2,m)
+u3 = wiener2(data3,m)
 
-#print_stanja(mreza)
-#print('')
-
-nov = spremeni(mreza,T,nx,ny,n)
-#print_stanja(nov[0])
-
-#for i in range(30):
-#    t = i/10
-#    nov = spremeni(mreza, t, nx, ny, n)
-#    print_stanja(nov[0])
-#    print('')
-
-E = np.zeros(100)
-E2 = np.zeros(100)
-for j in range(50):
-    for i in range(100):
-        t = i/10
-        nov = spremeni(mreza, t, nx, ny, n)
-        E[i] += nov[1]
-        E2[i] += nov[1]**2
-E = E/50
-E2 = E2/50
-for i in range(50):
-    print(i,E[i])
+for i in range(len(u0)):
+    #print(c0[i], c1[i], c2[i], c3[i], i, sep='\t')
+    print(u0[i], u1[i], u2[i], u3[i], i, sep='\t')

@@ -1,9 +1,11 @@
-\documentclass[a4paper,pdftex,11pt]{article}
+\documentclass[a4paper,pdftex,10pt]{article}
+\usepackage[a4paper]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc} 
 \usepackage[english,slovene]{babel} 
 \usepackage{amsmath,amsfonts,amsthm,amssymb,mathrsfs,empheq} % Math packages
 \usepackage{mathtools}
+\usepackage{bbold}
 \usepackage{dsfont}
 \usepackage{wrapfig}
 \usepackage[pdftex]{graphicx}
@@ -13,11 +15,16 @@
 \usepackage{subcaption}
 \usepackage{tabularx}
 \usepackage{float}
+\usepackage{siunitx}
 
+\usepackage{standalone} %Da uporabi standalone tikze
+\usepackage{tikz}
+\usepackage{pgf}  
 \usepackage[version=3]{mhchem} %kemija
+\usepackage{enumitem} % Da lahko spremeniš način oštevilčevanja
 
-\DeclarePairedDelimiter{\evdel}{\langle}{\rangle}   %pricakovana vrednost
-
+\usetikzlibrary{arrows,automata}
+\usetikzlibrary{positioning}
 
 \renewcommand{\vec}[1]{\boldsymbol{\mathbf{#1}}}                                        
 \newcommand{\ihat}[0]{\boldsymbol{\mathbf{\oldhat{\textbf{\i}}}}} % pokončna j in i (j i n i
@@ -50,7 +57,7 @@
 \normalfont \normalsize 
 \textsc{Modelska analiza 1} \\ [25pt] % Your university, school and/or department name(s)
 %\horrule{0.2pt} \\[0.4cm] % Thin top horizontal rule
-\huge 11. naloga - Stohastični populacijski modeli\\ % The assignment title
+\huge 11. naloga - Optimalno filtriranje\\ % The assignment title
 %\horrule{0.2pt} \\[0.5cm] % Thick bottom horizontal rule
 }
 
@@ -63,249 +70,357 @@
 \maketitle % Print the title
 
 \section{Opis problema}
-V~nalogi se bomo ukvarjali s~Poissonovimi stohastičnimi procesi. S~tem se realni situaciji
-približamo z~numeričnimimi približki tako, da na vsakem koraku integracije dopuščamo 
-odmike od modela v~obliki napake. Na vsakem koraku tako izžrebamo naključno število, 
-porazdeljeno okoli predvidene po Poissonovi porazdelitvi
-\begin{equation}
-    \frac{\lambda^x \mathrm{e}^{-\lambda}}{x \, !},
-\end{equation}
-kar bomo označevali z~$\mathcal{P}(\lambda)$.
+Naj bo vektor $\vec{x}_t$ vektor stanja ob času $t$, $P_t$ pa pripadajoča kovariančna
+matrika, ki opisuje njegovo statistično negotovost. Potrebujemo še začetno stanje 
+$\vec{x}_0^+$ ter kovarianco $P_0^+$, ki ju dobimo iz meritve. \\
+Potek Kalmanovega filtra je predstavljen na sledečem diagramu:
+\begin{figure}[H]
+  \centering
+  \includestandalone[width=0.8\linewidth]{flowchart} % without the `.tex` extension
+\end{figure}
+
+Vidimo, da je sestavljen iz treh pomembnih korakov:
+\begin{enumerate}
+    \item Napovemo novo stanje ob času $t$; $\vec{x}_{t}^-$ in $P_{t}^-$. Matrika $F_t$ je
+	prehodna matrika sistema, ki jo dobimo s~poznavanjem dinamike sistema. 
+	Iz gibalnih enačb dobimo tudi kontrolni vektor $\vec{c}_t = B_t \vec{u}_t$. 
+	Kovariančna matrika $Q_t$ pa je posledica zašumljenosti podatkov.
+    \item Izračunamo \emph{Kalmanov ojačevalni faktor}, ki določa s~kolikšno utežjo
+	v~naslednjem koraku nova meritev prispeva k~popravku. V~enačbi nastopata matriki
+	$H_t$ -- senzorsko okno (velikost odvisna od števila senzorjev in dimenzije 
+	$\vec{x}$ in $R_t$, ki je kovariančna matrika šuma meritve.
+    \item Izboljšamo napoved stanja. $\vec{z}_t$, ki nastopa v~enačbah je vektor meritev
+	-- podatkov, ki jih želimo obdelati.
+\end{enumerate}
 %----------------------------------------------------------------------------------------
 %	PROBLEM 1
 %----------------------------------------------------------------------------------------
-\section{Eksponentni model izumrtja}
-Radi bi delali statistiko časov izumrtja za preprost eksponentni model ($\beta = 
-1/\text{enota časa}$)
-\begin{equation} \label{izumiranje}
-    \frac{\mathrm{d} N }{N} = - \beta \mathrm{d}t \quad \rightarrow \quad
-    N(t) = N_0 \mathrm{e}^{-\beta t}
-\end{equation}
-pri različnih začetnih velikostih populacije $N_0$. Zanima nas kako je ta čas povezan
-z~velikostjo časovnega koraka $\Delta t$ in koliko se problem bliža modelu, ki vključuje
-rojstva in smrti ($\beta_r =4\beta, \, \beta_s = 5\beta$).\\
-Model~\ref{izumiranje} spravimo v~numerično obliko, tako da na vsakem koraku izračunamo
-\begin{equation}
-    N ( t+ \Delta t) = N(t) - \mathcal{P}(\beta N \Delta t).
-\end{equation}
+\section{Rekonstrukcija lokacije z GPS}
+Iz datoteke \path{kalman_cartesian_data.dat} dobimo podatke ob času $t$, zašumljene meritve 
+položaja $\vec{r}_t = (x_t, y_t)$ hitrosti $\vec{v} = (v_{x,t},v_{y,t})$ ter pospeškov 
+$\vec{a} = (a_{x,t}, a_{y,t})$. \\
+V~našem primeru je vektor stanja $\vec{x} = (x,y,v_x,v_y)$, kontrolni vektor $\vec{c}=
+(0,0,a_x \Delta t, a_y \Delta t)$, prehodna matrika je konstantna in je oblike:
+$$ F = 
+\begin{bmatrix}
+    \mathbb{1}_{2\times 2} & \mathbb{1}_{2\times 2} \Delta t \\
+    \mathbb{0}_{2\times 2} & \mathbb{1}_{2\times 2} 
+\end{bmatrix}, $$
+šum časovne evolucije sledi iz napake pospeška, $Q_n = \mathrm{diag}(0,0,\sigma_a^2 
+\Delta t, \sigma_a^2 \Delta t)$, šum meritev pa iz napak GPS podatkov ter hitrosti,
+$R_n = \mathrm{diag}(\sigma_{xy}^2, \sigma_{xy}^2, \sigma_v^2, \sigma_v^2)$. \\
+Podatki so vzorčeni vsakih $\Delta t =1,783 \, \si{s}$. Za pospeške in GPS podatke sta znani
+absolutni napaki $\sigma_{xy} = \SI{25}{m}$ in $\sigma_a = \SI{0.05}{m.s^{-2}}$, za 
+hitrost pa poznamo relativno napako: $\sigma_v = 0.01 \|\vec{v}\|$, pri čemer napako vseeno
+navzdol omejimo na $\SI{1}{km.h^{-1}}$. \\
+Napovedati želimo trajektorijo vožnje in časovno odvisnost hitrosti, v~primeru, da
+zmanjšamo gostoto vzorčenja -- imamo na voljo le vsako peto meritev hitrosti in vsako
+deseto meritev lokacije. \\
+Zaradi zadnjega napotka, da ne dobimo na vsakem koraku nove meritve, moramo uporabiti
+tri različne okenske matrike $H$:
+\begin{enumerate}
+    \item ne dobimo ne meritve $\vec{v}$ ne meritve $\vec{r}$: $H_1 = 
+	\mathbb{0}_{4\times4},$ 
+    \item dobimo le meritev $\vec{v}$: $H_2 = 
+	\begin{bmatrix} 
+	    \mathbb{0}_{2\times2} & \mathbb{0}_{2\times2}\\ 
+	    \mathbb{0}_{2\times2} & \mathbb{1}_{2\times2} 
+	\end{bmatrix},$ 
+    \item dobimo obe meritvi: $ H_3 = \mathbb{1}_{4\times4}.$
+\end{enumerate}
 
-\subsubsection*{Velika začetna populacija: $N_0=250$}
-Za fiksno začetno vrednost spreminjamo velikosti korakov $\Delta t = \{ 0.001, \, 0.01, \\
-\, 0.1, \, 0.25, \, 0.5, \, 1 \}$.
-Na grafu~\ref{slika1} je prikazanih $100$ ponovitev za korak $\Delta t = 0,01$ in njihovo 
-povprečje (ki sovpada z~eksponentno funkcijo). Za različne korake podobno izračunamo
-povprečja nekaj ponovitev, kar je prikazano na grafu~\ref{slika2}. Z~obeh grafov je vidno, 
-da je bolje jemati manjše korake, če se želimo približati realnemi vrednosti.
-S~tem ko zmanjšamo korak, tudi zožamo poissonovo funkcijo $\lambda = \beta N(t) \Delta t$
-in s~tem zmanjšamo šum, oziroma nihanje okoli povprečne vrednosti.
-\begin{figure}    
+\subsection{Rezultati}
+Rezultate uporabe Kalmanovega filtra na naših podatkih, lahko primerjamo s~priloženo
+datoteko točnih vrednosti \path{kalman_cartesian_kontrola.dat}.
+\subsubsection{Točnost rezultatov}
+Na grafu~\ref{slika1} je prikazana dejanska pot in tista, ki smo jo dobili s~Kalmanovim 
+filtrom. Na približani sliki vidimo, da s~Kalmanovim filtrom dobimo neko odstopanje, ki 
+si ga oglejmo še na naslednjih grafih. Na~sliki~\ref{slika2} so prikazani odmiki $x$ 
+koordinate pozicije od dejanskih vrednosti. Če primerjamo črn del z~barvnima vidimo, da se 
+s~Kalmanovim filtrom res zelo izboljša natančnost meritve. S~tem ko določamo katere meritve 
+bomo na posamezne koraku vzeli (spreminjamo okensko funkcijo) tudi spreminjamo natančnost 
+določanja lokacije, kar je tudi na tem grafu dobro opazno. \\
+\begin{figure}[H] 
     \centering
-    \resizebox{0.75\linewidth}{!}{\input{graf2.tex}}
-    \caption{$100$ poskusov in njihova povprečna vrednost.}
+    \resizebox{.49\linewidth}{!}{\input{graf1a.tex}}
+    \resizebox{.49\linewidth}{!}{\input{graf1b.tex}}
+    \caption{Dejanska pot vozila in njena rekonstrukcija s~pomočjo Kalmanovega filtra. Na desni je prikazan izsek poti, kjer se bolje vidi odstopanje.}
     \label{slika1}
 \end{figure}
-
-\begin{figure}    
-    \begin{minipage}{\textwidth} 
-	\centering 
-	\resizebox{0.75\textwidth}{!}{\input{graf4.tex}} 
-    \end{minipage}
-    \begin{minipage}{\textwidth} 
-	\centering
-	\resizebox{0.75\textwidth}{!}{\input{graf5.tex}} 
-    \end{minipage}
-
-    \caption{Povprečne vrednosti $100$ poskusov za različne $\Delta t$ za $N_0=250$.}
+\begin{figure}[H]
+    \centering
+    \resizebox{.49\linewidth}{!}{\input{graf2a.tex}}
+    \resizebox{.49\linewidth}{!}{\input{graf2b.tex}}
+    \caption{Na grafu je narisano odstopanje pozicije (levo $x$, desno $y$) od dejanskih 
+    podatkov in sicer; s~črno so narisani odmiki zašumljene meritve, z~rdečo je narisan 
+    Kalmanov filter, ki smo ga naredili na vseh meritvah, z~zeleno pa Kalmanov filter, ko 
+    smo meritve poti jemali na vsakem $10.$ koraku, meritve hitrosti pa na $5.$}
     \label{slika2}
 \end{figure}
+Naslednja grafa~\ref{slika2b} prikazujeta odstopanje hitrosti pri obeh variantah 
+Kalmanovega filtra. Vidimo, da je relativna napaka pri obeh komponentah zelo majhna, večji
+vrhovi pa nastanejo pri naglih zavojih na poti.
+\begin{figure}[H]
+    \centering
+    \resizebox{.49\linewidth}{!}{\input{graf2c.tex}}
+    \resizebox{.49\linewidth}{!}{\input{graf2d.tex}}
+    \caption{Na grafu je narisano odstopanje hitrosti (levo $v_x$, desno $v_y$) od 
+    dejanskih podatkov in sicer; z~rdečo Kalmanov filter, ki smo ga naredili na vseh 
+    meritvah, z~zeleno pa Kalmanov filter, kjer smo meritve poti jemali na vsakem $10.$ 
+    koraku, meritve hitrosti pa na $5.$}
+    \label{slika2b}
+\end{figure}
 
-\subsubsection*{Majhna začetna populacija: $N_0=25$}
-
-\begin{figure}    
-    \begin{minipage}{\textwidth} 
-	\centering 
-	\resizebox{0.75\textwidth}{!}{\input{graf6.tex}} 
-    \end{minipage}
-    \begin{minipage}{\textwidth} 
-	\centering
-	\resizebox{0.75\textwidth}{!}{\input{graf7.tex}} 
-    \end{minipage}
-    \caption{Povprečne vrednosti $100$ poskusov za različne $\Delta t$ za $N_0=25$.}
+Z~matriko $P$:
+\begin{equation}
+    P = 
+    \begin{bmatrix}
+	\sigma_x^2 &  \sigma_{x,y} & \sigma_{x, \dot{x}} & \sigma_{x, \dot{y}}\\
+	\sigma_{y,x} & \sigma_y^2 & \sigma_{y, \dot{x}} & \sigma_{y, \dot{y}}\\
+	\sigma_{\dot{x},x} & \sigma_{\dot{x},y} 
+			   & \sigma_{\dot{x}}^2 & \sigma_{\dot{x}, \dot{y}}\\
+	\sigma_{\dot{y},x} & \sigma_{\dot{y},y} 
+			   & \sigma_{\dot{y}, \dot{x}} & \sigma_{\dot{y}}^2
+    \end{bmatrix}
+\end{equation}
+lahko določimo intervale zaupanja, oziroma elipsoide zaupanja. Izračunamo
+njene lastne vrednosti $\lambda$ in ustrezne lastne vektorje $\vec{q}$, kar nam pomaga
+pri izračunu polosi: $a_i=\sqrt{s \lambda_i}$, in kot nagnjenosti elipse $\alpha_{ij} = 
+\arctan \frac{\| \vec{q_i} \|}{\| \vec{q_j} \|}$.\\
+Na grafu~\ref{slika3} sta narisana oba primera -- na desni, kjer je prikazana rešitev za 
+primer, ko imamo na voljo le vsako $10.$ meritev koordinate $x$ vidimo, kako je potek 
+radija intervalov nazobčan in če malo bolje pogledamo, lahko opazimo da je ta žagasta 
+oblika dvojna; radij zaupanja se veča, dokler ne dobimo zopet nove meritve hitrosti in 
+nato še večji preskok, ko dobimo novo meritev koordinate. Nekje pri $t=600$ je viden malo 
+večji preskok -- kar je na grafu~\ref{slika1} ravno točka zavoja v~bližini $(1000,-2000)$. 
+Na tem mestu pade natančnost meritve, s~čimer se poveča interval zaupanja. Podobna 
+preskoka sta tudi okoli $t=1400$ in $t=2100$, obakrat smo v~bližini večjih zavojev.\\
+\begin{figure}[H]
+    \centering
+    \resizebox{.45\linewidth}{!}{\input{graf3a.tex}}
+    \resizebox{.45\linewidth}{!}{\input{graf3b.tex}}
+    \caption{Odmik Kalmanove rešitve od prave vrednosti lokacije $x$, narisan med intervali 
+    zaupanja.  Na levi strani smo vzeli vse meritve, na desni pa vsako $5.$ meritev 
+    hitrosti in vsako $10.$ meritev lokacije.}
     \label{slika3}
 \end{figure}
-
-Podobno kot smo v~prejšnjem primeru videli, tudi tukaj vidimo s~pomočjo 
-grafov~\ref{slika3}, da je bolje jemati krajše čase. 
-\pagebreak
-
-\subsection{Časi izumrtja}
-Zanimivo je opazovati čase izumrtja populacije. Na grafih~\ref{slika4} je prikazana
-porazdelitev v~odvisnosti od različnih korakov $\Delta t$ za $N=10000$ poskusov. Na prvi 
-pogled lahko že potrdimo prešnje grafe, da koraki, večji od $\Delta t = 0,1$, ne dajo 
-dovolj natančnega rezultata in se precej razlikujejo od ostalih. Pri sliki za $N_0=250$ je 
-odstopanje med različnimi koraki veliko manjše. Celoten graf za manjšo populacijo je 
-pomaknjen v~levo, saj manjša populacija prej zamre. Pri tem grafu tudi opazimo, da razen
-histogram za $\Delta t =1$, so vsi ostali veliko manj razlikujejo.
-
-\begin{figure}    
-    \begin{minipage}{\textwidth} 
-	\centering 
-	\resizebox{0.75\textwidth}{!}{\input{graf9.tex}} 
-    \end{minipage}
-    \begin{minipage}{\textwidth} 
-	\centering
-	\resizebox{0.75\textwidth}{!}{\input{graf8.tex}} 
-    \end{minipage}
-    \caption{Histograma časov izumrtja za različno začetno vrednost populacije. Model
-    je osnoven, samo s~parametrom, ki zmanjšuje populacijo.}
+Podobno lahko naredimo tudi za meritev hitrosti $v_x$ in dobimo graf~\ref{slika4}, kjer 
+opazimo, da pa naši rezultati s~filtriranjem niso nikoli padli z~izbranih intervalov 
+zaupanja. Tudi tukaj vidimo enake preskoke, kot smo jih prej na grafih za koordinate.
+\begin{figure}[H]
+    \centering
+    \resizebox{.45\linewidth}{!}{\input{graf4a.tex}}
+    \resizebox{.45\linewidth}{!}{\input{graf4b.tex}}
+    \caption{Odmik Kalmanove rešitve od prave vrednosti hitrosti $v_x$, narisan med 
+    intervali zaupanja.  Na levi strani smo vzeli vse meritve, na desni pa vsako $5.$ 
+    meritev hitrosti in vsako $10.$ meritev lokacije.}
     \label{slika4}
 \end{figure}
-
-\subsubsection*{Rojstva in smrti}
-Sedaj spremenimo model in upoštevamo rojstva in smrti (in dodatna parametra $\beta_r = 
-4\beta$, $\beta_s = 5\beta$)
-\begin{equation}
-    \frac{\mathrm{d} N}{\mathrm{d} t} (t) = - \beta_s t + \beta_r t = -5\beta  + 4 \beta
-    = -\beta t
-\end{equation}
-enačba je enaka kot prej, le da sedaj dovolimo, da s~stohastičnim računanjem dovolimo
-tudi občasno rast populacije, kar je tudi bolj podobno realnosti.
-Stohastična enačba je tako:
-\begin{equation}
-    N (t + \Delta t) = N(t) - \mathcal{P}(\beta_s N \Delta t) + 
-    \mathcal{P}(\beta_r N \Delta t).
-\end{equation}
-S~tem razčlenjenim členom smrti, ki dopušča tudi rojevanje smo tudi dopustili večjo
-razpršenost stohastičnega modela, kar tudi vidimo na grafu~\ref{slika5}, ki je veliko
-bolj razšpršen, kot ekvivalenten graf~\ref{slika1}.
-
-\begin{figure}    
+Naslednja stvar, ki jo lahko tudi opazujemo so residuali $\| \vec{z}_t - H_t \vec{x}_t^-\|$.
+Njihovo spreminjanje s~časom je prikazano na grafu~\ref{slika5}, vendar nam k~razumevanju
+sistema nič ne doprinese; rezultati so precej razpršeni, povprečno vrednost lahko 
+izračunamo in jo tudi narišemo, vendar tega ob taki razpršeni rešitvi, ni koristno početi.
+\begin{figure}[H]
     \centering
-    \resizebox{0.75\linewidth}{!}{\input{graf12.tex}}
-    \caption{$100$ poskusov in njihova povprečna vrednost.}
+    \resizebox{.45\linewidth}{!}{\input{graf5.tex}}
+    \caption{Potek $2.$ norme residuala v~primeru, ko imamo na voljo vse meritve in,
+    ko imamo samo vsako $5.$ meritev hitrosti in vsako $10.$ meritev lokacije.}
     \label{slika5}
 \end{figure}
-Na grafih~\ref{slika6} je zopet prikazana porazdelitev časov izumrtja za različne
-časovne korake in spet ugotovimo, da se velikih korakov ne splača uporabljati.
-
-\begin{figure}    
-    \begin{minipage}{\textwidth} 
-	\centering 
-	\resizebox{0.75\textwidth}{!}{\input{graf11.tex}} 
-    \end{minipage}
-    \begin{minipage}{\textwidth} 
-	\centering
-	\resizebox{0.75\textwidth}{!}{\input{graf10.tex}} 
-    \end{minipage}
-    \caption{Histograma časov izumrtja za različno začetno vrednost populacije. Model
-    dopušča ločena parametra rodnosti in smrtnosti.}
-    \label{slika6}
+Na naslednjem grafu~\ref{slika13} imamo prikazano normo kovariančne matrike $P$ Vidimo, da 
+ko zmanjšamo pogostost vzorčenja povečamo negotovost stanja, poleg tega pa tudi tukaj 
+opazimo to žagasto obliko -- $||P||$ se zmanjša ob novi meritvi. 
+\begin{figure}[H]
+    \centering
+    \resizebox{.49\linewidth}{!}{\input{graf13a.tex}}
+    \caption{Norma kovariančne matrike $P$, kjer je z~rdečo narisan filter pri katerem smo 
+    dobivali meritve na vsakem koraku, z~rdečo pa smo vzeli lokacijo na vsakem $5.$, 
+    hitrost pa na vsakem $5.$}
+    \label{slika13}
 \end{figure}
-Na sliki~\ref{slika7} se bolje vidi primerjava med obema modeloma, kjer se tudi dobro
-opazi, da je tudi čas izumrtja populacije nekoliko bolj razpršen kot prvi model. Poleg
-tega pa populacija prej izgine, kar je posledica, da sistem bolj moten in vanj vnašamo več
-šuma. Časi izumrtja s~tega grafa so \\
-\\
-\begin{tabularx}{\textwidth}{ |X|X|X| }
-    \hline
-    $\quad$ & $N_0 = 250$ & $N_0 = 25$ \\ 
-    \hline 
-    Združen model: & $t = 4,9$ & $t = 3,01$ \\ 
-    \hline 
-    Ločen model: & $t = 3,68$ & $t = 1,65$ \\ 
-    \hline
-\end{tabularx}
 
-\begin{figure}    
-    \begin{minipage}{\textwidth} 
-	\centering 
-	\resizebox{0.75\textwidth}{!}{\input{graf14.tex}} 
-    \end{minipage}
-    \begin{minipage}{\textwidth} 
-	\centering
-	\resizebox{0.75\textwidth}{!}{\input{graf13.tex}} 
-    \end{minipage}
-    \caption{Primerjava histogramov za oba modela in pri obeh začetnih vrednostih $N_0$,
-    pri koraku $\Delta t=0,01$.}
-    \label{slika7}
-\end{figure}
-\pagebreak
+
 %----------------------------------------------------------------------------------------
 %	PROBLEM 2
 %----------------------------------------------------------------------------------------
-\section{Matrika prehodov}
-Prejšnji problem lahko zapišemo tudi z~matriko prehodov. Za trenutno situacijo lahko 
-zapišemo vektor stanja: $\vec{x}(t) = (x_0,x_1,x_2,...,x_{N_0})$. Prehod na vsakem časovnem
-koraku lahko zapišemo
-\begin{equation}
-    \vec{x} (t+\Delta t) = M \vec{x} (t)
-\end{equation}
-oziroma
-\begin{equation}
-    \vec{x} (p \Delta t) = M^p \vec{x} (0),
-\end{equation}
-kjer je bilo začetno stanje modela $\vec{x}(0) = (0,0,0,\dots, 1)$ z~enko na $N_0$-tem
-mestu. Vrednost komponente vektorja $x_i$ predstavlja verjetnost, da bo sistem v~$i$-tem 
-stanju ob času $p \Delta t$. Komponente matrike $M$ so razvoji Poissonove funkcije za majhne
-časovne korake in predstavljajo verjetnosti za dogodke v~sistemu (imamo 1 smrt, 
-1 rojstvo, ...). Matrika ima tako tridiagonalno obliko
-\begin{equation}
-    M = 
-    \begin{bmatrix}
-	1 - (R_0 + S_0)\Delta t  & S_1\Delta t	& 0 \\
-	R_0\Delta t  & 1 - (R_1 + S_1)\Delta t & S_2\Delta t & \dots \quad \\
-	0 & R_1\Delta t  & 1 - (R_2 + S_2)\Delta t \\
-	& \vdots & & \ddots
-    \end{bmatrix}
-\end{equation}
-kjer so $R_n = \beta n$ verjetnosti za rojstva, $S_n = \beta n$ pa za smrti.
-\pagebreak
+\section{Merjenje lokacije s~telefonom}
+Problem je enak kot prej, le da imamo zdaj ob vsakem koraku dve možnosti:
+\begin{enumerate}[label=(\alph*)]
+    \item lahko merimo le lokacijo in pospeške,
+    \item ali pa lahko merimo le hitrosti in pospeške.
+\end{enumerate}
+Tako kot v~prvem delu naloge, lahko tudi zdaj narišemo trajektorije. Če dobljeni 
+graf~\ref{slika6} primerjamo s~tistim iz prvega dela~\ref{slika1}, na prvi pogled ocenimo,
+da je metoda, kjer smo dobivali vse podatke, seveda bolj natančna kot ti dve in da je 
+Kalmanov filter samo s~podatki o~legah bolj skače okoli prave vrednosti kot pa tisti, ki 
+ima na voljo le hitrosti. \begin{figure}[H]
+    \centering
+    \resizebox{.49\linewidth}{!}{\input{graf6a.tex}}
+    \resizebox{.49\linewidth}{!}{\input{graf6b.tex}}
+    \caption{Primerjava poteka poti med~točnim rezultatom, Kalmanovim filtrom, ko imamo
+    na voljo samo podatke o~pozicijah (z~rdečo) in ko imamo na voljo samo meritve hitrosti
+    (s~svetlo modro). Na desni je približano območje okoli prvega krožnega zavoja, kjer se
+    razlike med tremi potmi bolje razločijo.}
+    \label{slika6}
+\end{figure}
+Preverimo bolj natančno na grafih napak -- na~\ref{slika7a} vidimo, da filter z~lokacijami 
+res več skače okoli prave vrednosti, vendar je bližje pravi vrednosti, kar je veliko bolj 
+očitno pri $y$ koordinato. Tukaj zgleda, da je filter v~začetku \emph{vrglo} s~tira in ker 
+potem ni dobil nobenega podatka o~točni lokaciji, popravke pa delal le na podlagi hitrosti, 
+imel približno konstantno odstopanje od točne lege.
+\begin{figure}[H]
+    \centering
+    \resizebox{.49\linewidth}{!}{\input{graf7a.tex}}
+    \resizebox{.49\linewidth}{!}{\input{graf7b.tex}}
+    \caption{Odstopanje pozicije ($x$ na levi in $y$ na desni) od točnih podatkov. S~črno
+    je narisana zašumljena meritev, z~rdečo meritev samo s~pospeški in lokacijo in z~modro
+    samo s~pospeški in hitrostmi.}
+    \label{slika7a}
+\end{figure}
+Grafi odstopanj hitrosti~\ref{slika7b} so podobni tistim iz prvega dela. Napaki za obe
+varianti filtra imata enako obliko -- pri istih časih imamo maksimalne odstopanja hitrosti.
+To se zgodi v~točkah ko imamo nagle spremembe hitrosti -- filter potrebuje korak da ujame
+nazaj točno vrednost. Da se to zgodi v~istih točkah niti ni presenetljivo, saj je ta nagla
+sprememba hitrosti v~smeri posledica zavojev poti.
+\begin{figure}[H]
+    \centering
+    \resizebox{.49\linewidth}{!}{\input{graf7c.tex}}
+    \resizebox{.49\linewidth}{!}{\input{graf7d.tex}}
+    \caption{Odstopanje hitrosti ($v_x$ na levi in $v_y$ na desni) od točnih podatkov. 
+    Z~rdečo je Kalmanov filter kjer dobivamo samo podatke o~pospeških in lokacijah in 
+    z~modro samo o~pospeških in hitrostih.}
+    \label{slika7b}
+\end{figure}
+Na grafu~\ref{slika12} norme kovariančne matrike pri prvi metodi kjer imamo na voljo 
+meritvami leg, konstantna -- popravek iz matrike šuma $R$ je ves čas konstanten, saj 
+nimamo člena z~relativno napako $\sigma_v$. Pri drugi metodi, pa je ta člen z~relativno
+napako razlog za to, da negotovost stanja vedno večja.
+\begin{figure}[H]
+    \centering
+    \resizebox{.49\linewidth}{!}{\input{graf12a.tex}}
+    \caption{Norma matrike $P$ -- z~rdečo je narisan Kalmanov filter kjer dobivamo samo 
+    podatke o~pospeških in lokacijah in z~modro samo o~pospeških in hitrostih.}
+    \label{slika12}
+\end{figure}
+
 %----------------------------------------------------------------------------------------
 %	PROBLEM 3
 %----------------------------------------------------------------------------------------
-\section{Model plen-plenilec}
-Model življenja populacij lisic in zajcev smo že opazovali, sedaj pa parameter, ki je 
-skrbel, da so se populacije manjšale/večale, tako kot pri prvi nalogi, razdelimo na smrtnost
-in rodnost. Parametre rojstev zajcev označimo z~$\rho_z$ in lisic z~$\rho_l$, smrtnosti 
-pa $\sigma_z$ in $\sigma_l$. Tako imamo sklopljeni enačbi
-\begin{align}
-    \dot{Z} &= \rho_z Z - \sigma_z Z - \gamma Z L \\
-    \dot{L} &= \rho_l L - \sigma_l L + \delta Z L.
-\end{align}
-Na začetku imamo stanje z~$Z_0=200$ zajci in $L_0=50$ lisicami. Razmerje rodnost/smrtnost
-za zajce je $\rho_z/\sigma_z = 5/4$ in za lisice $\rho_l/\sigma_l = 4/5$, oziroma
-$\rho_z = 5\alpha, \, \sigma_z = 4\alpha$ in $\rho_l = 4\beta, \, \sigma_l = 5\beta$. 
-Preostala parametra nastavimo tako, da sta $\gamma = \alpha /L_0$ in $\delta = \beta/Z_0$.
-Tako dobimo stohastični enačbi za populaciji lisic in zajcev:
-\begin{align}
-    Z_{n+1} &= Z_{n} + \mathcal{P}(5 \alpha Z_n \Delta t) - \mathcal{P}(4 \alpha Z_n 
-    \Delta t) - \mathcal{P}( \frac{\alpha}{L_0} Z_n L_n \Delta t) \\
-    L_{n+1} &= L_{n} + \mathcal{P}(4 \beta L_n \Delta t) - \mathcal{P}(5 \beta L_n 
-    \Delta t) + \mathcal{P}( \frac{\beta}{Z_0} Z_n L_n \Delta t)
-\end{align}
-
-\begin{figure}    
-    \begin{minipage}{\textwidth} 
-	\centering 
-	\resizebox{0.75\textwidth}{!}{\input{graf16.tex}} 
-    \end{minipage}
-    \begin{minipage}{\textwidth} 
-	\centering
-	\resizebox{0.75\textwidth}{!}{\input{graf15.tex}} 
-    \end{minipage}
-    \caption{Graf $Z(t)$ in $L(t)$ za $\beta=\alpha=1$. Spodaj je prikazan fazni diagram
-    $Z(L)$.}
-    \label{slika8}
-\end{figure}
-Potek numerične rešitve enačb je prikazan na sliki~\ref{slika8}. Vidimo, da sta populaciji
-na začetku v~ravnovesni legi in po nekaj korakih padeta iz ravnovesja in začneta nihati.
-
-\begin{figure}    
+\section{Orientacija vozila}
+V~resnici nam akcelerometer podaja pospeške $\vec{a} = (a_t, a_r)$ glede na trenutno 
+orientacijo vozila. Med kontrolnim vektorjem in nehomogenim delom dinamičnega modela
+zato stoji še ena linearna preslikava $B_n:$ $\vec{c}_n = B_n \vec{u}_n.$ V~tem primeru
+gre za ortogonalno transformacijo, definirano s~trenutno oceno hitrosti:
+\begin{equation}
+    \vec{u}_n = (\vec{0}, \vec{a_n} \Delta t), \quad
+    B_n = 
+    \begin{bmatrix}
+	\mathbb{1}_{2\times 2} & \mathbb{0}_{2\times 2} \\
+	\mathbb{0}_{2\times 2} & B_n^{vv}
+    \end{bmatrix}, \quad
+    B_n^{vv} = \frac{1}{|| \vec{v}_n ||}
+    \begin{bmatrix}
+	v_x & -v_y \\
+	v_y & v_x
+    \end{bmatrix}.
+\end{equation}
+Upoštevati moramo še negotovost trenutne ocene hitrosti:
+\begin{equation}
+    Q_n^{vv} = \Delta t^2 \left\{ \sigma_a^2 \mathbb{1}_{2\times 2} + 
+	\frac{\vec{v}_n^{\perp} P_n^{vv} \vec{v}_n^{\perp}}{ ||\vec{v}_b||^4}
+	\left[ (B_n^{vv} \vec{a}_n^{\perp}) \otimes (B_n^{vv} \vec{a}_n^{\perp}) 
+	\right] \right\},
+\end{equation}
+kjer sta $Q_n^{vv}$ in $P_n^{vv}$ hitrostno-hitrostna bloka $4\times4$ kovariančnih matrik.
+Vektorja $\vec{v}_n^{\perp}$ in $\vec{a}_n^{\perp}$ sta hitrost in pospešek, zavrtena 
+v~pozitivni smeri za $\frac{\pi}{2}$. Pot bomo rekonstruirali iz danih podatkov 
+\path{kalman_relative_data.dat}, katere stolpci so čas $t$, GPS položaj $(x,y)$ ter pospeška
+$(a_t,a_r)$.\\
+Na grafu~\ref{slika8a} je narisana dejanska pot in ta, ki smo jo dobili s~Kalmanovim 
+filtrom. Na prvi pogled nas tudi tukaj najbolj vrže s~tira prvi zavoj. Na grafih 
+hitrosti~\ref{slika8b} vidimo, da tudi hitrost v~tej točki najbolj zgrešimo.
+\begin{figure}[H]
     \centering
-    \resizebox{0.75\linewidth}{!}{\input{graf17.tex}}
-    \caption{Prikaz časov izumrtja, povprečenih po 25 poskusih, za različne $\alpha$ in
-    $\beta$. Premik med sosednjimi vrednosti je $0,1$.}
-    \label{slika9}
+    \resizebox{.49\linewidth}{!}{\input{graf8a.tex}}
+    \resizebox{.49\linewidth}{!}{\input{graf8b.tex}}
+    \caption{Pot vozila in njena rekonstrukcija s~Kalmanovim filtrom, če dobivamo podatke
+    o~orientaciji vozila.}
+    \label{slika8a}
 \end{figure}
+\begin{figure}[H]
+    \centering
+    \resizebox{.49\linewidth}{!}{\input{graf8c.tex}}
+    \resizebox{.49\linewidth}{!}{\input{graf8d.tex}}
+    \caption{Hitrosti, ki jih dobimo s~Kalmanovim filtrom ob upoštevanju orientacije vozila
+    in prave vrednosti.}
+    \label{slika8b}
+\end{figure}
+Grafi odstopanja lege~\ref{slika9a} potrdijo, to kar smo opazilo -- največji odmik od prave
+vrednosti je v~prvem krožnem zavoju. Enako je tudi s~hitrostmi~\ref{slika9b}.
+\begin{figure}[H]
+    \centering
+    \resizebox{.49\linewidth}{!}{\input{graf9a.tex}}
+    \resizebox{.49\linewidth}{!}{\input{graf9b.tex}}
+    \caption{Pot vozila in njena rekonstrukcija s~Kalmanovim filtrom, če dobivamo podatke
+    o~orientaciji vozila.}
+    \label{slika9a}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \resizebox{.49\linewidth}{!}{\input{graf9c.tex}}
+    \resizebox{.49\linewidth}{!}{\input{graf9d.tex}}
+    \caption{Pot vozila in njena rekonstrukcija s~Kalmanovim filtrom, če dobivamo podatke
+    o~orientaciji vozila.}
+    \label{slika9b}
+\end{figure}
+Tako kot v~prvem delu naloge lahko pogledamo kako pogostost vzorčenja vpliva na natančnost
+Kalmanovega filtra. Na spodnjih grafih~\ref{slika10a} in~\ref{slika10b} vidimo podobno kot
+v~prvem delu naloge -- če zmanjšamo pogostost vzorčenja, povečamo odstopanje rešitve. 
+Zanimivo je, da smo pri $y$ koordinati v~točki krožnega zavoja ($t\approx 450$) z~manj 
+pogostim vzorčenjem bližje rešitvi. Na grafu odmika hitrosti~\ref{slika10b} opazimo, da
+smo tudi hitrost bolje zadeli z~manjšim vzorčenjem. To, da smo v~eni točki izboljšali
+natančnost, pa seveda ne odtehta tega, da smo jo drugje poslabšali. Lahko bi naredili 
+kombinacijo in vzorčili na vsakem koraku, le na enem območju redkeje.
+\begin{figure}[H]
+    \centering
+    \resizebox{.49\linewidth}{!}{\input{graf10a.tex}}
+    \resizebox{.49\linewidth}{!}{\input{graf10b.tex}}
+    \caption{Odstopanje pozicije ($x$ na levi in $y$ na desni) od točnih podatkov. S~črno
+    je narisana zašumljena meritev, z~oranžno smo meritve lokacije dobili na vsakem koraku,
+    z~modro na vsakem $5.$ in z~rdečo na vsakem $10.$}
+    \label{slika10a}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \resizebox{.49\linewidth}{!}{\input{graf10c.tex}}
+    \resizebox{.49\linewidth}{!}{\input{graf10d.tex}}
+    \caption{Odstopanje hitrosti (desno $v_x$, levo $v_y$) za Kalmanov filter, kjer 
+    dobivamo podatke o~orientaciji. Z~oranžno je narisan filter kjer smo meritve lokacije
+    dobili na vsakem koraku, z~modro na vsakem $5.$ in z~rdečo na vsakem $10.$}
+    \label{slika10b}
+\end{figure}
+Poglejmo si še grafe~\ref{slika11}, kjer so prikazane norme kovariančne matrike vektorja 
+stanja $P$, kovariančne matrika vektorja šuma $Q$, in faktorja ojačanja $K$. Pri matriki
+$P$ vidimo žagasto obliko, ki je posledica vzorčenja -- po $5$ih oziroma $10$ih korakih
+se napaka spet izboljša. Velik $Q$ dobimo v~tistih točkah, ko je hitrost slab približek
+prave, še posebej v~prvem delu meritve -- do krožnega zavoja. Graf norme Kalmanovega filtra
+ima enako obliko kot graf norme $P$ (saj sta linearno odvisna), poleg tega pa je redkejši 
+pri manjšem vzorčenju, saj je povezan tudi z~okensko funkcijo $H$, ki je $\mathbb{0}$ na
+korakih, ko ne dobivamo podatkov o~meritvah.
+\begin{figure}[H]
+    \centering
+    \resizebox{.49\linewidth}{!}{\input{graf11a.tex}}
+    \resizebox{.49\linewidth}{!}{\input{graf11c.tex}}
+    \resizebox{.49\linewidth}{!}{\input{graf11b.tex}}
+    \caption{Norme matrik $P$, $Q$ in $K$.}
+    \label{slika11}
+\end{figure}
+
+%\begin{figure}
+    %\centering 
+    %\includegraphics[width=.60\linewidth]{sipanje} 
+    %\caption{Pot žarka nevtronov skozi ploščo debeline $d$.}
+    %\label{slika7} 
+%\end{figure}
 
 \end{document}

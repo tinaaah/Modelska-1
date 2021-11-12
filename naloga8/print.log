@@ -1,0 +1,874 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Arch Linux) (preloaded format=pdflatex 2020.7.5)  24 JUL 2020 12:46
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**print.tex
+(./print.tex
+LaTeX2e <2020-02-02> patch level 5
+L3 programming layer <2020-06-03>
+(/usr/share/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2019/12/20 v1.4l Standard LaTeX document class
+(/usr/share/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2019/12/20 v1.4l Standard LaTeX file (size option)
+)
+\c@part=\count167
+\c@section=\count168
+\c@subsection=\count169
+\c@subsubsection=\count170
+\c@paragraph=\count171
+\c@subparagraph=\count172
+\c@figure=\count173
+\c@table=\count174
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen134
+)
+(/usr/share/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+
+(/usr/share/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks15
+)
+(/usr/share/texmf-dist/tex/generic/iftex/ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+
+(/usr/share/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2020/03/06 v1.0d TeX engine tests
+))
+\Gm@cnth=\count175
+\Gm@cntv=\count176
+\c@Gm@tempcnt=\count177
+\Gm@bindingoffset=\dimen135
+\Gm@wd@mp=\dimen136
+\Gm@odd@mp=\dimen137
+\Gm@even@mp=\dimen138
+\Gm@layoutwidth=\dimen139
+\Gm@layoutheight=\dimen140
+\Gm@layouthoffset=\dimen141
+\Gm@layoutvoffset=\dimen142
+\Gm@dimlist=\toks16
+)
+(/usr/share/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2018/08/11 v1.3c Input encoding file
+\inpenc@prehook=\toks17
+\inpenc@posthook=\toks18
+)
+(/usr/share/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2020/02/11 v2.0o Standard LaTeX package
+)
+(/usr/share/texmf-dist/tex/generic/babel/babel.sty
+Package: babel 2020/05/13 3.44 The Babel package
+
+(/usr/share/texmf-dist/tex/generic/babel/babel.def
+File: babel.def 2020/05/13 3.44 Babel common definitions
+\babel@savecnt=\count178
+\U@D=\dimen143
+\l@babelnohyphens=\language86
+
+(/usr/share/texmf-dist/tex/generic/babel/txtbabel.def)
+\bbl@readstream=\read2
+)
+\bbl@dirlevel=\count179
+
+(/usr/share/texmf-dist/tex/generic/babel-english/english.ldf
+Language: english 2017/06/06 v3.3r English support from the babel system
+Package babel Info: \l@canadian = using hyphenrules for english
+(babel)             (\language0) on input line 102.
+Package babel Info: \l@australian = using hyphenrules for ukenglish
+(babel)             (\language21) on input line 105.
+Package babel Info: \l@newzealand = using hyphenrules for ukenglish
+(babel)             (\language21) on input line 108.
+)
+(/usr/share/texmf-dist/tex/generic/babel-slovenian/slovene.ldf
+Language: slovene 2005/03/31 v1.2m Slovene support from the babel system
+Package babel Info: Making " an active character on input line 79.
+))
+(/usr/share/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2020/01/20 v2.17e AMS math features
+\@mathmargin=\skip49
+
+For additional information on amsmath, use the `?' option.
+(/usr/share/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01 AMS text
+
+(/usr/share/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks19
+\ex@=\dimen144
+))
+(/usr/share/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen145
+)
+(/usr/share/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count180
+LaTeX Info: Redefining \frac on input line 227.
+\uproot@=\count181
+\leftroot@=\count182
+LaTeX Info: Redefining \overline on input line 389.
+\classnum@=\count183
+\DOTSCASE@=\count184
+LaTeX Info: Redefining \ldots on input line 486.
+LaTeX Info: Redefining \dots on input line 489.
+LaTeX Info: Redefining \cdots on input line 610.
+\Mathstrutbox@=\box45
+\strutbox@=\box46
+\big@size=\dimen146
+LaTeX Font Info:    Redeclaring font encoding OML on input line 733.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 734.
+\macc@depth=\count185
+\c@MaxMatrixCols=\count186
+\dotsspace@=\muskip16
+\c@parentequation=\count187
+\dspbrk@lvl=\count188
+\tag@help=\toks20
+\row@=\count189
+\column@=\count190
+\maxfields@=\count191
+\andhelp@=\toks21
+\eqnshift@=\dimen147
+\alignsep@=\dimen148
+\tagshift@=\dimen149
+\tagwidth@=\dimen150
+\totwidth@=\dimen151
+\lineht@=\dimen152
+\@envbody=\toks22
+\multlinegap=\skip50
+\multlinetaggap=\skip51
+\mathdisplay@stack=\toks23
+LaTeX Info: Redefining \[ on input line 2859.
+LaTeX Info: Redefining \] on input line 2860.
+)
+(/usr/share/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)
+(/usr/share/texmf-dist/tex/latex/amscls/amsthm.sty
+Package: amsthm 2020/05/29 v2.20.6
+\thm@style=\toks24
+\thm@bodyfont=\toks25
+\thm@headfont=\toks26
+\thm@notefont=\toks27
+\thm@headpunct=\toks28
+\thm@preskip=\skip52
+\thm@postskip=\skip53
+\thm@headsep=\skip54
+\dth@everypar=\toks29
+)
+(/usr/share/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+)
+(/usr/share/texmf-dist/tex/latex/jknapltx/mathrsfs.sty
+Package: mathrsfs 1996/01/01 Math RSFS package v1.0 (jk)
+\symrsfs=\mathgroup6
+)
+(/usr/share/texmf-dist/tex/latex/mathtools/empheq.sty
+Package: empheq 2017/03/31 v2.15 Emphasizing equations
+
+(/usr/share/texmf-dist/tex/latex/mathtools/mhsetup.sty
+Package: mhsetup 2017/03/31 v1.3 programming setup (MH)
+)
+(/usr/share/texmf-dist/tex/latex/mathtools/mathtools.sty
+Package: mathtools 2020/03/24 v1.24 mathematical typesetting tools
+
+(/usr/share/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count192
+\calc@Bcount=\count193
+\calc@Adimen=\dimen153
+\calc@Bdimen=\dimen154
+\calc@Askip=\skip55
+\calc@Bskip=\skip56
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count194
+\calc@Cskip=\skip57
+)
+LaTeX Info: Thecontrolsequence`\('isalreadyrobust on input line 130.
+LaTeX Info: Thecontrolsequence`\)'isalreadyrobust on input line 130.
+LaTeX Info: Thecontrolsequence`\['isalreadyrobust on input line 130.
+LaTeX Info: Thecontrolsequence`\]'isalreadyrobust on input line 130.
+\g_MT_multlinerow_int=\count195
+\l_MT_multwidth_dim=\dimen155
+\origjot=\skip58
+\l_MT_shortvdotswithinadjustabove_dim=\dimen156
+\l_MT_shortvdotswithinadjustbelow_dim=\dimen157
+\l_MT_above_intertext_sep=\dimen158
+\l_MT_below_intertext_sep=\dimen159
+\l_MT_above_shortintertext_sep=\dimen160
+\l_MT_below_shortintertext_sep=\dimen161
+\xmathstrut@box=\box47
+\xmathstrut@dim=\dimen162
+)
+\l_EQ_equationtype_int=\count196
+\l_EQ_alignmentmode_int=\count197
+\l_EQ_totalwidth_dim=\dimen163
+\l_EQ_displaywidth_dim=\dimen164
+\l_EQ_temp_linewidth_dim=\dimen165
+\l_EQ_linewidth_dim=\dimen166
+\EmphEqdelimitershortfall=\dimen167
+\EmphEqdelimiterfactor=\count198
+\g_EQ_toptag_height_dim=\dimen168
+\g_EQ_bottomtag_depth_dim=\dimen169
+\g_EQ_toprow_height_dim=\dimen170
+\g_EQ_bottomrow_depth_dim=\dimen171
+\g_EQ_widesttag_dim=\dimen172
+\EQ_mathdisplay_box=\box48
+\EQ_tag_box=\box49
+\g_EQ_temprow_int=\count199
+)
+(/usr/share/texmf-dist/tex/latex/doublestroke/dsfont.sty
+Package: dsfont 1995/08/01 v0.1 Double stroke roman fonts
+)
+(/usr/share/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+\wrapoverhang=\dimen173
+\WF@size=\dimen174
+\c@WF@wrappedlines=\count266
+\WF@box=\box50
+\WF@everypar=\toks30
+Package: wrapfig 2003/01/31  v 3.6
+)
+(/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2019/11/30 v1.2a Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2019/11/30 v1.4a Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+(/usr/share/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 105.
+
+(/usr/share/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen175
+\Gin@req@width=\dimen176
+)
+(/usr/share/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip17
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+(/usr/share/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2020/05/10 v3.4j Customizing captions (AR)
+
+(/usr/share/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2020/05/10 v1.11 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 61.
+\captionmargin=\dimen177
+\captionmargin@=\dimen178
+\captionwidth=\dimen179
+\caption@tempdima=\dimen180
+\caption@indent=\dimen181
+\caption@parindent=\dimen182
+\caption@hangindent=\dimen183
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count267
+\c@continuedfloat=\count268
+Package caption Info: wrapfig package is loaded.
+)
+(/usr/share/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2020/01/22 v1.3d Sub-captions (AR)
+\c@subfigure=\count269
+\c@subtable=\count270
+)
+(/usr/share/texmf-dist/tex/latex/tools/tabularx.sty
+Package: tabularx 2020/01/15 v2.11c `tabularx' package (DPC)
+
+(/usr/share/texmf-dist/tex/latex/tools/array.sty
+Package: array 2019/08/31 v2.4l Tabular extension package (FMi)
+\col@sep=\dimen184
+\ar@mcellbox=\box51
+\extrarowheight=\dimen185
+\NC@list=\toks31
+\extratabsurround=\skip59
+\backup@length=\skip60
+\ar@cellbox=\box52
+)
+\TX@col@width=\dimen186
+\TX@old@table=\dimen187
+\TX@old@col=\dimen188
+\TX@target=\dimen189
+\TX@delta=\dimen190
+\TX@cols=\count271
+\TX@ftn=\toks32
+)
+(/usr/share/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count272
+\float@exts=\toks33
+\float@box=\box53
+\@float@everytoks=\toks34
+\@floatcapt=\box54
+)
+(/usr/share/texmf-dist/tex/latex/mhchem/mhchem.sty
+Package: mhchem 2018/06/22 v4.08 for typesetting chemical formulae
+
+(/usr/share/texmf-dist/tex/latex/l3kernel/expl3.sty
+Package: expl3 2020-06-03 L3 programming layer (loader) 
+
+(/usr/share/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
+File: l3backend-pdfmode.def 2020-06-03 L3 backend support: PDF mode
+\l__kernel_color_stack_int=\count273
+\l__pdf_internal_box=\box55
+))
+(/usr/share/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty
+Package: l3keys2e 2020-05-15 LaTeX2e option processing using LaTeX3 keys
+)
+(/usr/share/texmf-dist/tex/latex/chemgreek/chemgreek.sty
+(/usr/share/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
+Package: xparse 2020-05-15 L3 Experimental document command parser
+
+(/usr/share/texmf-dist/tex/latex/l3packages/xparse/xparse-generic.tex
+\l__xparse_current_arg_int=\count274
+\g__xparse_grabber_int=\count275
+\l__xparse_m_args_int=\count276
+\l__xparse_v_nesting_int=\count277
+))
+Package: chemgreek 2020/01/16 v1.1a interface for upright Greek letters for use
+ in chemistry (CN)
+\l__chemgreek_tmpa_int=\count278
+\g__chemgreek_tmpa_int=\count279
+)
+\l__mhchem_ce_distanceFromLastComma_int=\count280
+\__mhchem_arrow_extPgfLength_skip=\skip61
+\mhchem@minispace@tmp=\skip62
+\mhchem@minibackspace@tmp=\skip63
+\mhchem@bondwidth=\skip64
+\mhchem@bondheight=\skip65
+\mhchem@smallbondwidth@tmpA=\skip66
+\mhchem@smallbondwidth@tmpB=\skip67
+\mhchem@smallbondwidth=\skip68
+\mhchem@bondtmp@minussidebearingleft=\skip69
+\mhchem@bondtmp@minussidebearingright=\skip70
+\l__mhchem_option_version_int=\count281
+\mhchem@option@minusmathsidebearingleft=\dimen191
+\mhchem@option@minusmathsidebearingright=\dimen192
+\mhchem@option@minustextsidebearingleft=\dimen193
+\mhchem@option@minustextsidebearingright=\dimen194
+)
+(/usr/share/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+Package: fancyhdr 2019/01/31 v3.10 Extensive control of page headers and footer
+s
+\f@nch@headwidth=\skip71
+\f@nch@O@elh=\skip72
+\f@nch@O@erh=\skip73
+\f@nch@O@olh=\skip74
+\f@nch@O@orh=\skip75
+\f@nch@O@elf=\skip76
+\f@nch@O@erf=\skip77
+\f@nch@O@olf=\skip78
+\f@nch@O@orf=\skip79
+) (./print.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(71.13188pt, 455.24411pt, 71.13188pt)
+* v-part:(T,H,B)=(71.13188pt, 702.78308pt, 71.13188pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=455.24411pt
+* \textheight=702.78308pt
+* \oddsidemargin=-1.1381pt
+* \evensidemargin=-1.1381pt
+* \topmargin=-1.1381pt
+* \headheight=13.6pt
+* \headsep=0.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=57.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+\Hy@linkcounter=\count282
+(/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count283
+\scratchdimen=\dimen195
+\scratchbox=\box56
+\nofMPsegments=\count284
+\nofMParguments=\count285
+\everyMPshowfont=\toks35
+\MPscratchCnt=\count286
+\MPscratchDim=\dimen196
+\MPnumerator=\count287
+\makeMPintoPDFobject=\count288
+\everyMPtoPDFconversion=\toks36
+) (/usr/share/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(/usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
+Package caption Info: End \AtBeginDocument code.
+
+Package chemgreek Info: Activating mapping `default' on line 62.
+
+LaTeX Font Info:    Trying to load font information for U+msa on input line 64.
+
+
+(/usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 64.
+
+
+(/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Trying to load font information for U+rsfs on input line 64
+.
+
+(/usr/share/texmf-dist/tex/latex/jknapltx/ursfs.fd
+File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
+) [1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Font Info:    Trying to load font information for U+dsrom on input line 1
+50.
+
+(/usr/share/texmf-dist/tex/latex/doublestroke/Udsrom.fd
+File: Udsrom.fd 1995/08/01 v0.1 Double stroke roman font definitions
+) (./graf1.tex
+\gptboxheight=\skip80
+\gptboxwidth=\skip81
+\gptboxtext=\box57
+Package epstopdf Info: Source file: <graf1.eps>
+(epstopdf)                    date: 2019-12-01 22:24:13
+(epstopdf)                    size: 170241 bytes
+(epstopdf)             Output file: <graf1-eps-converted-to.pdf>
+(epstopdf)                    date: 2019-12-01 22:24:13
+(epstopdf)                    size: 173191 bytes
+(epstopdf)             Command: <repstopdf --outfile=graf1-eps-converted-to.pdf
+ graf1.eps>
+(epstopdf)             \includegraphics on input line 118.
+Package epstopdf Info: Output file is already uptodate.
+<graf1-eps-converted-to.pdf, id=19, 361.35pt x 216.81pt>
+File: graf1-eps-converted-to.pdf Graphic file (type pdf)
+<use graf1-eps-converted-to.pdf>
+Package pdftex.def Info: graf1-eps-converted-to.pdf  used on input line 118.
+(pdftex.def)             Requested size: 361.34912pt x 216.80946pt.
+)
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 1
+73.
+
+(/usr/share/texmf-dist/tex/latex/base/t1cmtt.fd
+File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
+) (./graf5.tex
+Package epstopdf Info: Source file: <graf5.eps>
+(epstopdf)                    date: 2019-12-01 22:24:13
+(epstopdf)                    size: 26371 bytes
+(epstopdf)             Output file: <graf5-eps-converted-to.pdf>
+(epstopdf)                    date: 2019-12-01 22:24:13
+(epstopdf)                    size: 3863 bytes
+(epstopdf)             Command: <repstopdf --outfile=graf5-eps-converted-to.pdf
+ graf5.eps>
+(epstopdf)             \includegraphics on input line 131.
+Package epstopdf Info: Output file is already uptodate.
+<graf5-eps-converted-to.pdf, id=20, 361.35pt x 252.945pt>
+File: graf5-eps-converted-to.pdf Graphic file (type pdf)
+<use graf5-eps-converted-to.pdf>
+Package pdftex.def Info: graf5-eps-converted-to.pdf  used on input line 131.
+(pdftex.def)             Requested size: 361.34912pt x 252.94438pt.
+) (./graf4.tex
+Package epstopdf Info: Source file: <graf4.eps>
+(epstopdf)                    date: 2019-12-01 22:24:13
+(epstopdf)                    size: 26392 bytes
+(epstopdf)             Output file: <graf4-eps-converted-to.pdf>
+(epstopdf)                    date: 2019-12-01 22:24:13
+(epstopdf)                    size: 3933 bytes
+(epstopdf)             Command: <repstopdf --outfile=graf4-eps-converted-to.pdf
+ graf4.eps>
+(epstopdf)             \includegraphics on input line 131.
+Package epstopdf Info: Output file is already uptodate.
+<graf4-eps-converted-to.pdf, id=21, 361.35pt x 252.945pt>
+File: graf4-eps-converted-to.pdf Graphic file (type pdf)
+<use graf4-eps-converted-to.pdf>
+Package pdftex.def Info: graf4-eps-converted-to.pdf  used on input line 131.
+(pdftex.def)             Requested size: 361.34912pt x 252.94438pt.
+)
+(./graf3.tex
+Package epstopdf Info: Source file: <graf3.eps>
+(epstopdf)                    date: 2019-12-01 22:24:13
+(epstopdf)                    size: 26396 bytes
+(epstopdf)             Output file: <graf3-eps-converted-to.pdf>
+(epstopdf)                    date: 2019-12-01 22:24:13
+(epstopdf)                    size: 3995 bytes
+(epstopdf)             Command: <repstopdf --outfile=graf3-eps-converted-to.pdf
+ graf3.eps>
+(epstopdf)             \includegraphics on input line 131.
+Package epstopdf Info: Output file is already uptodate.
+<graf3-eps-converted-to.pdf, id=22, 361.35pt x 252.945pt>
+File: graf3-eps-converted-to.pdf Graphic file (type pdf)
+<use graf3-eps-converted-to.pdf>
+Package pdftex.def Info: graf3-eps-converted-to.pdf  used on input line 131.
+(pdftex.def)             Requested size: 361.34912pt x 252.94438pt.
+) (./graf6.tex
+Package epstopdf Info: Source file: <graf6.eps>
+(epstopdf)                    date: 2019-12-03 21:33:27
+(epstopdf)                    size: 151323 bytes
+(epstopdf)             Output file: <graf6-eps-converted-to.pdf>
+(epstopdf)                    date: 2019-12-03 21:33:35
+(epstopdf)                    size: 278521 bytes
+(epstopdf)             Command: <repstopdf --outfile=graf6-eps-converted-to.pdf
+ graf6.eps>
+(epstopdf)             \includegraphics on input line 108.
+Package epstopdf Info: Output file is already uptodate.
+<graf6-eps-converted-to.pdf, id=23, 361.35pt x 252.945pt>
+File: graf6-eps-converted-to.pdf Graphic file (type pdf)
+<use graf6-eps-converted-to.pdf>
+Package pdftex.def Info: graf6-eps-converted-to.pdf  used on input line 108.
+(pdftex.def)             Requested size: 361.34912pt x 252.94438pt.
+) [2] [3 <./graf1-eps-converted-to.pdf> <./graf5-eps-converted-to.pdf> <./graf4
+-eps-converted-to.pdf> <./graf3-eps-converted-to.pdf>] (./graf9.tex
+Package epstopdf Info: Source file: <graf9.eps>
+(epstopdf)                    date: 2020-07-21 12:40:06
+(epstopdf)                    size: 53191 bytes
+(epstopdf)             Output file: <graf9-eps-converted-to.pdf>
+(epstopdf)                    date: 2020-07-21 12:40:19
+(epstopdf)                    size: 7611 bytes
+(epstopdf)             Command: <repstopdf --outfile=graf9-eps-converted-to.pdf
+ graf9.eps>
+(epstopdf)             \includegraphics on input line 90.
+Package epstopdf Info: Output file is already uptodate.
+<graf9-eps-converted-to.pdf, id=46, 568.1225pt x 511.9125pt>
+File: graf9-eps-converted-to.pdf Graphic file (type pdf)
+<use graf9-eps-converted-to.pdf>
+Package pdftex.def Info: graf9-eps-converted-to.pdf  used on input line 90.
+(pdftex.def)             Requested size: 568.1211pt x 511.91125pt.
+) (./graf12.tex
+Package epstopdf Info: Source file: <graf12.eps>
+(epstopdf)                    date: 2020-07-21 12:40:49
+(epstopdf)                    size: 55944 bytes
+(epstopdf)             Output file: <graf12-eps-converted-to.pdf>
+(epstopdf)                    date: 2020-07-21 12:41:41
+(epstopdf)                    size: 8507 bytes
+(epstopdf)             Command: <repstopdf --outfile=graf12-eps-converted-to.pd
+f graf12.eps>
+(epstopdf)             \includegraphics on input line 90.
+Package epstopdf Info: Output file is already uptodate.
+<graf12-eps-converted-to.pdf, id=47, 568.1225pt x 511.9125pt>
+File: graf12-eps-converted-to.pdf Graphic file (type pdf)
+<use graf12-eps-converted-to.pdf>
+Package pdftex.def Info: graf12-eps-converted-to.pdf  used on input line 90.
+(pdftex.def)             Requested size: 568.1211pt x 511.91125pt.
+) (./graf13.tex
+Package epstopdf Info: Source file: <graf13.eps>
+(epstopdf)                    date: 2020-07-21 12:40:58
+(epstopdf)                    size: 60259 bytes
+(epstopdf)             Output file: <graf13-eps-converted-to.pdf>
+(epstopdf)                    date: 2020-07-21 12:41:41
+(epstopdf)                    size: 9789 bytes
+(epstopdf)             Command: <repstopdf --outfile=graf13-eps-converted-to.pd
+f graf13.eps>
+(epstopdf)             \includegraphics on input line 90.
+Package epstopdf Info: Output file is already uptodate.
+<graf13-eps-converted-to.pdf, id=48, 568.1225pt x 511.9125pt>
+File: graf13-eps-converted-to.pdf Graphic file (type pdf)
+<use graf13-eps-converted-to.pdf>
+Package pdftex.def Info: graf13-eps-converted-to.pdf  used on input line 90.
+(pdftex.def)             Requested size: 568.1211pt x 511.91125pt.
+) (./graf14.tex
+Package epstopdf Info: Source file: <graf14.eps>
+(epstopdf)                    date: 2020-07-21 12:41:12
+(epstopdf)                    size: 61466 bytes
+(epstopdf)             Output file: <graf14-eps-converted-to.pdf>
+(epstopdf)                    date: 2020-07-21 12:41:42
+(epstopdf)                    size: 10426 bytes
+(epstopdf)             Command: <repstopdf --outfile=graf14-eps-converted-to.pd
+f graf14.eps>
+(epstopdf)             \includegraphics on input line 90.
+Package epstopdf Info: Output file is already uptodate.
+<graf14-eps-converted-to.pdf, id=49, 568.1225pt x 511.9125pt>
+File: graf14-eps-converted-to.pdf Graphic file (type pdf)
+<use graf14-eps-converted-to.pdf>
+Package pdftex.def Info: graf14-eps-converted-to.pdf  used on input line 90.
+(pdftex.def)             Requested size: 568.1211pt x 511.91125pt.
+) (./graf15.tex
+Package epstopdf Info: Source file: <graf15.eps>
+(epstopdf)                    date: 2020-07-21 12:41:23
+(epstopdf)                    size: 63277 bytes
+(epstopdf)             Output file: <graf15-eps-converted-to.pdf>
+(epstopdf)                    date: 2020-07-21 12:41:42
+(epstopdf)                    size: 11081 bytes
+(epstopdf)             Command: <repstopdf --outfile=graf15-eps-converted-to.pd
+f graf15.eps>
+(epstopdf)             \includegraphics on input line 90.
+Package epstopdf Info: Output file is already uptodate.
+<graf15-eps-converted-to.pdf, id=50, 568.1225pt x 511.9125pt>
+File: graf15-eps-converted-to.pdf Graphic file (type pdf)
+<use graf15-eps-converted-to.pdf>
+Package pdftex.def Info: graf15-eps-converted-to.pdf  used on input line 90.
+(pdftex.def)             Requested size: 568.1211pt x 511.91125pt.
+)
+(./graf16.tex
+Package epstopdf Info: Source file: <graf16.eps>
+(epstopdf)                    date: 2020-07-21 13:18:05
+(epstopdf)                    size: 65408 bytes
+(epstopdf)             Output file: <graf16-eps-converted-to.pdf>
+(epstopdf)                    date: 2020-07-24 12:05:34
+(epstopdf)                    size: 11645 bytes
+(epstopdf)             Command: <repstopdf --outfile=graf16-eps-converted-to.pd
+f graf16.eps>
+(epstopdf)             \includegraphics on input line 90.
+Package epstopdf Info: Output file is already uptodate.
+<graf16-eps-converted-to.pdf, id=51, 568.1225pt x 511.9125pt>
+File: graf16-eps-converted-to.pdf Graphic file (type pdf)
+<use graf16-eps-converted-to.pdf>
+Package pdftex.def Info: graf16-eps-converted-to.pdf  used on input line 90.
+(pdftex.def)             Requested size: 568.1211pt x 511.91125pt.
+)
+Underfull \hbox (badness 10000) in paragraph at lines 239--260
+
+ []
+
+[4 <./graf6-eps-converted-to.pdf>] (./graf17.tex
+Package epstopdf Info: Source file: <graf17.eps>
+(epstopdf)                    date: 2020-07-21 12:37:25
+(epstopdf)                    size: 73028 bytes
+(epstopdf)             Output file: <graf17-eps-converted-to.pdf>
+(epstopdf)                    date: 2020-07-21 12:37:34
+(epstopdf)                    size: 8138 bytes
+(epstopdf)             Command: <repstopdf --outfile=graf17-eps-converted-to.pd
+f graf17.eps>
+(epstopdf)             \includegraphics on input line 90.
+Package epstopdf Info: Output file is already uptodate.
+<graf17-eps-converted-to.pdf, id=57, 568.1225pt x 511.9125pt>
+File: graf17-eps-converted-to.pdf Graphic file (type pdf)
+<use graf17-eps-converted-to.pdf>
+Package pdftex.def Info: graf17-eps-converted-to.pdf  used on input line 90.
+(pdftex.def)             Requested size: 568.1211pt x 511.91125pt.
+) (./graf18.tex
+Package epstopdf Info: Source file: <graf18.eps>
+(epstopdf)                    date: 2020-07-21 12:37:17
+(epstopdf)                    size: 73012 bytes
+(epstopdf)             Output file: <graf18-eps-converted-to.pdf>
+(epstopdf)                    date: 2020-07-21 12:37:34
+(epstopdf)                    size: 8877 bytes
+(epstopdf)             Command: <repstopdf --outfile=graf18-eps-converted-to.pd
+f graf18.eps>
+(epstopdf)             \includegraphics on input line 90.
+Package epstopdf Info: Output file is already uptodate.
+<graf18-eps-converted-to.pdf, id=58, 568.1225pt x 511.9125pt>
+File: graf18-eps-converted-to.pdf Graphic file (type pdf)
+<use graf18-eps-converted-to.pdf>
+Package pdftex.def Info: graf18-eps-converted-to.pdf  used on input line 90.
+(pdftex.def)             Requested size: 568.1211pt x 511.91125pt.
+) (./graf19.tex
+Package epstopdf Info: Source file: <graf19.eps>
+(epstopdf)                    date: 2020-07-21 12:37:05
+(epstopdf)                    size: 72899 bytes
+(epstopdf)             Output file: <graf19-eps-converted-to.pdf>
+(epstopdf)                    date: 2020-07-21 12:37:34
+(epstopdf)                    size: 9901 bytes
+(epstopdf)             Command: <repstopdf --outfile=graf19-eps-converted-to.pd
+f graf19.eps>
+(epstopdf)             \includegraphics on input line 90.
+Package epstopdf Info: Output file is already uptodate.
+<graf19-eps-converted-to.pdf, id=59, 568.1225pt x 511.9125pt>
+File: graf19-eps-converted-to.pdf Graphic file (type pdf)
+<use graf19-eps-converted-to.pdf>
+Package pdftex.def Info: graf19-eps-converted-to.pdf  used on input line 90.
+(pdftex.def)             Requested size: 568.1211pt x 511.91125pt.
+) (./graf20.tex
+Package epstopdf Info: Source file: <graf20.eps>
+(epstopdf)                    date: 2020-07-21 12:35:42
+(epstopdf)                    size: 72810 bytes
+(epstopdf)             Output file: <graf20-eps-converted-to.pdf>
+(epstopdf)                    date: 2020-07-21 12:35:46
+(epstopdf)                    size: 10655 bytes
+(epstopdf)             Command: <repstopdf --outfile=graf20-eps-converted-to.pd
+f graf20.eps>
+(epstopdf)             \includegraphics on input line 90.
+Package epstopdf Info: Output file is already uptodate.
+<graf20-eps-converted-to.pdf, id=60, 568.1225pt x 511.9125pt>
+File: graf20-eps-converted-to.pdf Graphic file (type pdf)
+<use graf20-eps-converted-to.pdf>
+Package pdftex.def Info: graf20-eps-converted-to.pdf  used on input line 90.
+(pdftex.def)             Requested size: 568.1211pt x 511.91125pt.
+) (./graf21.tex
+Package epstopdf Info: Source file: <graf21.eps>
+(epstopdf)                    date: 2020-07-21 12:36:36
+(epstopdf)                    size: 72631 bytes
+(epstopdf)             Output file: <graf21-eps-converted-to.pdf>
+(epstopdf)                    date: 2020-07-21 12:36:48
+(epstopdf)                    size: 11197 bytes
+(epstopdf)             Command: <repstopdf --outfile=graf21-eps-converted-to.pd
+f graf21.eps>
+(epstopdf)             \includegraphics on input line 90.
+Package epstopdf Info: Output file is already uptodate.
+<graf21-eps-converted-to.pdf, id=61, 568.1225pt x 511.9125pt>
+File: graf21-eps-converted-to.pdf Graphic file (type pdf)
+<use graf21-eps-converted-to.pdf>
+Package pdftex.def Info: graf21-eps-converted-to.pdf  used on input line 90.
+(pdftex.def)             Requested size: 568.1211pt x 511.91125pt.
+) (./graf22.tex
+Package epstopdf Info: Source file: <graf22.eps>
+(epstopdf)                    date: 2020-07-21 12:36:44
+(epstopdf)                    size: 72356 bytes
+(epstopdf)             Output file: <graf22-eps-converted-to.pdf>
+(epstopdf)                    date: 2020-07-21 12:36:49
+(epstopdf)                    size: 11669 bytes
+(epstopdf)             Command: <repstopdf --outfile=graf22-eps-converted-to.pd
+f graf22.eps>
+(epstopdf)             \includegraphics on input line 90.
+Package epstopdf Info: Output file is already uptodate.
+<graf22-eps-converted-to.pdf, id=62, 568.1225pt x 511.9125pt>
+File: graf22-eps-converted-to.pdf Graphic file (type pdf)
+<use graf22-eps-converted-to.pdf>
+Package pdftex.def Info: graf22-eps-converted-to.pdf  used on input line 90.
+(pdftex.def)             Requested size: 568.1211pt x 511.91125pt.
+) (./graf23.tex
+Package epstopdf Info: Source file: <graf23.eps>
+(epstopdf)                    date: 2020-07-24 12:24:54
+(epstopdf)                    size: 29809 bytes
+(epstopdf)             Output file: <graf23-eps-converted-to.pdf>
+(epstopdf)                    date: 2020-07-24 12:25:02
+(epstopdf)                    size: 34558 bytes
+(epstopdf)             Command: <repstopdf --outfile=graf23-eps-converted-to.pd
+f graf23.eps>
+(epstopdf)             \includegraphics on input line 115.
+Package epstopdf Info: Output file is already uptodate.
+<graf23-eps-converted-to.pdf, id=63, 361.35pt x 252.945pt>
+File: graf23-eps-converted-to.pdf Graphic file (type pdf)
+<use graf23-eps-converted-to.pdf>
+Package pdftex.def Info: graf23-eps-converted-to.pdf  used on input line 115.
+(pdftex.def)             Requested size: 361.34912pt x 252.94438pt.
+) (./graf24.tex
+Package epstopdf Info: Source file: <graf24.eps>
+(epstopdf)                    date: 2020-07-24 12:27:41
+(epstopdf)                    size: 29499 bytes
+(epstopdf)             Output file: <graf24-eps-converted-to.pdf>
+(epstopdf)                    date: 2020-07-24 12:27:46
+(epstopdf)                    size: 34785 bytes
+(epstopdf)             Command: <repstopdf --outfile=graf24-eps-converted-to.pd
+f graf24.eps>
+(epstopdf)             \includegraphics on input line 115.
+Package epstopdf Info: Output file is already uptodate.
+<graf24-eps-converted-to.pdf, id=64, 361.35pt x 252.945pt>
+File: graf24-eps-converted-to.pdf Graphic file (type pdf)
+<use graf24-eps-converted-to.pdf>
+Package pdftex.def Info: graf24-eps-converted-to.pdf  used on input line 115.
+(pdftex.def)             Requested size: 361.34912pt x 252.94438pt.
+)
+(./graf25.tex
+Package epstopdf Info: Source file: <graf25.eps>
+(epstopdf)                    date: 2020-07-24 12:28:32
+(epstopdf)                    size: 29895 bytes
+(epstopdf)             Output file: <graf25-eps-converted-to.pdf>
+(epstopdf)                    date: 2020-07-24 12:28:35
+(epstopdf)                    size: 34598 bytes
+(epstopdf)             Command: <repstopdf --outfile=graf25-eps-converted-to.pd
+f graf25.eps>
+(epstopdf)             \includegraphics on input line 116.
+Package epstopdf Info: Output file is already uptodate.
+<graf25-eps-converted-to.pdf, id=65, 361.35pt x 252.945pt>
+File: graf25-eps-converted-to.pdf Graphic file (type pdf)
+<use graf25-eps-converted-to.pdf>
+Package pdftex.def Info: graf25-eps-converted-to.pdf  used on input line 116.
+(pdftex.def)             Requested size: 361.34912pt x 252.94438pt.
+) (./graf26.tex
+Package epstopdf Info: Source file: <graf26.eps>
+(epstopdf)                    date: 2020-07-24 12:29:19
+(epstopdf)                    size: 29552 bytes
+(epstopdf)             Output file: <graf26-eps-converted-to.pdf>
+(epstopdf)                    date: 2020-07-24 12:29:22
+(epstopdf)                    size: 34442 bytes
+(epstopdf)             Command: <repstopdf --outfile=graf26-eps-converted-to.pd
+f graf26.eps>
+(epstopdf)             \includegraphics on input line 116.
+Package epstopdf Info: Output file is already uptodate.
+<graf26-eps-converted-to.pdf, id=66, 361.35pt x 252.945pt>
+File: graf26-eps-converted-to.pdf Graphic file (type pdf)
+<use graf26-eps-converted-to.pdf>
+Package pdftex.def Info: graf26-eps-converted-to.pdf  used on input line 116.
+(pdftex.def)             Requested size: 361.34912pt x 252.94438pt.
+) [5 <./graf9-eps-converted-to.pdf> <./graf12-eps-converted-to.pdf> <./graf13-e
+ps-converted-to.pdf> <./graf14-eps-converted-to.pdf> <./graf15-eps-converted-to
+.pdf> <./graf16-eps-converted-to.pdf> <./graf17-eps-converted-to.pdf> <./graf18
+-eps-converted-to.pdf> <./graf19-eps-converted-to.pdf> <./graf20-eps-converted-
+to.pdf> <./graf21-eps-converted-to.pdf> <./graf22-eps-converted-to.pdf>] [6 <./
+graf23-eps-converted-to.pdf> <./graf24-eps-converted-to.pdf> <./graf25-eps-conv
+erted-to.pdf> <./graf26-eps-converted-to.pdf>]
+(./print.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 8242 strings out of 480478
+ 133403 string characters out of 5905960
+ 424139 words of memory out of 5000000
+ 24043 multiletter control sequences out of 15000+600000
+ 557501 words of font info for 105 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 39i,13n,45p,335b,340s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/font
+s/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mmi12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr
+/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmr17.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><
+/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texm
+f-dist/fonts/type1/public/doublestroke/dsrom10.pfb></usr/share/texmf-dist/fonts
+/type1/public/cm-super/sfbx1200.pfb></usr/share/texmf-dist/fonts/type1/public/c
+m-super/sfbx1440.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfcc100
+0.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfrm0700.pfb></usr/sha
+re/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf-dist/f
+onts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf-dist/fonts/type1/publ
+ic/cm-super/sfrm2074.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sft
+i1000.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb>
+Output written on print.pdf (6 pages, 901749 bytes).
+PDF statistics:
+ 182 PDF objects out of 1000 (max. 8388607)
+ 116 compressed objects within 2 object streams
+ 0 named destinations out of 1000 (max. 500000)
+ 106 words of extra memory for PDF output out of 10000 (max. 10000000)
+

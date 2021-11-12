@@ -1,5 +1,5 @@
 \documentclass[a4paper,pdftex,10pt]{article}
-\usepackage[a4paper]{geometry}
+\usepackage[margin=2.5cm,nohead]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc} 
 \usepackage[english,slovene]{babel} 
@@ -51,7 +51,7 @@
 \normalfont \normalsize 
 \textsc{Modelska analiza 1} \\ [25pt] % Your university, school and/or department name(s)
 %\horrule{0.2pt} \\[0.4cm] % Thin top horizontal rule
-\huge 10. naloga - Metropolisov algoritem\\ % The assignment title
+\huge 10. naloga - Spektralna analiza in filtriranje\\ % The assignment title
 %\horrule{0.2pt} \\[0.5cm] % Thick bottom horizontal rule
 }
 
@@ -64,257 +64,227 @@
 \maketitle % Print the title
 
 \section{Opis problema}
-Pri Metropolis-Hastingovem algoritmu uporabljamo metodo Monte Carlo, da zaporedoma žrebamo 
-vzorce s~poljubno verjetnostno porazdelitvijo. Tako lahko dobimo približke porazdelitvenih
-funkcij (oziroma histograme s~tako porazdelitvijo) ali izračunamo integrale (pričakovane
-vrednosti po izbrani porazdelitvi). Metropolisov algoritem je poseben primer omenjenega
-algoritma v~katerem imamo simetrično porazdelitveno funkcijo. Splošen potek takega
-algoritma:
-\begin{enumerate}
-    \item izberemo začetek spehoda $x_0$ in verjetnostno gostoto $\rho (x|y)$, po
-	kateri hočemo vzorčiti, in, ki izbere kandidata za naslednjo vrednost $x$ pri 
-	trenutni vrednosti $y$ (za Metropolisov algoritem je ta funkcija simetrična - 
-	$\rho (x|y) = \rho (y|x)$).
-    \item Na koraku $t+1$:
-	\begin{enumerate}
-	    \item po gostoti $\rho (x'|x_t)$ generiramo naključnega kandidata $x'$ in 
-		izračunamo verjetnost \emph{sprejema}:
-		\begin{equation}
-		    \alpha = \mathrm{min} \, \left\{
-			1, \, \frac{P(x')}{P(x_t)} \, \frac{R(x_t|x')}{R(x'|x_t)} \right\},
-		\end{equation}
-		kjer je $R(z)$ \emph{predlagana} verjetnost (po gostoti $\rho (z)$),
-		$P(z)$ pa verjetnost za izbrano stanje Markove verige.
-	    \item Izberemo naključno število $\gamma$ z~intervala $[0,1]$ in če je $\alpha 
-		> \gamma $ zavrnemo kandidata $x'$ in obdržimo prejšnje stanje $x_{t+1} = 
-		x_t$, če pa velja $\alpha \leq \gamma$ obdržimo kandidata in novo stanje je
-		$x_{t+1} = x'$.
-	\end{enumerate}
-\end{enumerate}
-Poseben primer je tudi neodvisen Metropolisov algoritem, kjer trenutno stanje modela ni 
-odvisno od predhodnega stanja. Tako na vsakem koraku žrebamo kandidata po porazdelitvi 
-$x' \sim \, \rho(x)$, verjetnost sprejema pa je v~tem primeru
-\begin{equation} 
-    \alpha = \mathrm{min} \, \left\{ 1, \, \frac{P(x')}{P(x_t)} \, \frac{R(x_t)}{R(x')} 
-    \right\}.
+Pri tej nalogi si bomo pogledali tri različne primere spektralne analize in filtriranja
+podatkov. Z~diskretno Fourierovo transformacijo:
+\begin{equation}
+    F_k = \frac{1}{N} \sum_{j=0}^{N-1} f_j \mathrm{e}^{- 2\pi \mathrm{i} j k /N},
 \end{equation}
+vhodnega signala dobimo frekvenčni spekter, s~čimer dobimo informacijo o~fazah in amplitudah
+signala. Moč spektra izračunamo kot:
+\begin{equation}
+    P_k = \frac{1}{2} ( | F_k |^2 + |F_{N-k}|^2 ). 
+\end{equation}
+V~prvem delu si bomo pogledali, kako razpon podatkov in izbira okenskih funkcij vpliva
+na dobljen spekter. V~naslednjem odseku rekonstruirali vpadne signale iz dobljenih signalov,
+iz katerih bomo z~Wienerjevim filtrom odstranili šum. Na koncu si bomo pogledali še 
+rekonstrukcijo zašumljenih slik.
 
-\pagebreak
 %----------------------------------------------------------------------------------------
 %	PROBLEM 1
 %----------------------------------------------------------------------------------------
-\section{Molekularna verižnica}
-Nitkasta molekula sestavljena iz 17 členkov je obešena na obeh koncih. Vsak členek se lahko
-povesi od začetnega ničelnega nivoja na poljubnega od 19 nivojev in si s~zmanjša potencialno
-energijo. Po drugi strani s~premikom spremenimo tudi prožnostno energijo med sosedi. 
-Določiti želimo ravnovesno energijo v~odvisnosti od temperature. Na vsakem koraku $t$ 
-spremenimo položaj naključnega členka v~verigi. \\
-Z~vektorjem $\vec{h}$ si beležimo višine členkov, za katere velja $h_0 = h_{17} = 0$.
-Celotna energija $E$ je tako sestavljena iz potencialnega
-\begin{equation}
-    E_{\text{pot}} = \sum_{i=1}^{17} \xi h_i 
-\end{equation}
-in prožnostnega prispevka
-\begin{equation}
-    E_{\text{pot}} = \sum_{i=1}^{16} \frac{k}{2} (h_{i+1} -h_i)^2.
-\end{equation}
-Koeficient $\xi = mg$ je odvisen od mase in gravitacijskega pospeška, $k$ pa je koeficient
-vzmeti med sosednjimi členki.\\
-Na vsakem koraku $t$ spremenimo položaj naključnega členka $h_i$ In imamo tako kandidata
-$h'_i = h_i + \Delta$, kjer je naključen izbran premik tako, da je nova višina še zmeraj 
-znotraj našega nivojskega sistema. Sprememba energije je potem:
-\begin{equation}
-    \Delta E = E' - E = \Delta_i^2 + \Delta_i \left[ \, \xi + k \left(2 h_i - h_{i+1} -
-    h_{i-1} \right) \, \right]
-\end{equation}
-Predlagana verjetnost $R$ je v~tem primeru $R(h_i) = 1/N$ in je enaka za vsak člen verige.
-Verjetnost, da je model v~stanju z~energijo $E$ pa je odvisen on temperature in je enak 
-$P(E) = \mathrm{e}^{- \beta E}$ kjer je $\beta = 1/k_{\mathrm{B}} T $. Verjetnost sprejetja
-je tako
-\begin{equation}
-    \alpha = \text{min} \left\{ 1, \mathrm{e}^{- \beta \Delta E}  \right\}.
-\end{equation}
-Izžrebamo naljučno število $\zeta \sim U[0,1]$ in če velja $\zeta \leq \mathrm{e}^{- \beta 
-\Delta E}$ sprejmemo novo stanje in naredimo premik $h_{i+1} = h'_i$, sicer pa premik
-zavrnemo in $h_{i+1} = h_i$. Vidimo, da bo za vsak $\Delta E < 0$ eksponentna funkcija
-vedno večja od $1$, torej bo $\alpha=1$ in so vsi premiki, ki sistemu zmanjšajo energijo,
-ugodni. V~limiti, ko gre $T \rightarrow \infty$ gre eksponentna funkcija proti $1$ in 
-sprejmemo vse premike, v drugem primeru ko gre $T \rightarrow 0$ pa sprejmemo le tiste
-premike, ki znižajo energijo.
-
-\subsection{Rezultati}
-Nivoje lahko poljubno naredimo diskretne ali zvezne, prav tako lahko omejimo premik
-na vsakem koraku. Oglejmo si tri različne primere in kako se potem razlikujejo končna
-stanja takih algoritmov:
-\begin{enumerate}
-    \item diskretni nivoji z~dovoljenim preskomom le na sosednji ravni: sprememba višine je
-	$\Delta h =  (-1)^{2 \delta + 1}$, kjer je $\delta \in \mathds{Z}^+ \! \cup \!  
-	\{0\}$ in jo naključno žrebamo na vsakem koraku. Sprememba energije je potem: 
-	\begin{equation} 
-	    \Delta E = E' - E = 1 + (-1)^{2 \delta_i + 1} \left[ \, \xi + k \left(2 h_i - 
-	    h_{i+1} - h_{i-1} \right) \, \right].
-	\end{equation}
-    \item Diskretni nivoji s~poljubnim premikom in 
-    \item zvezni nivoji s~poljubnim premikom.
-\end{enumerate}
-
-\begin{figure}    
+\section{Določanje frekvenčnega spektra}
+V~datotekah \path{val2.dat} in \path{val3.dat} imamo shranjena signala s~$512$ točkami in
+jima želimo določiti frekvenčni spekter. Izhodni signal, je prikazan na grafu~\ref{slika1}. 
+\begin{figure}[H] 
     \centering
-    \resizebox{0.75\linewidth}{!}{\input{graf1.tex}}
-    \caption{Primerjava različnih tipov nivojev pri temperaturi $T=0K$.}
+    \resizebox{0.49\linewidth}{!}{\input{graf1a.tex}}
+    \resizebox{0.49\linewidth}{!}{\input{graf1b.tex}}
+    \caption{Vhodna signala -- na levi \protect\path{val2.dat} in na desni 
+    \protect\path{val3.dat}.}
     \label{slika1}
 \end{figure}
 
-
-Na grafu~\ref{slika1} je prikazano končno stanje za vse tri primere nivojev. Za vsak nivo
-je narisanih $7$ različnih poskusov optimizacije energije, kjer smo za vsak poskus naredili 
-$10^5$ korakov. Rezultati so precej konsistentni in razlike med metodo z~diskretnimi nivoji,
-kjer dovolimo preskoke le na sosednji ravni, in med tisto, kjer omogočimo kakršnekoli 
-preskoke, skorajda ni. Za primer z~zveznimi nivoji vidimo, da je v~vseh $7$ poskusih model
-končal v~enakem končnem stanju. V~priloženi animaciji (\emph{primera.gif}) je prikazan 
-potek vseh treh različnih primerov.
-
-\begin{figure}    
-    \begin{minipage}{\linewidth} 
-	\centering 
-	\resizebox{0.75\linewidth}{!}{\input{graf3.tex}} 
-    \end{minipage}
-
-    \begin{minipage}{\linewidth} 
-	\centering
-	\resizebox{0.75\linewidth}{!}{\input{graf4.tex}} 
-    \end{minipage}
-
-    \begin{minipage}{\linewidth} 
-	\centering
-	\resizebox{0.75\linewidth}{!}{\input{graf5.tex}} 
-    \end{minipage}
-
-    \caption{Primerjava spreminjanja končnega stanja z~večanjem temperature.}
+\subsection{Reševanje in rezultati}
+Na sliki~\ref{slika2} sta prikazana spektra moči signalov v~logaritemski skali.
+\begin{figure}[H]
+    \centering
+    \resizebox{0.8\linewidth}{!}{\input{graf2.tex}}
+    \caption{Spektra signalov v~logaritemski skali.}
     \label{slika2}
 \end{figure}
-
-Z~večanjem temperature dovolimo, da na več korakih sprejmemo novo stanje, čeprav energijsko
-ni nujno bolj ugodno. Na grafih~\ref{slika2} so prikazana končna stanja pri različnih 
-temperaturah $T$ (razmerje $k_{\text{B}} T/\Delta E$). Kot lahko predvidimo, se pri višanju 
-temperature oblika odmika od pričakovane za prosto visečo verižnico ($y = a \cosh (x/a)$). 
-Obnašanje si lahko razložimo tudi s~spreminjanjem energije. Z~grafa~\ref{slika4} vidimo,
-da energija že pri nekje $200$ korakih pride do končne vrednosti in potem le še niha
-okoli te vrednosti. To je opazno tudi v~animaciji, ko je model že v končni vrednosti,
-pa vseeno še naprej skače okoli nje, saj smo v~veliko manj korakih dosegli željeno končno
-vrednost modela, kot smo imeli korakov v~algoritmu.
-\begin{figure}    
-    \begin{minipage}{0.6\linewidth}
-	\centering 
-	\resizebox{\linewidth}{!}{\input{graf6.tex}} 
-    \end{minipage}
-    \begin{minipage}{0.6\linewidth}
-	\centering 
-	\resizebox{\linewidth}{!}{\input{graf7.tex}} 
-    \end{minipage}
-    \caption{Spreminjanje energije pri temperaturi $T=0.25$} 
-    \label{slika4}
-\end{figure}
-
-
-\pagebreak
-%----------------------------------------------------------------------------------------
-%	PROBLEM 2
-%----------------------------------------------------------------------------------------
-\section{Isingov model}
-S~Hamiltonijanom
-\begin{equation}
-    \mathcal{H} = -J \sum_{\evdel{i,j}}s_i s_j - H \sum_i s_i, \quad J=\pm 1
-\end{equation}
-opišemo feromagnetne ($J=1$) in antiferomagnetne ($J=-1$) snovi. Približek velja za dve 
-stanji $s_i = \pm 1$, vsota $\sum_{\evdel{ij}}$ pa teče po vezeh med najbližjimi sosedi. 
-Če ni zunanjega polja $H=0$, temperatura $T_{\text{c}}$ faznega prehoda pri feromagnetu 
-zadošča enačbi 
-\begin{equation}
-    \sinh \frac{2J}{k_{\text{B}} T_{\text{c}}} = 1 \quad \Longrightarrow \quad
-    T_c \approx 2.269185 \frac{J}{k_{\text{B}}}.
-\end{equation}
-Zanima nas povprečna energija $\evdel{E}$ in lastna magnetizacija $\evdel{S}$ v~odvisnosti
-od temperature. $S = \sum_i^N s_i$ je celotna magnetizacija sistema. Zanima nas tudi 
-spinska susceptibilnost in specifična toplota pri različnih jakostih magnetnega polja
-\begin{equation}
-    \chi = \frac{ \evdel{S^2} - \evdel{S}^2}{N k_{\text{B}} T} \qquad
-    c = \frac{ \evdel{E^2} - \evdel{E}^2}{N k_{\text{B}} T}.
-\end{equation}
-Rešujemo podobno kot pri prejšnji nalogi; mrežo razdelimo na $N_x$ elementov v~eni smeri
-in $N_y$ v~drugi, kjer vsakemu spinu pripada točka $(i,j)$. Na vsakem koraku naključno
-zberemo par $i,j$ in pogledamo kako ta sprememba spremeni energijo sistema:
-\begin{equation}
-    \Delta E = 2 s_i \left( J \sum_{\evdel{i,j}} s_j + H \right).
-\end{equation}
-
-\subsection{Rezultati}
-Poglejmo si kako se obnaša sistem brez zunanjega polja pri različnih temperaturah. Končna
-stanja feromagneta so prikazana na grafih~\ref{slika3}. Vidimo, da se pri nizki 
-temperaturi ustvarijo domene in imamo spontano magnetizacijo. Z~naraščanjem temperature 
-se domene začnejo manjšati in premikati, spini znotraj nje pa obračati. Pri temperaturi 
-$T = T_c$ se zgodi fazni prehod in po tem so spinska stanja naključna in magnetizacija 
-pade na $0$. \\
-Podobno lahko tudi pri antiferomagnetu na grafu~\ref{slika5} opazimo domene, ki so sicer 
-slabše vidne, vendar se obnašajo enako kot pri feromagnetu in tudi na enak način izginejo.
-\begin{figure}    
-    \centering 
-    \begin{subfigure}[b]{0.49\linewidth}
-	\resizebox{\textwidth}{!}{\input{graf9.tex}} 
-    \end{subfigure}
-    \begin{subfigure}[b]{0.49\linewidth}
-	\resizebox{\textwidth}{!}{\input{graf12.tex}} 
-    \end{subfigure}
-    
-    \begin{subfigure}[b]{0.49\linewidth}
-	\resizebox{\textwidth}{!}{\input{graf13.tex}} 
-    \end{subfigure}
-    \begin{subfigure}[b]{0.49\linewidth}
-	\resizebox{\textwidth}{!}{\input{graf14.tex}} 
-    \end{subfigure}
-    
-    \begin{subfigure}[b]{0.49\linewidth}
-	\resizebox{\textwidth}{!}{\input{graf15.tex}} 
-    \end{subfigure}
-    \begin{subfigure}[b]{0.49\linewidth}
-	\resizebox{\textwidth}{!}{\input{graf16.tex}} 
-    \end{subfigure}
-    \caption{Končna stanja feromagneta pri različnih temperaturah.}
+Fourierova transformacija deluje dobro za periodične funkcije -- v~našem primeru vidimo, da
+ima dobljen graf za prvi spekter -- \emph{val2} -- dva izrazita vrha, kar kaže na 
+periodičnost spektra, medtem ko so vsi štirje vrhovi drugega spektra -- \emph{val3} -- 
+precej razširjeni, kar opozarja na nasprotno. \\
+Najprej lahko preverimo, kaj se zgodi, če vzamemo krajše intervale točk; ${62,128,256}$. 
+Naslednji graf~\ref{slika3} prikazuje spektre izračunane za štiri različne intervale točk. 
+Za prvi spekter vidimo, da ima bolj ali manj enako obliko in širino vrhov -- razen za 
+interval z~$64$ točkami, ki je bil očitno prekratek in smo izgubili informacije o~spektru. 
+Za drugi spekter, pa vidimo, da se vrhovi zelo razširijo in spremenijo obliko -- sumimo, 
+da že v~začetku nismo ujeli periodičnosti signala.\\
+\begin{figure}[H]
+    \centering
+    \resizebox{0.49\linewidth}{!}{\input{graf3a.tex}}
+    \resizebox{0.49\linewidth}{!}{\input{graf3b.tex}}
+    \caption{Spektri moči (na levi \protect\path{val2} in na desni \protect\path{val3} za 
+    različne intervale.}
     \label{slika3}
 \end{figure}
-
-\begin{figure}    
-    \centering 
-    \begin{subfigure}[b]{0.49\linewidth}
-	\resizebox{\textwidth}{!}{\input{graf17.tex}} 
-    \end{subfigure}
-    \begin{subfigure}[b]{0.49\linewidth}
-	\resizebox{\textwidth}{!}{\input{graf18.tex}} 
-    \end{subfigure}
-    
-    \begin{subfigure}[b]{0.49\linewidth}
-	\resizebox{\textwidth}{!}{\input{graf19.tex}} 
-    \end{subfigure}
-    \begin{subfigure}[b]{0.49\linewidth}
-	\resizebox{\textwidth}{!}{\input{graf20.tex}} 
-    \end{subfigure}
-    
-    \begin{subfigure}[b]{0.49\linewidth}
-	\resizebox{\textwidth}{!}{\input{graf21.tex}} 
-    \end{subfigure}
-    \begin{subfigure}[b]{0.49\linewidth}
-	\resizebox{\textwidth}{!}{\input{graf22.tex}} 
-    \end{subfigure}
-    \caption{Končna stanja antiferomagneta pri različnih temperaturah.}
+Poskusimo obdelati signal še z~različnimi okenskimi funkcijami, ki signal na robu postavijo
+na nič -- da dobimo periodičnost signala:
+\begin{align}
+     \text{Bartlett} &= 1 - \left| \frac{j-\frac{N}{2}}{\frac{N}{2}} \right|,
+     & \text{Welch} &= 1- \left( \frac{j-\frac{N}{2}}{\frac{N}{2}} \right)^2,\\
+     \text{Hann} &= \sin^2 \frac{\pi j}{N},
+     & \text{eksponent} &= \mathrm{e}^{-|j-\frac{N}{2}|\frac{1}{\tau}},
+\end{align}
+kjer je $N$ število točk, za parameter $\tau$ pa bomo vzeli vrednost 
+$\tau =\frac{N}{2}\frac{8.69}{60}.$ \\
+\begin{figure}[H]
+    \centering
+    \resizebox{0.8\linewidth}{!}{\input{graf4.tex}}
+    \caption{Različne okenske funkcije.}
+    \label{slika4}
+\end{figure}
+Okenske funkcije pomnožimo s~signalom v~časovnem prostoru in naredimo Fourierovo 
+transformacijo. Na naslednjem grafu~\ref{slika5} so podatki obdelani z~okenskimi funkcijami.
+Vidimo, da z~okensko funkcijo na prvih podatkih (na sliki levo) spekter le poslabšamo --
+predvsem z~eksponentnim oknom vidimo, da amplitudo precej zmanjšamo in razširimo vrhove.
+Na drugem spektru (na desni) za eksponentno okno opazimo podobno -- znižali smo vrhove in
+jih razširili. Od ostalih oken se je najbolje izkazala \emph{Hannova} funkcija, ki je
+vrhove zožala, vmesnemu območju pa se je precej zmanjšala amplituda.
+\begin{figure}[H]
+    \centering
+    \resizebox{0.49\linewidth}{!}{\input{graf5b.tex}}
+    \resizebox{0.49\linewidth}{!}{\input{graf5a.tex}}
+    \caption{Uporaba okenskih funkcij na obeh spektrih.}
     \label{slika5}
 \end{figure}
 
+\pagebreak
 
-%\begin{figure}
-%    \centering 
-%    \includegraphics[width=.60\linewidth]{pobeg} 
-%    \caption{Pobeg žarka gama iz sfere z~radijem $R$.}
-%    \label{slika4} 
-%\end{figure}
+%----------------------------------------------------------------------------------------
+%	PROBLEM 2
+%----------------------------------------------------------------------------------------
+\section{Wienerjev filter}
+S~pomočjo Wienerjevega filtra naredimo dekonvolucijo signalov na datotekah 
+\path{signal{0,1,2,3}.dat}. Število točk v~posameznem signalu je $512$. Na zadnjih treh 
+datotekah je signalu primešan šum. Prenosna funkcija je
+\begin{equation}
+    r(t) = \frac{1}{2\tau} \mathrm{e}^{- |t|/\tau} \quad \tau=16.
+\end{equation}
+\subsection{Pristop}
+Signal $u(t)$, ki prihaja v~merilno napravo s~prenosno funkcijo $r(t)$, se z~dodanim šumom
+preoblikuje v:
+\begin{equation}
+    c(t) = (u*r)(t) + n(t) = s(t) + n(t),
+\end{equation}
+kjer je $s(t)$ izmerjen signal. Če šuma ni, lahko rekonstruiramo vhodni signal:
+\begin{align}
+    c(t) &= (u*r)(t) \quad 
+    \xrightarrow{\mathcal{F}} \qquad 
+    C(\omega) = U(\omega) \cdot R(\omega) \\
+    U(\omega) &= \frac{C(\omega)}{R(\omega)} \qquad 
+    \xrightarrow{\mathcal{F}^{-1}} \qquad 
+    u(t) = \mathcal{F}^{-1}\left(\frac{C(\omega)}{R(\omega)}\right).
+\end{align}
+Ko dodamo šum moramo pred dekovolucijo transformiranko $C(\omega)$ pomnožiti z~Wienerjevim
+filtrom:
+\begin{equation}
+    \Phi = \frac{|S(\omega)|^2}{|S(\omega)|^2 + |N(\omega)|^2},
+\end{equation}
+kjer sta $S(\omega)$ in $N(\omega)$ Fourierovi transformiranki $s(t)$ in $n(t)$.
 
+\subsection{Reševanje in rezultati}
+Na spodnjem grafu~\ref{slika6} so prikazani vsi štirje signali -- vidimo, da je prvi res
+nezašumljen, ostali trije pa imajo precej šuma.
+\begin{figure}[H]
+    \centering
+    \resizebox{0.49\linewidth}{!}{\input{graf6.tex}}
+    \resizebox{0.49\linewidth}{!}{\input{graf10.tex}}
+    \caption{Na levi je prikazan prvi signal -- $c_0$, na desni pa ostali trije signali.}
+    \label{slika6}
+\end{figure}
+Zgoraj omenjeni postopek najprej uporabimo na nezašumljenem signalu \path{signal0} in 
+poskusimo dobiti iz njega vhodni signal $u_0$. Na grafu~\ref{slika7} levo vidimo njegov
+frekvenčni spekter, na desni pa rekonstruiran vstopni signal. Ta je sestavljen iz štirih
+škatlastih signalov -- prvi je najvišji in najožji, ostali pa se nato nižajo in širijo.
+\begin{figure}[H]
+    \centering
+    \resizebox{0.49\linewidth}{!}{\input{graf11.tex}}
+    \resizebox{0.49\linewidth}{!}{\input{graf8.tex}}
+    \caption{Frekvenčni spekter signala $c_0$ in dekonvuliran vstopni signal $u_0(t)$.}
+    \label{slika7}
+\end{figure}
+Z~Wienerjevim filtrom rekonstruiramo še ostale signale in dobimo graf~\ref{slika8}. Moči
+vsakega spektra so vedno višje, dobljen vhodni signal pa kljub uporabi filtra ni podoben
+nezašumljenem signalu.
+\begin{figure}[H]
+    \centering
+    \resizebox{0.49\linewidth}{!}{\input{graf7.tex}}
+    \resizebox{0.49\linewidth}{!}{\input{graf9.tex}}
+    \caption{Spektri in dekonvulirani vstopni signali.}
+    \label{slika8}
+\end{figure}
+Filter $\Phi$ poskusimo izboljšati še tako, da območja, kjer se nam zdi, da dobimo samo
+šum -- na začetku in koncu meritve -- postavimo na nič. Tako za različne širine teh 
+intervalov (označene z$m$) pridelamo grafe~\ref{slika9}. Vidimo, da s~tem čistemu signalu
+\emph{zaobljimo} obliko zmanjšamo amplitudo stopnic. Pri zašumljenih signalih vidimo,
+da smo na tak način bolj ali manj uspešno rekonstruirali vstopni signal.
+\begin{figure}[H]
+    \centering
+    \resizebox{0.49\linewidth}{!}{\input{graf12.tex}}
+    \resizebox{0.49\linewidth}{!}{\input{graf13.tex}} \\
+    \resizebox{0.49\linewidth}{!}{\input{graf14.tex}}
+    \resizebox{0.49\linewidth}{!}{\input{graf15.tex}}
+    \caption{Vstopni signali dobljeni z~rezanjem filtriranega območja -- $m$ je njihova 
+    širina.}
+    \label{slika9}
+\end{figure}
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 3
+%----------------------------------------------------------------------------------------
+\section{Čiščenje slike}
+V~arhivu \path{lena_slike.tar.gz} imamo slike podobe Lene, ki so razmazane s~tremi znanimi
+konvolucijskimi jedri: tresoč objektiv (\path{kernel1.pgm}, slab fokus (\path{kernel2.pgm}
+ter uklonska mrežica (\path{kernel3.pgm}). Datotekam je primešana različna količina
+Gaussovega šuma (RMS $= 0,4,8,16$). Po filtriranju z~uporabo Wienerjevega filtra 
+rekonstruiramo slike. V~arhivu so tudi slike z~dodano periodično motnjo (\path{*_nx.pgm}).
+\subsection{Pristop}
+Problema se lotimo na enak način kot v~prejšnjem odseku, le da tukaj Wienerjev filter
+prepišemo v~drugo obliko:
+\begin{equation}
+    \Phi (\omega) = \frac{1}{R(\omega)} \frac{|R(\omega)|^2}{|R(\omega)|^2 + 
+    \frac{N(\omega)}{S(\omega)}}
+\end{equation}
+Sliko po stolpcih preberemo in vsak posamezen stolpec, na enak način kot v~prejšnjem delu, 
+rekonstruiramo. Zopet upoštevamo nek \emph{cut off} šuma in poskusimo očistiti sliko.
+Slike brez dodanega gaussovega šuma lahko kar rekonstruiramo brez uporabe Wienerjevega 
+filtra.
+\subsection{Dobljene slike}
+Najprej si poglejmo slike brez dodanega Gaussovega šuma:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{3naloga/ociscena_lena_k1_n0.pdf}
+    \includegraphics[width=0.3\textwidth]{3naloga/ociscena_lena_k2_n0.pdf}
+    \includegraphics[width=0.3textwidth]{3naloga/ociscena_lena_k3_n0.pdf}
+    \caption{Očiščene slike brez dodanega šuma -- od leve proti desni: 
+    \protect\path{k1-n0}, \protect\path{k2-n0} in \protect\path{k3-n0}.}
+    \label{slika10}
+\end{figure}
+vidimo, da je najlepše očiščena tretja slika, druga slika precej neprepoznavna, prva je 
+sicer zatemnjena, vendar razločimo sliko. Poglejmo si najprej očiščene vse slike s~tretjim
+jedrom.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.25\textwidth]{temp/ociscena-k3-n4.pdf}
+    \includegraphics[width=0.25\textwidth]{temp/ociscena-k3-n8.pdf}\\
+    \includegraphics[width=0.25\textwidth]{temp/ociscena-k3-n16.pdf}
+    \includegraphics[width=0.25\textwidth]{temp/ociscena-k3-nx.pdf}
+    \caption{Očiščene slike s~tretjim jedrom -- v~zgosnji vrsti: \protect\path{k3-n4}, 
+    \protect\path{k3-n8} in v~spodnji: \protect\path{k3-n16} ter \protect\path{k3-nx}.}
+    \label{slika11}
+\end{figure}
+Poskusimo očistiti tudi slike s~prvim jedrom, vendar že za najmanjši šum pride rešitev
+precej zatemnjena in nerazpoznavna.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{temp/ociscena-k1-n4.pdf}
+    \caption{Poskus čiščenja slike: \protect\path{k1-n4}}
+    \label{slika12}
+\end{figure}
+Druge slike ne uspemo očistiti, poskusimo z~različnimi variacijami filtra in širinami 
+frekvenčnih območij, ki jih odrežemo, morda bi morali poskusiti s~kakšnim drugačnim jedrom.
 \end{document}

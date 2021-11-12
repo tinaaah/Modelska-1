@@ -1,0 +1,102 @@
+import numpy as np
+from numpy.linalg import inv
+from numpy import linalg as LA
+
+#Podatki imajo 7 stolpcev; jih shranim
+data = np.loadtxt("../kalman_cartesian_data.dat", delimiter=" ")
+
+t = data[:,0]
+z = np.c_[data[:,1], data[:,2]]
+v = np.c_[data[:,3], data[:,4]]
+a = np.c_[data[:,5], data[:,6]]
+
+# Zacetni pogoji
+vx, vy = v[0,0], v[0,1]     # Hitrost
+sx, sy = z[0,0], z[0,1]     # Pozicija
+dt = 1.783                  # Casovni korak
+
+# Napake 
+sigma_x = 25
+sigma_a = 0.05
+
+# Hitrost vzamemo samo na vsakem 5. koraku
+def sigma_v(v):
+    return max(1/3.6, LA.norm(v)*0.01)
+
+# Merske napake 
+c = np.array([0, 0, sigma_a**2*dt**2, sigma_a**2*dt**2])
+Q = np.diag([0, 0, sigma_a**2*dt**2, sigma_a**2*dt**2])
+
+F = np.array([[1, 0, dt, 0], 
+              [0, 1, 0, dt],
+              [0, 0, 1, 0],
+              [0, 0, 0, 1],])
+H = np.identity(4)
+
+def sum_meritev(v):
+    sigmav = sigma_v(v)
+    return np.diag([sigma_x**2, sigma_x**2, sigmav**2, sigmav**2])
+ 
+def napoved2d(x, v, t, a):
+    X = np.array([x[0], x[1], v[0], v[1]])
+    B = np.array([[0.5*t**2, 0],
+                 [0, 0.5*t**2],
+                 [t, 0],
+                 [0, t]])
+    X_prime = F.dot(X) + B.dot(a) + c
+    return X_prime
+
+# Zacetna kovarianca matrika
+sigmav0 = sigma_v([vx,vy])
+P = np.diag([sigma_x**2, sigma_x**2, sigmav0**2, sigmav0**2])
+
+#print(0, P[0,0], P[0,2], P[2,2], sep='\t')
+#print(0, sx, sy, sep ='\t')
+
+
+# Zacetni vektor stanja 
+new_z = z[0]
+new_v = v[0]
+trajektorija = [new_z]
+ 
+n = len(t)
+for i in range(1,n):
+    if i%10 == 0: new_z = z[i]              #Pozicijo dobimo vsak 10.korak
+    if i%5 == 0: new_v = v[i]               #Hitrost dobimo vsak 5. korak
+
+    R = sum_meritev(new_v)                  #R je odvisen od hitrosti
+
+    # Nova napoved:
+    x = napoved2d(new_z, new_v, dt, a[i])
+    P = F.dot(P).dot(F.T) + Q
+
+    # Kalman ojacevalni faktor
+    S = H.dot(P).dot(H.T) + R
+    K = P.dot(H).dot(inv(S))
+    
+    # Nove podatke dam v Y
+    Y = [new_z[0], new_z[1], new_v[0], new_v[1]]
+
+    # Izboljsana napoved
+    x = x + K.dot(Y - H.dot(x))
+    P = (np.identity(4) - K.dot(H)).dot(P)
+
+    trajektorija.append([x[0], x[1]])
+trajektorija=np.array(trajektorija)
+#print(trajektorija)
+
+    #print(t[i], x[0], x[1], sep ='\t')
+    #print(t[i], P[0,0], P[0,2], P[2,2], sep='\t')
+############################################# Nardim primerjavo
+DATA = np.loadtxt("../kalman_cartesian_kontrola.dat", delimiter=" ")
+
+T = DATA[:,0]
+Z = np.c_[DATA[:,1], data[:,2]]
+V = np.c_[DATA[:,3], data[:,4]]
+n = len(t)
+for i in range(1,n):
+    dx1 = Z[i,0] - z[i,0]
+    dy1 = Z[i,1] - z[i,1]
+    dx2 = Z[i,0] - trajektorija[i,0]
+    dy2 = Z[i,1] - trajektorija[i,1]
+    print(t[i],dx1,dx2,dy2,dy2,sep='\t')
