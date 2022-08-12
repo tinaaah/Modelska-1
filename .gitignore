@@ -1,0 +1,8 @@
+**/*.tex
+**/*eps*
+**/print.aux
+**/print.fdb_latexmk
+**/print.log
+**/print.fls
+**/*ubyte
+**/__pycache__/
